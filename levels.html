@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>匹克球分級</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages; the level ladder uses one hue getting darker per level */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --onBall:#15232e;
+  --l1:#cfe0ec; --l2:#a7c6dc; --l3:#79a6c8; --l4:#4d82ad; --l5:#2a5d84;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a;
+  --l1:#22394b; --l2:#2c4c66; --l3:#3b6588; --l4:#5585ad; --l5:#77aedb; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a;
+  --l1:#22394b; --l2:#2c4c66; --l3:#3b6588; --l4:#5585ad; --l5:#77aedb; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+a{color:var(--court)}
+.back{font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+/* ladder */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;align-items:end}
+.ladder a{display:grid;gap:4px;text-decoration:none;color:var(--ink)}
+.ladder .bar{border-radius:6px 6px 0 0;display:grid;place-items:end center;padding-bottom:6px;font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink)}
+.ladder a:nth-child(1) .bar{height:44px;background:var(--l1)}
+.ladder a:nth-child(2) .bar{height:66px;background:var(--l2)}
+.ladder a:nth-child(3) .bar{height:88px;background:var(--l3)}
+.ladder a:nth-child(4) .bar{height:110px;background:var(--l4);color:var(--panel)}
+.ladder a:nth-child(5) .bar{height:132px;background:var(--l5);color:var(--panel)}
+.ladder small{font-size:12.5px;color:var(--muted);text-align:center;line-height:1.5}
+.ladder a:hover .bar{outline:2px solid var(--ball)}
+.ladder a:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.ladder a.me .bar{box-shadow:inset 0 -6px 0 var(--ball)}
+
+/* level cards */
+.levels{display:grid;gap:14px}
+.lv{background:var(--panel);border:1px solid var(--line);border-radius:10px;display:grid;grid-template-columns:96px minmax(0,1fr);overflow:hidden;scroll-margin-top:16px}
+.lv .num{display:grid;place-items:center;align-content:center;gap:2px;font-family:var(--display);font-weight:700;font-size:34px;line-height:1}
+.lv .num small{font-family:var(--body);font-size:12px;font-weight:500}
+.lv:nth-child(1) .num{background:var(--l1)}
+.lv:nth-child(2) .num{background:var(--l2)}
+.lv:nth-child(3) .num{background:var(--l3)}
+.lv:nth-child(4) .num{background:var(--l4);color:var(--panel)}
+.lv:nth-child(5) .num{background:var(--l5);color:var(--panel)}
+.lv .body{padding:14px 16px;display:grid;gap:10px}
+.lv h3{font-size:18px}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cols h4{margin:0 0 4px;font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.cols ul{margin:0;padding-left:1.1em;font-size:14.5px;display:grid;gap:4px}
+@media (max-width:700px){.cols{grid-template-columns:1fr}.lv{grid-template-columns:1fr}.lv .num{grid-auto-flow:column;justify-content:start;gap:10px;padding:8px 16px;font-size:28px}}
+
+/* self check */
+.quiz{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:14px}
+.quiz fieldset{border:0;margin:0;padding:0;display:grid;gap:6px}
+.quiz legend{font-weight:700;margin-bottom:4px;font-size:15px}
+.quiz label{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;font-size:14.5px;cursor:pointer}
+.quiz input{width:18px;height:18px;margin-top:4px;accent-color:var(--court)}
+.result{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
+.result b{font-family:var(--display);font-size:34px;line-height:1;color:var(--court)}
+.result span{color:var(--muted);font-size:14.5px;max-width:52ch}
+.result button{font:inherit;font-size:14px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;margin-left:auto}
+.result button:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Skill Levels</div>
+  <h1>匹克球分級：我在哪一級、下一步練什麼</h1>
+  <p class="lead">匹克球常用 2.0 到 5.0 的數字表示程度，球友揪團、報名比賽常會問「你幾級」。下面整理每一級大概會什麼、常卡在哪裡，以及這本筆記裡哪幾頁最適合你下一步練。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>一眼看完五個級距</h2>
+  <nav class="ladder" aria-label="級距">
+    <a href="#lv20" id="lad20"><div class="bar">2.0</div><small>會發球、懂規則</small></a>
+    <a href="#lv25" id="lad25"><div class="bar">2.5</div><small>能打幾拍來回</small></a>
+    <a href="#lv30" id="lad30"><div class="bar">3.0</div><small>開始上網、會丁克</small></a>
+    <a href="#lv35" id="lad35"><div class="bar">3.5</div><small>穩定丁克、有第三拍</small></a>
+    <a href="#lv40" id="lad40"><div class="bar">4.0+</div><small>有戰術、少失誤</small></a>
+  </nav>
+  <p class="note">這是給自我評估和找球友用的參考，不是官方評級。正式比賽的分級以 DUPR 等評分系統或主辦單位的規定為準，數字會隨比賽成績變動。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>各級的樣子</h2>
+  <div class="levels">
+    <article class="lv" id="lv20">
+      <div class="num">2.0<small>入門</small></div>
+      <div class="body">
+        <h3>剛開始打，正在熟悉規則和球感</h3>
+        <div class="cols">
+          <div><h4>大概會</h4><ul><li>知道發球要斜對角、要越過廚房</li><li>會一點計分，但常搞混第幾發</li><li>能打兩三拍來回</li></ul></div>
+          <div><h4>常卡在</h4><ul><li>發球常失誤</li><li>一直站在底線，不知道什麼時候上網</li><li>只用手臂打，球不穩</li></ul></div>
+          <div><h4>下一步練</h4><ul><li><a href="serve.html">發球技巧</a>：先學落地發球，求穩</li><li><a href="kitchen-line.html">接發球站位</a>：了解雙彈跳</li><li><a href="footwork.html">匹克球腳步</a>：準備姿勢</li></ul></div>
+        </div>
+      </div>
+    </article>
+    <article class="lv" id="lv25">
+      <div class="num">2.5<small>初級</small></div>
+      <div class="body">
+        <h3>能打來回，知道要上網但常停在半場</h3>
+        <div class="cols">
+          <div><h4>大概會</h4><ul><li>大部分發球和回發球能進</li><li>正手能穩定打過網</li><li>懂雙彈跳和廚房規則</li></ul></div>
+          <div><h4>常卡在</h4><ul><li>反手明顯比較弱，常閃開不打</li><li>上網後停在過渡區被打腳邊</li><li>丁克常掛網或太高</li></ul></div>
+          <div><h4>下一步練</h4><ul><li><a href="forehand.html">正手動力鏈</a>、<a href="backhand.html">雙手反手</a></li><li><a href="footwork.html">走、停、打</a>的上網節奏</li><li><a href="volley.html">截擊</a>：拍子放在胸前</li></ul></div>
+        </div>
+      </div>
+    </article>
+    <article class="lv" id="lv30">
+      <div class="num">3.0<small>中級入門</small></div>
+      <div class="body">
+        <h3>會上網、會丁克，但穩定度還不夠</h3>
+        <div class="cols">
+          <div><h4>大概會</h4><ul><li>發球、回發球能控制方向，開始有深度</li><li>能和對手丁克對打幾拍</li><li>雙打會和搭檔一起上網</li></ul></div>
+          <div><h4>常卡在</h4><ul><li>第三拍不知道放小球還是抽球</li><li>被快球打到身體時來不及</li><li>丁克只會打中間、深度不穩</li></ul></div>
+          <div><h4>下一步練</h4><ul><li><a href="reset.html">重置球</a>：在過渡區把快球變慢</li><li><a href="long-dink.html">長丁克</a>：打深到腳邊</li><li><a href="reaction.html">網前反應訓練</a></li></ul></div>
+        </div>
+      </div>
+    </article>
+    <article class="lv" id="lv35">
+      <div class="num">3.5<small>中級</small></div>
+      <div class="body">
+        <h3>網前能撐住，開始用變化找機會</h3>
+        <div class="cols">
+          <div><h4>大概會</h4><ul><li>正反手都能控制方向和深度</li><li>丁克能長時間對打，有耐心</li><li>第三拍放小球成功率不錯，會用抽球變化</li><li>能分辨該攻還是該擋</li></ul></div>
+          <div><h4>常卡在</h4><ul><li>太早攻擊低於網的球</li><li>網前快攻時拍子回不到胸前</li><li>被挑高球時後退步法亂</li></ul></div>
+          <div><h4>下一步練</h4><ul><li><a href="short-dink.html">短丁克</a>和斜角變化</li><li><a href="volley.html">看高度決定截擊方式</a></li><li><a href="footwork.html">後退追高球</a>的步法</li></ul></div>
+        </div>
+      </div>
+    </article>
+    <article class="lv" id="lv40">
+      <div class="num">4.0+<small>中高級以上</small></div>
+      <div class="body">
+        <h3>失誤少、有戰術，能和搭檔一起控制比賽</h3>
+        <div class="cols">
+          <div><h4>大概會</h4><ul><li>穩定的深發球和深回發球</li><li>丁克有長短、直線斜線變化</li><li>過渡區能連續重置上網</li><li>網前快攻能擋能反擊</li></ul></div>
+          <div><h4>常卡在</h4><ul><li>和搭檔的補位、換位不夠默契</li><li>關鍵分心急，非受迫性失誤增加</li><li>對手換節奏時調整太慢</li></ul></div>
+          <div><h4>下一步練</h4><ul><li>錄影檢查每一拍的選擇</li><li>針對對手弱點的戰術和站位（例如換邊站位）</li><li>4.5、5.0 的差別多在速度、穩定度和決策，不是新技術</li></ul></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>快速自我檢查</h2>
+  <p>勾選你在比賽中「大部分時候做得到」的項目，不是偶爾做到一次。結果只存在你這台裝置的瀏覽器裡。</p>
+  <form class="quiz" id="quiz" novalidate>
+    <fieldset data-lv="2.5"><legend>基本來回</legend>
+      <label><input type="checkbox" id="q1"><span>十顆發球至少八顆會進</span></label>
+      <label><input type="checkbox" id="q2"><span>知道雙彈跳規則，發球方打完第三拍才上網</span></label>
+      <label><input type="checkbox" id="q3"><span>正手能連續打 5 拍以上不失誤</span></label>
+    </fieldset>
+    <fieldset data-lv="3.0"><legend>上網與丁克</legend>
+      <label><input type="checkbox" id="q4"><span>回發球後會跟著上到廚房線</span></label>
+      <label><input type="checkbox" id="q5"><span>能和對手丁克對打 5 拍以上</span></label>
+      <label><input type="checkbox" id="q6"><span>反手也能穩定回球，不需要閃開</span></label>
+    </fieldset>
+    <fieldset data-lv="3.5"><legend>控制與選擇</legend>
+      <label><input type="checkbox" id="q7"><span>第三拍放小球，一半以上能落進對方廚房</span></label>
+      <label><input type="checkbox" id="q8"><span>被往腳邊打時，能重置回對方廚房</span></label>
+      <label><input type="checkbox" id="q9"><span>球低於網時會忍住不攻，等對手打高</span></label>
+    </fieldset>
+    <fieldset data-lv="4.0"><legend>穩定與戰術</legend>
+      <label><input type="checkbox" id="q10"><span>發球和回發球大多能打深</span></label>
+      <label><input type="checkbox" id="q11"><span>網前快攻時大多能擋回去，不只是閃</span></label>
+      <label><input type="checkbox" id="q12"><span>會針對對手弱點和搭檔一起調整打法</span></label>
+    </fieldset>
+    <div class="result" aria-live="polite"><b id="est">2.0</b><span id="estText"></span><button type="button" id="clear">清除勾選</button></div>
+  </form>
+</section>
+</main>
+
+<script>
+// Self-check: a level counts once at least 2 of its 3 items are ticked and every lower level also counts.
+(function(){
+const form=document.getElementById('quiz'),est=document.getElementById('est'),txt=document.getElementById('estText');
+const boxes=[...form.querySelectorAll('input[type=checkbox]')],KEY='pb-level-check';
+const MSG={'2.0':'先把發球和雙彈跳弄熟，看 2.0 那張卡片的下一步。','2.5':'來回已經穩，接下來練上網和反手。','3.0':'能上網丁克了，接下來練重置和長丁克。','3.5':'網前撐得住，接下來練變化和截擊選擇。','4.0':'4.0 以上：穩定和戰術是重點。'};
+function level(){
+  let lv='2.0';
+  for(const fs of form.querySelectorAll('fieldset')){
+    const n=[...fs.querySelectorAll('input')].filter(i=>i.checked).length;
+    if(n>=2)lv=fs.dataset.lv;else break;
+  }
+  return lv;
+}
+function update(){
+  const lv=level();est.textContent=lv==='4.0'?'4.0+':lv;txt.textContent=MSG[lv];
+  document.querySelectorAll('.ladder a').forEach(a=>a.classList.toggle('me',a.id==='lad'+lv.replace('.','')));
+  try{localStorage.setItem(KEY,JSON.stringify(boxes.map(b=>b.checked)))}catch(e){}
+}
+try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');boxes.forEach((b,i)=>b.checked=!!v[i])}catch(e){}
+form.addEventListener('change',update);
+document.getElementById('clear').onclick=()=>{boxes.forEach(b=>b.checked=false);update()};
+update();
+})();
+</script>
+</body>
+</html>
