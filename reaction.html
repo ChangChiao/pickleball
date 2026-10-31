@@ -157,7 +157,7 @@ function fig(x,J,c){
   x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
   x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
 }
-function paddle(x,w,a,c,len=17){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+cx*10,w[1]+sy*10]);x.save();x.translate(w[0]+cx*len,w[1]+sy*len);x.rotate(r);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+function paddle(x,w,a,c,len=17){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(r);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
 const ball=(x,p,c,r=2.6)=>{x.lineWidth=1;circ(x,p,r,c.ball,c.ink)};
 const txt=(x,s,p,c,al='center')=>{x.fillStyle=c.muted;x.font='5px "Noto Sans TC",sans-serif';x.textAlign=al;x.fillText(s,p[0],p[1])};
 const wall=(x,c)=>{x.strokeStyle=c.muted;x.lineWidth=2.5;pl(x,[113,6],[113,93]);txt(x,'牆',[108,12],c)};
@@ -204,7 +204,7 @@ const D={
       x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(14,4,92,92);pl(x,[14,37],[106,37]);pl(x,[14,63],[106,63]);
       x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[10,50],[110,50]);txt(x,'網',[112,52],c,'left');txt(x,'廚房線',[16,61],c,'left');
       const player=(y,sh,pad,flip)=>{x.lineWidth=2.4;x.strokeStyle=c.ink;pl(x,sh,pad);x.lineWidth=3.4;x.strokeStyle=c.court;pl(x,[50,y],[70,y]);x.lineWidth=1.6;circ(x,[60,y],5,c.panel,c.ink);
-        x.lineWidth=1.4;x.beginPath();x.ellipse(pad[0],pad[1]+flip*3,5,3.6,0,0,7);x.globalAlpha=.35;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.strokeStyle=c.ink;x.stroke()};
+        x.lineWidth=1.4;x.beginPath();x.roundRect(pad[0]-4.2,pad[1]+flip*3-3.4,8.4,6.8,2.2);x.globalAlpha=.35;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.strokeStyle=c.ink;x.stroke()};
       player(24,[50,24],p.op,1);player(76,[70,76],p.me,-1);
       txt(x,'對手',[82,22],c,'left');txt(x,'你',[82,82],c,'left');ball(x,p.b,c,2.2)}},
   catch:{view:'側面看，面向牆',keys:[

@@ -152,8 +152,8 @@ td:first-child{font-weight:700;white-space:nowrap}
           <line x1="94" y1="150" x2="128" y2="150" stroke="var(--hip)" stroke-width="5" stroke-linecap="round"/>
           <line x1="82" y1="74" x2="140" y2="74" stroke="var(--court)" stroke-width="5" stroke-linecap="round"/>
           <circle cx="110" cy="40" r="16" fill="var(--panel)" stroke="var(--ink)" stroke-width="4"/>
-          <line x1="188" y1="92" x2="202" y2="62" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-          <ellipse cx="209" cy="42" rx="10" ry="17" transform="rotate(20 209 42)" fill="none" stroke="var(--ink)" stroke-width="3"/>
+          <line x1="188" y1="92" x2="197" y2="76" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+          <rect x="-10" y="-14" width="20" height="26" rx="6" transform="translate(203 55) rotate(22)" fill="var(--court)" fill-opacity=".25" stroke="var(--ink)" stroke-width="3"/>
         </g>
         <g font-family="Barlow Condensed" font-weight="700" font-size="14">
           <circle cx="164" cy="272" r="10" fill="var(--court)"/><text x="164" y="277" text-anchor="middle" style="fill:var(--panel)">1</text>
@@ -362,7 +362,7 @@ function pose(t){
     kneeR:ik(hipR,ankR,.46,.46,hf),kneeL:ik(hipL,ankL,.46,.46,hf),
     elbR:ik(shR,handR,.3,.29,add([0,-1,0],mul(sr,.4))),elbL:ik(shL,handL,.3,.29,add([0,-1,0],mul(sr,-.4))),
     neck:add(C,[0,.1,0]),head:add(C,[0,.24,0]),
-    butt:add(handR,mul(d,-.06)),throat:add(handR,mul(d,.33)),hc:add(handR,mul(d,.5))};
+    butt:add(handR,mul(d,-.06)),throat:add(handR,mul(d,.07)),hc:add(handR,mul(d,.22))};
 }
 const B0=[-1.3,1.0,10],B1=[.8,1.4,10],Bc=pose(1.4).hc;
 function ball(t){
@@ -397,8 +397,8 @@ function render(cv,cam,Pz,t,col,k,top){
   const items=[],seg=(a,b,c,w)=>{const A=f(a),B=f(b);items.push({k:'s',A,B,c,w,d:(A.d+B.d)/2})};
   for(const [a,b] of [['hipR','kneeR'],['kneeR','ankR'],['ankR','toeR'],['hipL','kneeL'],['kneeL','ankL'],['ankL','toeL'],['P','neck'],['shR','elbR'],['elbR','handR'],['shL','elbL'],['elbL','handL']])seg(Pz[a],Pz[b],col.ink,5);
   seg(Pz.hipL,Pz.hipR,col.hip,9);seg(Pz.shL,Pz.shR,col.court,8);
-  seg(Pz.butt,Pz.throat,col.ink,3.5);
-  const ring=[];for(let i=0;i<24;i++){const a=i/24*2*Math.PI;ring.push(f(add(Pz.hc,add(mul(Pz.d,Math.cos(a)*.17),mul(Pz.w,Math.sin(a)*.13)))))}
+  seg(Pz.butt,Pz.throat,col.ink,6);
+  const ring=[];for(let i=0;i<24;i++){const a=i/24*2*Math.PI;ring.push(f(add(Pz.hc,add(mul(Pz.d,Math.sign(Math.cos(a))*Math.abs(Math.cos(a))**.4*.14),mul(Pz.w,Math.sign(Math.sin(a))*Math.abs(Math.sin(a))**.4*.10)))))}
   items.push({k:'p',pts:ring,d:f(Pz.hc).d});
   const H=f(Pz.head);items.push({k:'c',p:H,r:.11*cam.sc,d:H.d,fill:col.panel,stroke:col.ink});
   const b=ball(t);if(b){const B=f(b);items.push({k:'c',p:B,r:.05*cam.sc,d:B.d,fill:col.ball,stroke:col.ink})}

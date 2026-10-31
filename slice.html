@@ -158,7 +158,7 @@ function fig(x,J,c){
   x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
   x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
 }
-function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+cx*10,w[1]+sy*10]);x.save();x.translate(w[0]+cx*17,w[1]+sy*17);x.rotate(r);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(r);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
 const ball=(x,p,c,r=2.6)=>{x.lineWidth=r>2?1:.6;circ(x,p,r,c.ball,c.ink)};
 const txt=(x,s,p,c,al='center',sz=5,col)=>{x.fillStyle=col||c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
 const q=(P,C,Q,u)=>[(1-u)*(1-u)*P[0]+2*u*(1-u)*C[0]+u*u*Q[0],(1-u)*(1-u)*P[1]+2*u*(1-u)*C[1]+u*u*Q[1]];
@@ -177,7 +177,7 @@ function person(x,c,px,low,face){
   const hy=low?28:23,hip=low?37:34;x.strokeStyle=c.ink;x.lineWidth=1.1;
   pl(x,[px,hy+2.4],[px,hip]);pl(x,[px-3,44],[px,hip],[px+3,44]);pl(x,[px,hy+5],[px+face*4,hy+9]);
   x.lineWidth=.8;circ(x,[px,hy],2.3,c.panel,c.ink);
-  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.ellipse(0,0,1.2,2.4,0,0,7);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.roundRect(-1.3,-2.2,2.6,4.4,.9);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
 }
 const P0=[44,40],SHORT=[P0,[54,-6],[64,44]],LONG=[P0,[56,4],[76,44]],OUT=[P0,[60,0],[83,44]];
 // top view helpers: court x 30..90 (3 units/ft), net y=50, kitchens y 29..71
@@ -194,7 +194,7 @@ const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
 // rotating spin mark on a ball: dir +1 = topspin (clockwise while moving right), -1 = backspin
 function spinBall(x,p,c,r,ang){ball(x,p,c,r);x.strokeStyle=c.ink;x.lineWidth=.5;pl(x,[p[0]-Math.cos(ang)*r,p[1]-Math.sin(ang)*r],[p[0]+Math.cos(ang)*r,p[1]+Math.sin(ang)*r])}
 function trail(x,c,d,t,hd){let prev=null;for(let i=0;i<=24;i++){const s=sample(d,t-i*.025),h=hd(s.p);if(prev){x.globalAlpha=(1-i/25)*.8;x.strokeStyle=c.ball;x.lineWidth=2.4;pl(x,prev,h)}prev=h}x.globalAlpha=1}
-const phead=p=>[p.wB[0]+Math.cos(p.rk*R)*17,p.wB[1]+Math.sin(p.rk*R)*17];
+const phead=p=>[p.wB[0]+Math.cos(p.rk*R)*12.5,p.wB[1]+Math.sin(p.rk*R)*12.5];
 const TECH0={pv:[52,57],nk:[54,29],...SIDE,fA:[44,92],fB:[64,92],wA:[62,46],wB:[68,42],rk:-70,b:[118,50],show:1};
 const D={
   spin:{still:6,fn:(x,t,c)=>{
@@ -216,9 +216,9 @@ const D={
     const tb=Math.max(0,t-1),bp=[B0[0]+Math.min(tb,1.4)*30,B0[1]-Math.min(tb,1.4)*8],ang=-tb*14;
     x.lineWidth=1.2;circ(x,bp,12,c.ball,c.ink);x.strokeStyle=c.ink;x.lineWidth=1;pl(x,[bp[0]-Math.cos(ang)*12,bp[1]-Math.sin(ang)*12],[bp[0]+Math.cos(ang)*12,bp[1]+Math.sin(ang)*12]);
     if(tb>0){x.strokeStyle=c.court;x.lineWidth=1.4;x.beginPath();x.arc(bp[0],bp[1],16,-.3*Math.PI,-.9*Math.PI,true);x.stroke();const e=[bp[0]+16*Math.cos(-.9*Math.PI),bp[1]+16*Math.sin(-.9*Math.PI)];x.fillStyle=c.court;x.beginPath();x.moveTo(e[0]-2.5,e[1]-1);x.lineTo(e[0]+1.5,e[1]-3);x.lineTo(e[0]+1,e[1]+2);x.fill();txt(x,'往後旋轉',[bp[0],bp[1]-20],c,'center',5)}
-    const a=[pc[0]-dirP[0]*14,pc[1]-dirP[1]*14],b=[pc[0]+dirP[0]*14,pc[1]+dirP[1]*14];
+    const a=[pc[0]-dirP[0]*11,pc[1]-dirP[1]*11],b=[pc[0]+dirP[0]*11,pc[1]+dirP[1]*11];
     x.strokeStyle=c.ink;x.lineWidth=5;pl(x,a,b);x.strokeStyle=c.court;x.lineWidth=3;pl(x,a,b);
-    x.strokeStyle=c.ink;x.lineWidth=2.4;pl(x,b,[b[0]+dirP[0]*10,b[1]+dirP[1]*10]);
+    x.strokeStyle=c.ink;x.lineWidth=4;pl(x,b,[b[0]+dirP[0]*7,b[1]+dirP[1]*7]);
     txt(x,'拍面略開',[pc[0]-14,pc[1]+4],c,'right',5);txt(x,'側面特寫',[116,8],c,'right');
     return t<1?'拍面略開，從高處往前下方送':t<2?'刷過球的後下方':'球往前飛，同時往後旋轉'}},
   tk:{keys:[

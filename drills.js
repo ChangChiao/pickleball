@@ -35,7 +35,7 @@ function pose(ex,t){
   const J={P,hipR,hipL,kneeR,kneeL,ankR:o.ankR,ankL:o.ankL,toeR:toe(o.ankR,kneeR),toeL:toe(o.ankL,kneeL),C,shR,shL,handR,handL,d,
     elbR:ik(shR,handR,.3,.29,add([0,-1,0],mul(sr,.4))),elbL:ik(shL,handL,.3,.29,add([0,-1,0],mul(sr,-.4))),
     neck:add(C,[0,.1,0]),head:add(C,[0,.24,0]),mid:mul(add(handR,handL),.5)};
-  if(d){let w=sub([0,1,0],mul(d,d[1]));if(Math.hypot(...w)<.2)w=sub(sf,mul(d,dot(sf,d)));J.w=nrm(w);J.butt=add(handR,mul(d,-.06));J.throat=add(handR,mul(d,.33));J.hc=add(handR,mul(d,.5))}
+  if(d){let w=sub([0,1,0],mul(d,d[1]));if(Math.hypot(...w)<.2)w=sub(sf,mul(d,dot(sf,d)));J.w=nrm(w);J.butt=add(handR,mul(d,-.06));J.throat=add(handR,mul(d,.07));J.hc=add(handR,mul(d,.22))}
   return J;
 }
 function fit(cv){const r=cv.getBoundingClientRect(),k=window.devicePixelRatio||1,W=Math.max(1,Math.round(r.width*k)),H=Math.max(1,Math.round(r.height*k));if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}return k}
@@ -56,8 +56,8 @@ function render(cv,ex,t,col){
   for(const [a,b] of [['hipR','kneeR'],['kneeR','ankR'],['ankR','toeR'],['hipL','kneeL'],['kneeL','ankL'],['ankL','toeL'],['P','neck'],['shR','elbR'],['elbR','handR'],['shL','elbL'],['elbL','handL']])seg(J[a],J[b],col.ink,5);
   seg(J.hipL,J.hipR,col.hip,8);seg(J.shL,J.shR,col.court,7);
   if(J.d){
-    seg(J.butt,J.throat,col.ink,3.5);
-    const ring=[];for(let i=0;i<20;i++){const a=i/20*2*Math.PI;ring.push(f(add(J.hc,add(mul(J.d,Math.cos(a)*.17),mul(J.w,Math.sin(a)*.13)))))}
+    seg(J.butt,J.throat,col.ink,6);
+    const ring=[];for(let i=0;i<20;i++){const a=i/20*2*Math.PI;ring.push(f(add(J.hc,add(mul(J.d,Math.sign(Math.cos(a))*Math.abs(Math.cos(a))**.4*.14),mul(J.w,Math.sign(Math.sin(a))*Math.abs(Math.sin(a))**.4*.10)))))}
     items.push({k:'p',pts:ring,d:f(J.hc).d});
   }
   const Hd=f(J.head);items.push({k:'c',p:Hd,r:.11*sc,d:Hd.d,fill:col.panel});

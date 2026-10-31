@@ -13,13 +13,13 @@ function joints(p){
 const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
 const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
 const txt=(x,s,p,c,al='center',sz=5)=>{x.fillStyle=c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
-const head=(w,a)=>[w[0]+Math.cos(a*R)*17,w[1]+Math.sin(a*R)*17];
+const head=(w,a)=>[w[0]+Math.cos(a*R)*12.5,w[1]+Math.sin(a*R)*12.5];
 function fig(x,J,c){
   x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
   x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
   x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
 }
-function paddle(x,w,a,c){const h=head(w,a);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+Math.cos(a*R)*10,w[1]+Math.sin(a*R)*10]);x.save();x.translate(h[0],h[1]);x.rotate(a*R);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+function paddle(x,w,a,c){const h=head(w,a);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(a*R);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
 
 // back view, right-handed player seen from behind (their right = screen right)
 const BACK={pv:[60,57],nk:[60,29],s:10,h:7,fA:[46,92],fB:[74,92],kb:[1,-1],eb:[1,-1],wA:[57,47],wB:[64,46],rk:-90};
@@ -75,7 +75,7 @@ function drawTop(x,t,c,side){
   if(side>0){pl(x,sR,hand);pl(x,sL,full?P(-6,16):[(hand[0]+sL[0])/2+fwd[0]*6,(hand[1]+sL[1])/2+fwd[1]*6])}
   else{pl(x,sR,hand);pl(x,sL,hand)}
   const ph=[hand[0]+pu[0]*14,hand[1]+pu[1]*14];x.lineWidth=2;pl(x,hand,[hand[0]+pu[0]*7,hand[1]+pu[1]*7]);
-  x.save();x.translate(ph[0],ph[1]);x.rotate(Math.atan2(pu[1],pu[0]));x.beginPath();x.ellipse(0,0,7,4,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+  x.save();x.translate(ph[0],ph[1]);x.rotate(Math.atan2(pu[1],pu[0]));x.beginPath();x.roundRect(-6.5,-4,13,8,2.6);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
   x.lineWidth=1.6;circ(x,C,6,c.panel,c.ink);
   txt(x,`肩 ${Math.round(Math.abs(a))}°`,[C[0],96],c,'center',5);
   txt(x,'俯視',[116,8],c,'right');return lab;
