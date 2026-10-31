@@ -180,9 +180,9 @@ const D={
     {p:{...READY,wA:[54,50],wB:[66,50],bR:[92,34]},dur:.6,hold:.3,label:'把球還給夥伴，回到準備姿勢'}],
     prop:(x,J,p,c)=>{x.strokeStyle=c.muted;x.lineWidth=1.2;for(const h of [[28,34],[92,34]])circ(x,[h[0],h[1]-4.5],2.4,null,c.muted);txt(x,'夥伴的手',[60,24],c);ball(x,p.bL,c);ball(x,p.bR,c)}},
   wall:{view:'側面看，面向牆',keys:[
-    {p:{pv:[52,55],nk:[53,27],...SIDE,fA:[44,92],fB:[60,92],wA:[66,44],wB:[70,40],rk:-65,b:[81,26]},hold:.05,dur:.25,label:'拍頭朝上、放在胸前'},
+    {p:{pv:[52,55],nk:[53,27],...SIDE,fA:[44,92],fB:[60,92],wA:[66,44],wB:[70,40],rk:-65,b:[79.1,30.1]},hold:.05,dur:.25,label:'拍頭朝上、放在胸前'},
     {p:{b:[110,28]},dur:.25,label:'拍頭朝上、放在胸前'},
-    {p:{wB:[69,37],rk:-95,b:[73,20]},dur:.25,hold:.05,label:'只用小幅推擋，不拉拍'},
+    {p:{wB:[69,37],rk:-95,b:[73.4,24.5]},dur:.25,hold:.05,label:'只用小幅推擋，不拉拍'},
     {p:{b:[110,30]},dur:.25,label:'只用小幅推擋，不拉拍'}],
     prop:(x,J,p,c)=>{wall(x,c);paddle(x,J.wB,p.rk,c);ball(x,p.b,c)}},
   cue:{view:'從背後看',keys:[

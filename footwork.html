@@ -204,7 +204,7 @@ const D={
   kitchen:{view:'側面看',keys:[
     {p:{pv:[54,56],nk:[59,28],...SIDE,fA:[46,92],fB:[66,92],wA:[64,48],wB:[70,46],rk:-50,b:[118,30]},hold:.5,dur:.5,label:'腳尖在廚房線後，身體可以前傾'},
     {p:{b:[98,91]},dur:.5,label:'短丁克落進廚房'},
-    {p:{pv:[66,64],nk:[74,40],fB:[84,92],wA:[72,58],wB:[80,66],rk:20,b:[97,74]},dur:.35,hold:.15,label:'球已落地：可以踩進廚房擊球'},
+    {p:{pv:[66,64],nk:[74,40],fB:[84,92],wA:[72,58],wB:[80,66],rk:20,b:[92.8,72.5]},dur:.35,hold:.15,label:'球已落地：可以踩進廚房擊球'},
     {p:{b:[118,40]},dur:.3,label:'打完'},
     {p:{pv:[54,56],nk:[59,28],fB:[66,92],wA:[64,48],wB:[70,46],rk:-50},dur:.45,hold:.5,label:'馬上退回線後，下一球才能截擊'}],
     prop:(x,J,p,c)=>{x.strokeStyle=c.hip;x.lineWidth=2;pl(x,[72,93],[72,97]);txt(x,'廚房線',[72,88],c);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[114,93],[114,70]);txt(x,'網',[114,66],c);paddle(x,J.wB,p.rk,c);ball(x,p.b,c)}},
