@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>網前反應訓練</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the stroke pages: court blue panels, ball yellow as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+.back{color:var(--court);font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:12px;margin:0}
+.fig figcaption{color:var(--muted);font-size:14px}
+.svgbox{overflow-x:auto}
+svg text{font-family:var(--body);fill:var(--ink)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check p{font-size:14.5px;color:var(--muted)}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-right:4px}
+.tag.on{background:var(--ball);border-color:var(--ball);color:var(--onBall);font-weight:700}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:6px;max-width:65ch}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Reaction · Hands Battle</div>
+  <h1>網前反應訓練：快球來了來得及嗎</h1>
+  <p class="lead">雙方都站在廚房線時，對手突然加速打過來，球大約 0.25 秒就到你面前。這點時間只夠「擋」，不夠「想」。反應訓練練的是三件事：拍子先放在對的地方、眼睛看對地方、腳隨時能動。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>時間到底有多短</h2>
+  <figure class="fig">
+    <div class="svgbox"><svg viewBox="0 0 600 210" role="img" aria-label="時間比較：球飛行約 260 毫秒，簡單反應約 200 毫秒，判斷正反手後再反應約 300 毫秒" style="width:100%;min-width:460px;height:auto">
+      <g stroke="var(--line)" stroke-width="1">
+        <line x1="150" y1="30" x2="150" y2="170"/><line x1="250" y1="30" x2="250" y2="170"/><line x1="350" y1="30" x2="350" y2="170"/><line x1="450" y1="30" x2="450" y2="170"/><line x1="550" y1="30" x2="550" y2="170"/>
+      </g>
+      <g font-size="12" text-anchor="middle" style="fill:var(--muted)">
+        <text x="150" y="190" style="fill:var(--muted)">0</text><text x="250" y="190" style="fill:var(--muted)">100</text><text x="350" y="190" style="fill:var(--muted)">200</text><text x="450" y="190" style="fill:var(--muted)">300</text><text x="550" y="190" style="fill:var(--muted)">400 毫秒</text>
+      </g>
+      <g font-size="13" text-anchor="end">
+        <text x="140" y="56">球飛到你面前</text><text x="140" y="106">看到就動</text><text x="140" y="156">先判斷正／反手</text>
+      </g>
+      <rect x="150" y="40" width="260" height="24" rx="4" fill="var(--ball)"/>
+      <rect x="150" y="90" width="200" height="24" rx="4" fill="var(--court)"/>
+      <rect x="150" y="140" width="300" height="24" rx="4" fill="var(--hip)"/>
+      <g font-size="12" font-weight="700">
+        <text x="418" y="57">≈ 260</text><text x="358" y="107">≈ 200</text><text x="458" y="157">≈ 300，已經太晚</text>
+      </g>
+      <line x1="410" y1="26" x2="410" y2="172" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>
+    </svg></div>
+    <figcaption>概略值。兩人各站廚房線後約 4.6 公尺，加速球約 64 km/h（40 mph）時，飛行時間約 0.26 秒；人看到後開始動作約要 0.2 秒，若還要先決定用正手或反手就會更久。所以重點不是「反應更快」，而是「少做判斷」。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">02</span>準備姿勢：讓反應變簡單</h2>
+  <div class="checks">
+    <div class="check"><h3>拍子在胸前、拍頭朝上</h3><p>拍子放在身體正前方，比肚臍高。拍面略偏反手，因為打向身體的球大多用反手擋最順。</p></div>
+    <div class="check"><h3>膝蓋微彎、重心在前腳掌</h3><p>腳跟輕輕離地，像要起跑。站直、腳跟著地時，第一步會慢半拍。</p></div>
+    <div class="check"><h3>看對手的拍面，不是看球</h3><p>拍面朝向和揮拍幅度會先告訴你球去哪。看到對手拉拍變大，就準備接加速球。</p></div>
+    <div class="check"><h3>對手擊球時分腿墊步</h3><p>對手拍子碰球的瞬間輕跳一下、雙腳打開落地，身體就處在「隨時能往任何方向動」的狀態。</p></div>
+  </div>
+  <p class="note">擋快球時用「推」不用「揮」：拍子往前送一小段就好。揮大了會來不及回到胸前接下一球。</p>
+</section>
+
+<section>
+  <h2><span class="n">03</span>訓練動作（動畫示意）</h2>
+  <p>每張動畫都是簡化示意，<b style="color:var(--hip)">橘線是髖</b>、<b style="color:var(--court)">藍線是肩</b>，黃色是球。標籤告訴你需要什麼：<span class="tag on">居家</span>不用球場，<span class="tag">夥伴</span>需要另一個人。</p>
+  <div class="drills">
+    <article class="drill"><canvas data-d="split" role="img" aria-label="分腿墊步動畫：往前移動，對手擊球瞬間小跳，雙腳打開落地後出發"></canvas><div class="step"></div>
+      <h3>分腿墊步 <span class="dose">3×10</span></h3><p><span class="tag on">居家</span></p>
+      <p>原地或慢慢往前走，聽口令（或自己數拍）輕跳一下，雙腳比肩寬落地，落地後立刻往左或右跨一步。</p><p class="goal">練到：落地就能出發，不用重新站穩</p></article>
+    <article class="drill"><canvas data-d="drop" role="img" aria-label="落球反應動畫：夥伴雙手各拿一顆球，隨機放掉一顆，你跨步在第二次落地前接住"></canvas><div class="step"></div>
+      <h3>落球反應 <span class="dose">3×8</span></h3><p><span class="tag">夥伴</span><span class="tag on">居家</span></p>
+      <p>夥伴站在約 2 公尺外，雙手各拿一顆球舉到肩高，隨機放掉一顆。你從準備姿勢出發，在球彈第二次之前接住。</p><p class="goal">練到：看到就動的第一步</p></article>
+    <article class="drill"><canvas data-d="wall" role="img" aria-label="對牆快速截擊側面動畫：球在拍面和牆之間快速來回"></canvas><div class="step"></div>
+      <h3>對牆快速截擊 <span class="dose">5×30 秒</span></h3><p><span class="tag on">居家</span></p>
+      <p>離牆約 2 公尺，球不落地連續截擊。拍頭朝上、放在胸前，只做小幅推擋。穩定後縮短距離或交替正反手。</p><p class="goal">練到：拍子不離開胸前、手很快</p></article>
+    <article class="drill"><canvas data-d="cue" role="img" aria-label="方向指令橫移動畫：看到箭頭後側併步移過去，再回到中間"></canvas><div class="step"></div>
+      <h3>方向指令橫移 <span class="dose">3×10</span></h3><p><span class="tag on">居家</span></p>
+      <p>用手機反應訓練 App 或夥伴手勢給方向，看到箭頭就側併步移兩步，拍子保持在前，再回到中間。</p><p class="goal">練到：看到指令到出發的時間</p></article>
+    <article class="drill"><canvas data-d="hands" role="img" aria-label="網前快攻俯視動畫：雙方站在廚房線，你用正手和反手擋下加速球"></canvas><div class="step"></div>
+      <h3>網前快攻對練 <span class="dose">3×2 分鐘</span></h3><p><span class="tag">夥伴</span><span class="tag">球場</span></p>
+      <p>兩人都站廚房線後，先慢慢截擊對打，夥伴不預告地加速。你只擋不攻，擋完立刻把拍子收回胸前。</p><p class="goal">練到：把反應用在實戰距離</p></article>
+    <article class="drill"><canvas data-d="catch" role="img" aria-label="對牆抓球側面動畫：一手把網球丟向牆，另一手接住"></canvas><div class="step"></div>
+      <h3>對牆換手抓球 <span class="dose">3×20 下</span></h3><p><span class="tag on">居家</span></p>
+      <p>用網球對牆丟，右手丟、左手接，再換手。進階：站近一點、丟快一點，或改用不規則彈跳的六角反應球。</p><p class="goal">練到：手眼協調、追球的眼睛</p></article>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>怎麼安排</h2>
+  <ol class="steps">
+    <li>放在熱身之後、主練習之前，每次 10–15 分鐘。人累了反應就慢，練了也沒效果。</li>
+    <li>一週 2–3 次。可以接在「正手抽球動力鏈」的日常訓練後面一起做。</li>
+    <li>進步方式一次只改一項：距離縮短、速度加快，或加入「要判斷」的元素（例如顏色決定用正手或反手）。</li>
+    <li>每兩週錄一次網前快攻對練，看擋完後拍子有沒有回到胸前。</li>
+  </ol>
+  <p class="note">網前快攻對練球速很快，建議戴運動護目鏡。夥伴加速時瞄準肩膀以下，不要打臉。</p>
+</section>
+</main>
+
+<script>
+// looping stick-figure demos, 120x100 unit space per canvas (same engine as the forehand page)
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function paddle(x,w,a,c,len=17){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+cx*10,w[1]+sy*10]);x.save();x.translate(w[0]+cx*len,w[1]+sy*len);x.rotate(r);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const ball=(x,p,c,r=2.6)=>{x.lineWidth=1;circ(x,p,r,c.ball,c.ink)};
+const txt=(x,s,p,c,al='center')=>{x.fillStyle=c.muted;x.font='5px "Noto Sans TC",sans-serif';x.textAlign=al;x.fillText(s,p[0],p[1])};
+const wall=(x,c)=>{x.strokeStyle=c.muted;x.lineWidth=2.5;pl(x,[113,6],[113,93]);txt(x,'牆',[108,12],c)};
+const READY={pv:[60,57],nk:[60,29],s:10,h:7,fA:[46,92],fB:[74,92],kb:[1,-1],eb:[1,-1],wA:[57,47],wB:[64,46]};
+const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const D={
+  split:{view:'從背後看',keys:[
+    {p:{pv:[60,54],nk:[60,26],s:10,h:7,fA:[54,92],fB:[66,92],kb:[1,-1],eb:[1,-1],wA:[56,46],wB:[64,46],rk:-90},hold:.3,dur:.7,label:'往前移動'},
+    {p:{pv:[60,48],nk:[60,20],fA:[54,88],fB:[66,88],wA:[56,40],wB:[64,40]},dur:.2,hold:.05,label:'對手擊球瞬間：輕跳'},
+    {p:{pv:[60,58],nk:[60,30],fA:[44,92],fB:[76,92],wA:[56,50],wB:[64,50]},dur:.2,hold:.5,label:'雙腳打開落地，重心在前腳掌'},
+    {p:{pv:[70,57],nk:[72,29],fA:[56,92],fB:[90,90],wA:[68,48],wB:[78,46],rk:-60},dur:.35,hold:.4,label:'落地就往球的方向出發'}],
+    prop:(x,J,p,c)=>paddle(x,J.wB,p.rk,c)},
+  drop:{view:'從背後看，夥伴在對面',keys:[
+    {p:{...READY,wA:[54,50],wB:[66,50],bL:[28,34],bR:[92,34]},hold:.6,dur:.1,label:'準備姿勢，盯著兩顆球'},
+    {p:{bL:[28,92]},dur:.35,label:'夥伴隨機放掉一顆'},
+    {p:{pv:[46,62],nk:[40,36],fA:[24,92],fB:[66,92],wA:[32,66],wB:[52,56],bL:[32,66]},dur:.3,hold:.35,label:'跨步，第二次落地前接住'},
+    {p:{...READY,wA:[54,50],wB:[66,50],bL:[28,34]},dur:.6,hold:.5,label:'把球還給夥伴，回到準備姿勢'},
+    {p:{bR:[92,92]},dur:.35,label:'夥伴隨機放掉一顆'},
+    {p:{pv:[74,62],nk:[80,36],fA:[54,92],fB:[96,92],wA:[68,56],wB:[88,66],bR:[88,66]},dur:.3,hold:.35,label:'跨步，第二次落地前接住'},
+    {p:{...READY,wA:[54,50],wB:[66,50],bR:[92,34]},dur:.6,hold:.3,label:'把球還給夥伴，回到準備姿勢'}],
+    prop:(x,J,p,c)=>{x.strokeStyle=c.muted;x.lineWidth=1.2;for(const h of [[28,34],[92,34]])circ(x,[h[0],h[1]-4.5],2.4,null,c.muted);txt(x,'夥伴的手',[60,24],c);ball(x,p.bL,c);ball(x,p.bR,c)}},
+  wall:{view:'側面看，面向牆',keys:[
+    {p:{pv:[52,55],nk:[53,27],...SIDE,fA:[44,92],fB:[60,92],wA:[66,44],wB:[70,40],rk:-65,b:[81,26]},hold:.05,dur:.25,label:'拍頭朝上、放在胸前'},
+    {p:{b:[110,28]},dur:.25,label:'拍頭朝上、放在胸前'},
+    {p:{wB:[69,37],rk:-95,b:[73,20]},dur:.25,hold:.05,label:'只用小幅推擋，不拉拍'},
+    {p:{b:[110,30]},dur:.25,label:'只用小幅推擋，不拉拍'}],
+    prop:(x,J,p,c)=>{wall(x,c);paddle(x,J.wB,p.rk,c);ball(x,p.b,c)}},
+  cue:{view:'從背後看',keys:[
+    {p:{...READY,rk:-90,cue:0},hold:.5,dur:.1,label:'準備姿勢，看指令'},
+    {p:{cue:1},dur:.05,hold:.2,label:'看到 →'},
+    {p:{pv:[82,57],nk:[82,29],fA:[68,92],fB:[96,92],wA:[79,47],wB:[86,46],cue:0},dur:.45,hold:.25,label:'側併步移過去，拍子保持在前'},
+    {p:{...READY,cue:0},dur:.5,hold:.4,label:'回到中間'},
+    {p:{cue:-1},dur:.05,hold:.2,label:'看到 ←'},
+    {p:{pv:[38,57],nk:[38,29],fA:[24,92],fB:[52,92],wA:[35,47],wB:[42,46],cue:0},dur:.45,hold:.25,label:'側併步移過去，拍子保持在前'},
+    {p:{...READY,cue:0},dur:.5,hold:.4,label:'回到中間'}],
+    prop:(x,J,p,c)=>{paddle(x,J.wB,p.rk,c);if(Math.abs(p.cue)>.5){const s=Math.sign(p.cue);x.fillStyle=c.ball;x.fillRect(48,4,24,12);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[60-7*s,10],[60+7*s,10]);pl(x,[60+3*s,6.5],[60+7*s,10],[60+3*s,13.5])}}},
+  hands:{view:'俯視',raw:1,keys:[
+    {p:{b:[62,31],me:[60,66],op:[62,31]},hold:.4,dur:.25,label:'雙方在廚房線，拍子放胸前'},
+    {p:{b:[74,63],me:[73,64]},dur:.28,hold:.08,label:'對手加速打你右側：正手擋'},
+    {p:{b:[52,33],me:[61,66],op:[52,33]},dur:.3,label:'擋完立刻回到胸前'},
+    {p:{b:[48,63],me:[49,64]},dur:.28,hold:.08,label:'打向身體或左側：反手擋'},
+    {p:{b:[64,33],me:[60,66],op:[64,33]},dur:.3,hold:.2,label:'擋完立刻回到胸前'}],
+    draw:(x,p,c)=>{
+      x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(14,4,92,92);pl(x,[14,37],[106,37]);pl(x,[14,63],[106,63]);
+      x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[10,50],[110,50]);txt(x,'網',[112,52],c,'left');txt(x,'廚房線',[16,61],c,'left');
+      const player=(y,sh,pad,flip)=>{x.lineWidth=2.4;x.strokeStyle=c.ink;pl(x,sh,pad);x.lineWidth=3.4;x.strokeStyle=c.court;pl(x,[50,y],[70,y]);x.lineWidth=1.6;circ(x,[60,y],5,c.panel,c.ink);
+        x.lineWidth=1.4;x.beginPath();x.ellipse(pad[0],pad[1]+flip*3,5,3.6,0,0,7);x.globalAlpha=.35;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.strokeStyle=c.ink;x.stroke()};
+      player(24,[50,24],p.op,1);player(76,[70,76],p.me,-1);
+      txt(x,'對手',[82,22],c,'left');txt(x,'你',[82,82],c,'left');ball(x,p.b,c,2.2)}},
+  catch:{view:'側面看，面向牆',keys:[
+    {p:{pv:[50,55],nk:[51,27],...SIDE,fA:[42,92],fB:[58,92],wA:[60,50],wB:[64,44],b:[66,42]},hold:.3,dur:.35,label:'右手把網球丟向牆'},
+    {p:{wB:[72,38],b:[110,34]},dur:.3,label:'右手把網球丟向牆'},
+    {p:{wA:[67,48],wB:[62,48],b:[69,47]},dur:.3,hold:.35,label:'另一手接住，換手再丟'}],
+    prop:(x,J,p,c)=>{wall(x,c);ball(x,p.b,c,2.8)}},
+};
+for(const d of Object.values(D)){
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur+(d.keys[1].hold||0)+(d.keys[2]?d.keys[2].dur:0);
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const S=sample(it.d,still?it.d.still:(now-t0)/1000);
+    if(it.d.raw)it.d.draw(x,S.p,c);
+    else{x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);if(it.d.prop)it.d.prop(x,J,S.p,c)}
+    txt(x,it.d.view,[116,8],c,'right');
+    if(it.step.textContent!==S.label)it.step.textContent=S.label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

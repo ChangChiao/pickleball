@@ -1,0 +1,615 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>正手抽球動力鏈</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: single reading column, hard-court blue panels for figures, ball-yellow only as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --bad:#b8402f; --good:#2f7d4f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --bad:#e2735f; --good:#6cc391; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --bad:#e2735f; --good:#6cc391; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section{display:grid;gap:18px}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:12px}
+.fig figcaption{color:var(--muted);font-size:14px}
+.svgbox{overflow-x:auto}
+svg text{font-family:var(--body);fill:var(--ink)}
+.two{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:24px;align-items:center}
+@media (max-width:620px){.two{grid-template-columns:1fr}.two svg{max-width:240px;margin:0 auto;display:block}}
+ol.chain{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.phase{display:grid;gap:6px;align-content:start}
+.phase svg{width:100%;height:auto;background:var(--courtSoft);border-radius:8px}
+.phase b{font-size:15px}
+.phase span{font-size:13.5px;color:var(--muted);line-height:1.6}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:22px;height:5px;border-radius:3px;vertical-align:middle;margin-right:6px}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check h3{font-size:16px}
+.check p{font-size:14.5px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px;background:var(--panel)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:500;background:var(--courtSoft)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.err{display:grid;gap:10px}
+.err div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.err div:last-child{border-bottom:0}
+.err .x{color:var(--bad);font-weight:700}
+.err .o{color:var(--good)}
+@media (max-width:560px){.err div{grid-template-columns:1fr;gap:4px}}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;font-size:13px}
+.week div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px;display:grid;gap:2px;align-content:start}
+.week b{font-family:var(--display);font-size:16px}
+.week .court{background:var(--courtSoft);border-color:var(--court)}
+@media (max-width:640px){.week{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+.topanim{display:grid;gap:10px;justify-items:center}
+#topSvg{width:100%;max-width:380px;height:auto;background:var(--courtSoft);border-radius:8px}
+.phase{cursor:pointer;border-radius:8px;padding:6px;border:2px solid transparent;transition:border-color .15s}
+.phase.on{border-color:var(--ball)}
+.phase:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+#topBtn{font:inherit;font-size:14px;padding:5px 14px;border-radius:6px;border:1px solid var(--court);background:var(--court);color:var(--panel);cursor:pointer}
+.views{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px}
+.view{position:relative;background:var(--courtSoft);border-radius:8px;overflow:hidden}
+.view canvas{display:block;width:100%;aspect-ratio:4/3;touch-action:pan-y}
+#cv3{cursor:grab}
+#cvTop{aspect-ratio:8/9}
+@media (max-width:620px){.views{grid-template-columns:1fr}#cvTop{aspect-ratio:4/3}}
+.vlabel{position:absolute;left:10px;top:6px;font-size:12px;color:var(--muted);pointer-events:none}
+.hud{display:flex;gap:28px;flex-wrap:wrap;align-items:end}
+.hud b{font-size:22px;display:block;line-height:1.3}
+.hud small{color:var(--muted);font-size:12px}
+.chainbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted)}
+.chainbar span{padding:3px 10px;border-radius:999px;border:1px solid var(--line)}
+.chainbar span.on{background:var(--ball);border-color:var(--ball);color:var(--onBall);font-weight:700}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.controls input[type=range]{flex:1;min-width:160px;accent-color:var(--court)}
+.anim button,.anim select{font:inherit;font-size:14px;padding:5px 14px;border-radius:6px;border:1px solid var(--court);background:var(--court);color:var(--panel);cursor:pointer}
+.anim select{background:var(--panel);color:var(--ink)}
+.jumps{display:flex;gap:6px;flex-wrap:wrap}
+.jumps button{background:transparent;color:var(--court);padding:3px 10px;font-size:13px}
+.anim button:focus-visible,.anim select:focus-visible,.anim input:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+</style>
+
+<main class="wrap">
+<header style="display:grid;gap:12px">
+  <div class="eyebrow">Forehand · Kinetic Chain</div>
+  <h1>正手抽球：力量從地面來，不是從手臂來</h1>
+  <p class="lead">只用手臂打球，球速上不去，手肘和肩膀還容易受傷。正確的發力是一條由下往上的「動力鏈」：腳蹬地 → 髖轉 → 軀幹轉 → 手臂甩出 → 拍頭加速。手臂的工作是傳遞和放大，不是製造全部力量。以下以右手持拍為例。</p>
+</header>
+
+<section>
+  <h2>動畫示範（右手持拍）</h2>
+  <p>左邊是從後方斜看，可以左右拖曳換角度；右邊（手機上在下方）是動態俯視圖，球網在上方，黃色扇形會隨動作展開、收合，就是髖和肩之間的扭轉。<b style="color:var(--hip)">橘線是髖</b>、<b style="color:var(--court)">藍線是肩</b>，黃色軌跡是拍面甜蜜點。看重點：髖永遠比肩先轉，拍子最後才甩出來。</p>
+  <figure class="fig anim" style="margin:0">
+    <div class="views">
+      <div class="view"><canvas id="cv3" aria-label="正手抽球動畫，後方斜角視角"></canvas><span class="vlabel">後方斜角 · 可拖曳旋轉</span></div>
+      <div class="view"><canvas id="cvTop" aria-label="正手抽球動畫，俯視視角"></canvas><span class="vlabel">俯視 · 黃色扇形＝髖肩夾角</span></div>
+    </div>
+    <div class="hud">
+      <div><small>目前階段</small><b id="phaseName">準備姿勢</b></div>
+      <div><small>髖肩夾角（正值＝肩還留在後面）</small><b id="sep">0°</b></div>
+    </div>
+    <div class="chainbar" id="chainBar"></div>
+    <div class="controls">
+      <button id="playBtn" type="button">暫停</button>
+      <select id="speed" aria-label="播放速度"><option value="0.15">0.15× 超慢</option><option value="0.35" selected>0.35× 慢動作</option><option value="1">1× 實際速度</option></select>
+      <input id="scrub" type="range" min="0" max="2.4" step="0.01" value="0" aria-label="時間軸">
+    </div>
+    <div class="jumps" id="jumps"></div>
+    <figcaption>動作是依常見教學姿勢做的簡化示意，角度和時間是概略值。按下方的階段按鈕可以停在那一格慢慢看。</figcaption>
+  </figure>
+</section>
+
+<!-- 1 -->
+<section>
+  <h2><span class="n">01</span>動力鏈：力量的傳遞順序</h2>
+  <figure class="fig" style="margin:0">
+    <div class="two">
+      <svg viewBox="0 0 230 290" role="img" aria-label="正手準備擊球的人形示意，標出五個發力環節">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--ball)"/></marker></defs>
+        <line x1="20" y1="262" x2="215" y2="262" stroke="var(--line)" stroke-width="2"/>
+        <path d="M40 250 C 20 190, 30 120, 120 95 S 190 80, 200 40" fill="none" stroke="var(--ball)" stroke-width="4" stroke-dasharray="2 7" stroke-linecap="round" marker-end="url(#ah)"/>
+        <g stroke="var(--ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <line x1="110" y1="58" x2="110" y2="150"/>
+          <line x1="82" y1="74" x2="140" y2="74"/>
+          <line x1="94" y1="150" x2="128" y2="150" stroke="var(--hip)"/>
+          <polyline points="94,150 78,202 66,258"/>
+          <polyline points="128,150 148,200 154,258"/>
+          <polyline points="82,74 68,112 86,132"/>
+          <polyline points="140,74 166,106 190,90"/>
+        </g>
+        <line x1="82" y1="74" x2="140" y2="74" stroke="var(--court)" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="110" cy="40" r="16" fill="var(--panel)" stroke="var(--ink)" stroke-width="4"/>
+        <line x1="190" y1="90" x2="202" y2="62" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="209" cy="42" rx="10" ry="17" transform="rotate(20 209 42)" fill="none" stroke="var(--ink)" stroke-width="3"/>
+        <g font-family="Barlow Condensed" font-weight="700" font-size="14">
+          <circle cx="66" cy="272" r="10" fill="var(--court)"/><text x="66" y="277" text-anchor="middle" style="fill:var(--panel)">1</text>
+          <circle cx="165" cy="200" r="10" fill="var(--court)"/><text x="165" y="205" text-anchor="middle" style="fill:var(--panel)">2</text>
+          <circle cx="145" cy="150" r="10" fill="var(--court)"/><text x="145" y="155" text-anchor="middle" style="fill:var(--panel)">3</text>
+          <circle cx="62" cy="74" r="10" fill="var(--court)"/><text x="62" y="79" text-anchor="middle" style="fill:var(--panel)">4</text>
+          <circle cx="178" cy="122" r="10" fill="var(--court)"/><text x="178" y="127" text-anchor="middle" style="fill:var(--panel)">5</text>
+        </g>
+      </svg>
+      <ol class="chain">
+        <li><span class="badge">1</span><div><b>腳踩地</b>：重心壓在右腳（開放式站姿）或後腳，膝蓋微彎，像彈簧壓縮。</div></li>
+        <li><span class="badge">2</span><div><b>腿部蹬伸</b>：向上、向前蹬地，把地面反作用力往上送。</div></li>
+        <li><span class="badge">3</span><div><b>髖部先轉</b>：髖帶頭往球網方向轉，<u>此時肩膀還留在後面</u>。這是整個動作的關鍵。</div></li>
+        <li><span class="badge">4</span><div><b>軀幹與肩膀跟上</b>：髖肩之間的扭轉被「彈」開，軀幹像鞭子的把手被拉動。</div></li>
+        <li><span class="badge">5</span><div><b>手臂、手腕、拍頭</b>：最後才甩出。手臂放鬆，握拍力度約 3–4 分（10 分滿），讓拍頭自然加速。</div></li>
+      </ol>
+    </div>
+    <figcaption>黃色虛線是力量的傳遞路線。大部分能量來自腿、髖和軀幹，手臂負責把它「接力」到拍頭。</figcaption>
+  </figure>
+
+  <figure class="fig" style="margin:0">
+    <h3>關鍵在「時間差」：每一節依序達到最快</h3>
+    <div class="svgbox"><svg id="seq" viewBox="0 0 560 230" role="img" aria-label="髖、軀幹、手臂、拍頭速度依序達到峰值的示意曲線" style="width:100%;min-width:420px;height:auto"></svg></div>
+    <figcaption>示意圖（非實測數據）。正確的抽球像甩鞭子：髖先到最快、然後減速，把速度交給軀幹，再交給手臂，最後拍頭在擊球點最快。只用手臂打時，髖和軀幹幾乎沒轉，只剩最右邊一條小曲線。</figcaption>
+  </figure>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><span class="n">02</span>四個階段的身體姿勢（俯視圖）</h2>
+  <p>從正上方往下看，球網在上方。<b style="color:var(--hip)">橘線是髖部</b>，<b style="color:var(--court)">藍線是肩膀</b>，黃點是右肩（持拍側）。看兩條線之間的夾角怎麼變化。動畫會依序跑過四個階段，點下方任一格可以停在那個階段。</p>
+  <figure class="fig" style="margin:0">
+    <div class="topanim">
+      <svg id="topSvg" viewBox="0 0 320 300" role="img" aria-label="俯視動畫：髖線與肩線依四個階段旋轉">
+        <text x="160" y="22" text-anchor="middle" font-size="13" style="fill:var(--muted)">↑ 球網</text>
+        <path id="tWedge" fill="var(--ball)" fill-opacity=".4"/>
+        <line id="tHip" stroke="var(--hip)" stroke-width="10" stroke-linecap="round"/>
+        <line id="tSh" stroke="var(--court)" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="160" cy="160" r="18" fill="var(--panel)" stroke="var(--ink)" stroke-width="2.5"/>
+        <circle id="tDot" r="8" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text id="tAng" text-anchor="middle" font-size="16" font-weight="700"></text>
+        <text id="tName" x="160" y="288" text-anchor="middle" font-size="15" font-weight="700"></text>
+      </svg>
+      <button id="topBtn" type="button">暫停</button>
+    </div>
+    <div class="phases">
+      <div class="phase">
+        <svg viewBox="0 0 160 170" aria-label="準備：肩轉約九十度，髖轉約四十五度">
+          <text x="80" y="16" text-anchor="middle" font-size="11" style="fill:var(--muted)">↑ 球網</text>
+          <line x1="55.3" y1="70.3" x2="104.7" y2="119.7" stroke="var(--hip)" stroke-width="7" stroke-linecap="round"/>
+          <line x1="80" y1="45" x2="80" y2="145" stroke="var(--court)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="80" cy="95" r="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="80" cy="145" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+        </svg>
+        <b>① 轉體準備 Unit turn</b>
+        <span>看到來球就整個上半身一起轉，肩約轉 90°，髖約 45°。左手扶拍、指向來球。拍子靠轉身帶到後方，不是手臂往後拉。</span>
+      </div>
+      <div class="phase">
+        <svg viewBox="0 0 160 170" aria-label="啟動：髖先轉回，肩仍留在後方，形成扭轉">
+          <text x="80" y="16" text-anchor="middle" font-size="11" style="fill:var(--muted)">↑ 球網</text>
+          <line x1="46.2" y1="85.9" x2="113.8" y2="104.1" stroke="var(--hip)" stroke-width="7" stroke-linecap="round"/>
+          <line x1="67.1" y1="46.7" x2="92.9" y2="143.3" stroke="var(--court)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M120 112 A 45 45 0 0 0 98 133" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="128" y="138" font-size="12" font-weight="700">扭轉</text>
+          <circle cx="80" cy="95" r="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="92.9" cy="143.3" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+        </svg>
+        <b>② 下沉、髖先啟動</b>
+        <span>重心壓在右腳，蹬地讓髖先轉向球網；肩膀刻意晚一拍。髖肩夾角拉大，像把橡皮筋拉緊。</span>
+      </div>
+      <div class="phase">
+        <svg viewBox="0 0 160 170" aria-label="擊球：髖與肩都轉到面向球網">
+          <text x="80" y="16" text-anchor="middle" font-size="11" style="fill:var(--muted)">↑ 球網</text>
+          <line x1="45.5" y1="101.1" x2="114.5" y2="88.9" stroke="var(--hip)" stroke-width="7" stroke-linecap="round"/>
+          <line x1="30.2" y1="90.6" x2="129.8" y2="99.4" stroke="var(--court)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="80" cy="95" r="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="129.8" cy="99.4" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+          <circle cx="132" cy="42" r="7" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="132" y="62" text-anchor="middle" font-size="10" style="fill:var(--muted)">擊球點</text>
+        </svg>
+        <b>③ 擊球</b>
+        <span>胸口大致面向球網，擊球點在身體<b>前方</b>、約腰高，手臂微彎有空間。頭保持穩定，眼睛看擊球點。</span>
+      </div>
+      <div class="phase">
+        <svg viewBox="0 0 160 170" aria-label="隨揮：肩轉過頭，比髖轉得更多">
+          <text x="80" y="16" text-anchor="middle" font-size="11" style="fill:var(--muted)">↑ 球網</text>
+          <line x1="51.3" y1="115.1" x2="108.7" y2="74.9" stroke="var(--hip)" stroke-width="7" stroke-linecap="round"/>
+          <line x1="55" y1="138.3" x2="105" y2="51.7" stroke="var(--court)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="80" cy="95" r="11" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/>
+          <circle cx="105" cy="51.7" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/>
+        </svg>
+        <b>④ 隨揮收拍</b>
+        <span>持拍側肩膀轉到前面，拍子收到左肩上方或左側腰，左手接住拍喉。後腳跟離地、自然轉過來。</span>
+      </div>
+    </div>
+    <div class="legend"><span><i style="background:var(--hip)"></i>髖部</span><span><i style="background:var(--court)"></i>肩膀</span><span><i style="background:var(--ball)"></i>右肩（持拍側）</span></div>
+  </figure>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><span class="n">03</span>自我檢查：你是不是只用手臂？</h2>
+  <div class="tbl" style="border:0">
+  <div class="err">
+    <div><div class="x">✕ 拍子用手往後拉，肩膀沒轉</div><div class="o">→ 用左手扶拍、靠轉肩把拍子帶到後面。轉完時下巴靠近左肩，背部能讓對手看到一部分。</div></div>
+    <div><div class="x">✕ 雙腳站直、重心在腳跟</div><div class="o">→ 膝蓋微彎、重心在前腳掌。擊球前感覺右腳「壓地」。</div></div>
+    <div><div class="x">✕ 髖和肩同時轉（整塊轉）</div><div class="o">→ 想像「肚臍先轉，胸口後轉」。先做無球慢動作找感覺。</div></div>
+    <div><div class="x">✕ 擊球點太靠後、手肘夾緊身體</div><div class="o">→ 提早準備，在身體前方擊球。手臂和身體之間留一顆球左右的空間。</div></div>
+    <div><div class="x">✕ 握拍握很緊、手腕主動拍打</div><div class="o">→ 握拍放鬆，手腕保持後折（laid back）讓拍頭自然甩出，不刻意用手腕翻。</div></div>
+    <div><div class="x">✕ 打完停在身體前方、沒有收拍</div><div class="o">→ 每球都完成隨揮到左肩，用左手接拍。收拍完整代表減速是由身體分攤，不是由手臂硬煞車。</div></div>
+  </div>
+  </div>
+  <p class="note">最簡單的判斷：打完一場，如果前臂、手肘或肩膀很痠，而腿和核心沒什麼感覺，多半就是手臂在做太多事。</p>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2><span class="n">04</span>日常訓練（不用球場）</h2>
+  <p>目標是讓髖、核心能轉、能穩，並把「髖先肩後」變成習慣。每次 20–30 分鐘，一週 3 次即可。每張動畫是從背後、側面或正上方看的簡化示意，<b style="color:var(--hip)">橘線是髖</b>、<b style="color:var(--court)">藍線是肩</b>，綠線是彈力帶。</p>
+  <div class="drills">
+    <article class="drill"><canvas data-d="swing" role="img" aria-label="鏡前空揮動畫：轉體、髖先轉、擊球、收拍四個停格"></canvas><div class="step"></div><h3>鏡前空揮 <span class="dose">每天 3×10</span></h3><p>對鏡子慢動作揮拍，分段停住：轉體、髖先轉、擊球、收拍。檢查每個停格的髖肩角度是否像上面的俯視圖。</p><p class="goal">練到：動作順序、髖肩分離</p></article>
+    <article class="drill"><canvas data-d="medball" role="img" aria-label="藥球側拋動畫：重心壓後腳，蹬地轉髖把球拋向牆"></canvas><div class="step"></div><h3>藥球側拋 <span class="dose">左右各 3×8</span></h3><p>側身站、雙手抱 2–3 kg 藥球，重心壓後腳，蹬地轉髖把球拋向牆壁。手臂只是「拿著」球。</p><p class="goal">練到：由下往上的旋轉爆發力</p></article>
+    <article class="drill"><canvas data-d="chop" role="img" aria-label="彈力帶伐木動畫：從右下斜拉到左上"></canvas><div class="step"></div><h3>彈力帶伐木 <span class="dose">左右各 3×12</span></h3><p>彈力帶固定在低處，從右下拉到左上，力量從腿與髖開始，手臂伸直不彎。</p><p class="goal">練到：斜向旋轉發力路線</p></article>
+    <article class="drill"><canvas data-d="pallof" role="img" aria-label="Pallof 抗旋轉推俯視動畫：雙手把彈力帶推直，身體不轉"></canvas><div class="step"></div><h3>Pallof 抗旋轉推 <span class="dose">左右各 3×10</span></h3><p>彈力帶側向固定，雙手在胸前把帶子推直再收回，身體不被拉轉。</p><p class="goal">練到：核心穩定，讓力量不漏掉</p></article>
+    <article class="drill"><canvas data-d="lunge" role="img" aria-label="弓步轉體側面動畫：弓步下蹲後上半身轉向前腳"></canvas><div class="step"></div><h3>弓步轉體 <span class="dose">左右各 2×10</span></h3><p>弓步下蹲，上半身轉向前腳方向，可手持輕啞鈴或水瓶。</p><p class="goal">練到：下肢支撐中的旋轉控制</p></article>
+    <article class="drill"><canvas data-d="balance" role="img" aria-label="單腳站平衡動畫：抬起一腳，雙手張開維持平衡"></canvas><div class="step"></div><h3>單腳站平衡 <span class="dose">左右各 3 組</span></h3><p>單腳站 30 秒，進階可閉眼或站軟墊；也可單腳站做空揮。</p><p class="goal">練到：擊球時的重心穩定</p></article>
+    <article class="drill"><canvas data-d="ninety" role="img" aria-label="90/90 髖活動度俯視動畫：雙腿各彎九十度，像雨刷換邊"></canvas><div class="step"></div><h3>90/90 髖活動度 <span class="dose">1–2 分鐘</span></h3><p>坐在地上，前腿和後腿膝蓋都彎 90°，雙膝像雨刷一樣倒向另一邊換邊，上半身保持挺直。</p><p class="goal">練到：髖的轉動幅度</p></article>
+    <article class="drill"><canvas data-d="openbook" role="img" aria-label="胸椎開書式俯視動畫：側躺，上方手臂畫弧打開到另一側"></canvas><div class="step"></div><h3>胸椎開書式 <span class="dose">1–2 分鐘</span></h3><p>側躺、膝蓋併攏彎 90°，雙手向前伸直；上方的手畫弧打開到身體另一側，眼睛跟著手，膝蓋不分開。</p><p class="goal">練到：胸椎的轉動幅度</p></article>
+  </div>
+  <div class="tbl" hidden><table>
+    <thead><tr><th>動作</th><th>怎麼做</th><th>份量</th><th>練到什麼</th></tr></thead>
+    <tbody>
+      <tr><td>鏡前空揮</td><td>對鏡子慢動作揮拍，分段停住：轉體、髖先轉、擊球、收拍。檢查每個停格的髖肩角度是否像上面的俯視圖。</td><td class="dose">每天 3×10</td><td>動作順序、髖肩分離</td></tr>
+      <tr><td>藥球側拋</td><td>側身站、雙手抱 2–3 kg 藥球，重心壓後腳，蹬地轉髖把球拋向牆壁。手臂只是「拿著」球。</td><td class="dose">左右各 3×8</td><td>由下往上的旋轉爆發力</td></tr>
+      <tr><td>彈力帶伐木</td><td>彈力帶固定在低處，從右下拉到左上，力量從腿與髖開始，手臂伸直不彎。</td><td class="dose">左右各 3×12</td><td>斜向旋轉發力路線</td></tr>
+      <tr><td>Pallof 抗旋轉推</td><td>彈力帶側向固定，雙手在胸前把帶子推直再收回，身體不被拉轉。</td><td class="dose">左右各 3×10</td><td>核心穩定，讓力量不漏掉</td></tr>
+      <tr><td>弓步轉體</td><td>弓步下蹲，上半身轉向前腳方向，可手持輕啞鈴或水瓶。</td><td class="dose">左右各 2×10</td><td>下肢支撐中的旋轉控制</td></tr>
+      <tr><td>單腳站平衡</td><td>單腳站 30 秒，進階可閉眼或站軟墊；也可單腳站做空揮。</td><td class="dose">左右各 3 組</td><td>擊球時的重心穩定</td></tr>
+      <tr><td>90/90 髖活動度、胸椎開書式</td><td>坐姿 90/90 左右換邊；側躺開書式打開胸椎。</td><td class="dose">各 1–2 分鐘</td><td>髖與胸椎的轉動幅度</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="n">05</span>球場訓練</h2>
+  <p>建議用 60–70% 力量練，重點是順序對，不是打很大力。順序對了，球速會自己出來。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>練習</th><th>怎麼做</th><th>份量</th><th>重點</th></tr></thead>
+    <tbody>
+      <tr><td>轉體定格餵球</td><td>夥伴或發球機慢餵。每一球先做轉體並<b>停住 1 秒</b>，確認左手扶拍、肩轉夠，再擊球。</td><td class="dose">3×15 球</td><td>提早準備，靠轉身引拍</td></tr>
+      <tr><td>鎖手臂擊球</td><td>手臂和身體的角度固定不動，只靠腿、髖、軀幹轉動來擊球。球速會很慢，這是正常的。</td><td class="dose">2×15 球</td><td>體會身體能出多少力</td></tr>
+      <tr><td>跪姿 / 坐椅子擊球</td><td>單膝跪或坐在椅子上擊餵來的球，下肢沒辦法幫忙，只能用軀幹轉。</td><td class="dose">2×10 球</td><td>強化軀幹旋轉的感覺</td></tr>
+      <tr><td>左手接拍</td><td>每一球隨揮後都用左手接住拍喉，接不到就代表收拍不完整或轉得不夠。</td><td class="dose">貫穿整堂課</td><td>完整隨揮、身體轉過來</td></tr>
+      <tr><td>開放式站姿載重</td><td>餵向正手的寬球，右腳踩到位後「坐」下去，蹬右腳轉髖擊球，擊球後重心換到左腳。</td><td class="dose">3×10 球</td><td>地面反作用力的使用</td></tr>
+      <tr><td>三段速度對打</td><td>和夥伴對抽：先 50% 力量 10 球、70% 10 球、90% 5 球。力量加大時順序不能亂。</td><td class="dose">3 輪</td><td>把正確動作帶進對打</td></tr>
+      <tr><td>錄影檢查</td><td>從側面和背後各錄一段，慢速播放看髖是否比肩先轉、擊球點是否在身體前方。</td><td class="dose">每 1–2 週</td><td>客觀確認進度</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 6 -->
+<section>
+  <h2><span class="n">06</span>一週安排範例</h2>
+  <div class="week">
+    <div><b>一</b>日常訓練<br>空揮 + 藥球 + 伐木</div>
+    <div class="court"><b>二</b>球場<br>定格餵球、鎖手臂、左手接拍</div>
+    <div><b>三</b>休息<br>只做活動度</div>
+    <div><b>四</b>日常訓練<br>空揮 + Pallof + 弓步轉體 + 平衡</div>
+    <div class="court"><b>五</b>球場<br>開放式載重、三段速度對打</div>
+    <div><b>六</b>自由打球<br>只專注「髖先肩後」一件事</div>
+    <div><b>日</b>休息<br>看錄影檢討</div>
+  </div>
+  <p class="note">一次只改一件事。先練轉體準備，穩定後再練髖先啟動，最後才是加速。手肘或肩膀出現疼痛時先停練，必要時請教練或物理治療師看動作。</p>
+</section>
+</main>
+
+<script>
+// draw sequential peak curves (illustrative)
+(function(){
+  const svg=document.getElementById('seq'),NS='http://www.w3.org/2000/svg';
+  const x0=50,x1=540,y0=190,yT=20;
+  const segs=[["髖部","var(--hip)",120,45,34],["軀幹","var(--court)",200,70,30],["手臂","var(--muted)",275,100,26],["拍頭","var(--ink)",340,150,20]];
+  const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e};
+  el('line',{x1:x0,y1:y0,x2:x1,y2:y0,stroke:'var(--line)','stroke-width':2});
+  el('line',{x1:x0,y1:y0,x2:x0,y2:yT,stroke:'var(--line)','stroke-width':2});
+  el('text',{x:x0-8,y:yT+10,'text-anchor':'end','font-size':12}).textContent='速度';
+  el('text',{x:x1,y:y0+20,'text-anchor':'end','font-size':12}).textContent='時間 →';
+  el('line',{x1:340,y1:y0,x2:340,y2:yT+5,stroke:'var(--ball)','stroke-width':3,'stroke-dasharray':'4 4'});
+  el('text',{x:346,y:yT+14,'font-size':12,'font-weight':700}).textContent='擊球';
+  segs.forEach(([name,c,mu,h,s])=>{
+    let d='';for(let x=x0;x<=x1;x+=4){const y=y0-h*Math.exp(-((x-mu)**2)/(2*s*s));d+=(d?'L':'M')+x+' '+y.toFixed(1)}
+    el('path',{d,fill:'none',stroke:c,'stroke-width':3.5,'stroke-linecap':'round'});
+    el('text',{x:mu,y:y0-h-8,'text-anchor':'middle','font-size':13,'font-weight':700}).textContent=name;
+  });
+})();
+
+// forehand animation: keyframed pose -> simple 3D skeleton, drawn from two orthographic cameras
+(function(){
+const R=Math.PI/180, T_END=2.4;
+// h=hip yaw, s=shoulder yaw (deg, +=closed/turned right), py/px pelvis, rh/lh hand & rd racket dir in torso frame (right,up,forward)
+const KEYS=[
+ {t:0,   h:0,  s:0,  py:.86,px:0,   rh:[.10,-.32,.30], rd:[0,.45,.9],    lh:[-.04,-.26,.34], heel:0,   name:'準備姿勢'},
+ {t:.6,  h:45, s:90, py:.80,px:.10, rh:[.25,-.08,.30], rd:[.1,.9,.25],   lh:[0,0,.45],       heel:0,   name:'轉體準備'},
+ {t:1.0, h:40, s:88, py:.74,px:.18, rh:[.42,-.18,-.02],rd:[.6,-.6,.25],   lh:[0,-.05,.45],    heel:0,   name:'下沉載重'},
+ {t:1.25,h:10, s:60, py:.79,px:.12, rh:[.42,-.32,.12], rd:[.9,-.3,-.15],  lh:[-.2,-.08,.35],  heel:0,   name:'髖先啟動'},
+ {t:1.4, h:-10,s:0,  py:.85,px:.02, rh:[.36,-.26,.48], rd:[1,.08,.12],    lh:[-.3,-.18,.15],  heel:.02, name:'擊球'},
+ {t:1.6, h:-35,s:-50,py:.87,px:-.08,rh:[-.12,.12,.42], rd:[-.3,.85,-.4],  lh:[-.18,0,.32],    heel:.08, name:'隨揮'},
+ {t:1.9, h:-45,s:-75,py:.88,px:-.12,rh:[-.22,.18,.28], rd:[-.35,.45,-.8], lh:[-.22,.12,.3],   heel:.1,  name:'收拍（左手接拍）'},
+];
+const CHAIN=[['腿蹬地',.85,1.2],['髖轉',1.0,1.32],['軀幹轉',1.15,1.42],['手臂',1.25,1.48],['拍頭',1.33,1.52]];
+const N=KEYS.length, V=KEYS.map(k=>[k.h,k.s,k.py,k.px,...k.rh,...k.rd,...k.lh,k.heel]);
+function interp(t){
+  if(t<=0) return V[0].slice(); if(t>=KEYS[N-1].t) return V[N-1].slice();
+  let i=0; while(t>KEYS[i+1].t) i++;
+  const dt=KEYS[i+1].t-KEYS[i].t,u=(t-KEYS[i].t)/dt,u2=u*u,u3=u2*u;
+  const a=2*u3-3*u2+1,b=u3-2*u2+u,c=-2*u3+3*u2,d=u3-u2;
+  const tan=(k,j)=>(k===0||k===N-1)?0:(V[k+1][j]-V[k-1][j])/(KEYS[k+1].t-KEYS[k-1].t);
+  return V[i].map((p,j)=>a*p+b*tan(i,j)*dt+c*V[i+1][j]+d*tan(i+1,j)*dt);
+}
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],mul=(a,k)=>[a[0]*k,a[1]*k,a[2]*k],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],nrm=a=>mul(a,1/(Math.hypot(...a)||1));
+function ik(A,B,l1,l2,pole){
+  const v=sub(B,A);let d=Math.hypot(...v);const dir=mul(v,1/(d||1));d=Math.min(d,l1+l2-1e-4);
+  const a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-a*a));
+  return add(add(A,mul(dir,a)),mul(nrm(sub(pole,mul(dir,dot(pole,dir)))),h));
+}
+function pose(t){
+  const v=interp(t),[h,s,py,px]=v;
+  const rg=a=>[Math.cos(a*R),0,-Math.sin(a*R)],fw=a=>[Math.sin(a*R),0,Math.cos(a*R)];
+  const hr=rg(h),hf=fw(h),sr=rg(s),sf=fw(s),up=[0,1,0];
+  const P=[px,py,.02],hipR=add(P,mul(hr,.16)),hipL=add(P,mul(hr,-.16));
+  const ankR=[.42,.07+v[13],-.05],toeR=[.5,0,.08],ankL=[-.28,.07,.2],toeL=[-.2,0,.34];
+  const C=add(add(P,[0,.48,0]),mul(hf,.04));
+  const loc=l=>add(add(mul(sr,l[0]),[0,l[1],0]),mul(sf,l[2]));
+  const shR=add(C,mul(sr,.2)),shL=add(C,mul(sr,-.2));
+  const handR=add(C,loc(v.slice(4,7))),handL=add(C,loc(v.slice(10,13)));
+  const d=nrm(loc(v.slice(7,10)));
+  let w=sub(up,mul(d,dot(up,d)));if(Math.hypot(...w)<.2)w=sub(sf,mul(d,dot(sf,d)));w=nrm(w);
+  return {h,s,P,hipR,hipL,ankR,ankL,toeR,toeL,C,shR,shL,handR,handL,d,w,
+    kneeR:ik(hipR,ankR,.46,.46,hf),kneeL:ik(hipL,ankL,.46,.46,hf),
+    elbR:ik(shR,handR,.3,.29,add([0,-1,0],mul(sr,.4))),elbL:ik(shL,handL,.3,.29,add([0,-1,0],mul(sr,-.4))),
+    neck:add(C,[0,.1,0]),head:add(C,[0,.24,0]),
+    butt:add(handR,mul(d,-.06)),throat:add(handR,mul(d,.33)),hc:add(handR,mul(d,.5))};
+}
+const B0=[1.3,1.0,10],B1=[-.8,1.4,10],Bc=pose(1.4).hc;
+function ball(t){
+  if(t<=1.4){const u=t/1.4,p=add(B0,mul(sub(Bc,B0),u));p[1]+=Math.sin(Math.PI*u)*.8;return p}
+  const u=(t-1.4)/.45;if(u>1)return null;const p=add(Bc,mul(sub(B1,Bc),u));p[1]+=Math.sin(Math.PI*u)*.6;return p;
+}
+function cam3(W,H,phi,th){
+  const sc=H/2.7,ox=W*.45,oy=H*.88,cp=Math.cos(phi),sp=Math.sin(phi),ct=Math.cos(th),st=Math.sin(th);
+  return {sc,f:p=>{const x=p[0]*cp-p[2]*sp,z=p[0]*sp+p[2]*cp;return {x:ox+sc*x,y:oy-sc*(p[1]*ct+z*st),d:z*ct-p[1]*st}}};
+}
+function camTop(W,H){const sc=Math.min(W/3,H/3.2),ox=W*.45,oy=H*.62;return {sc,f:p=>({x:ox+sc*p[0],y:oy-sc*p[2],d:-p[1]})}}
+function fit(cv){const r=cv.getBoundingClientRect(),k=window.devicePixelRatio||1,W=Math.max(1,Math.round(r.width*k)),H=Math.max(1,Math.round(r.height*k));if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}return k}
+function render(cv,cam,Pz,t,col,k,top){
+  const ctx=cv.getContext('2d'),f=cam.f,lw=x=>x*cam.sc/110;
+  ctx.clearRect(0,0,cv.width,cv.height);ctx.lineCap='round';ctx.lineJoin='round';
+  const line=(a,b)=>{const A=f(a),B=f(b);ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke()};
+  ctx.strokeStyle=col.line;ctx.lineWidth=k;
+  for(let z=-1;z<=1.51;z+=.5)line([-1.2,0,z],[1.6,0,z]);
+  for(let x=-1;x<=1.51;x+=.5)line([x,0,-1],[x,0,1.5]);
+  ctx.strokeStyle=col.muted;ctx.lineWidth=2*k;line([0,0,1.25],[0,0,1.8]);line([-.08,0,1.68],[0,0,1.8]);line([.08,0,1.68],[0,0,1.8]);
+  const tip=f([0,0,1.85]);ctx.fillStyle=col.muted;ctx.font=`${12*k}px "Noto Sans TC",sans-serif`;ctx.textAlign='center';ctx.fillText('球網方向',tip.x,tip.y-6*k);
+  // racket sweet-spot trail
+  let prev=null;
+  for(let i=0;i<=24;i++){const tt=t-i*.012;if(tt<0)break;const p=f(pose(tt).hc);if(prev){ctx.globalAlpha=1-i/25;ctx.strokeStyle=col.ball;ctx.lineWidth=lw(5);ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);ctx.stroke()}prev=p}
+  ctx.globalAlpha=1;
+  if(top){ // wedge between hip line and shoulder line = hip-shoulder separation
+    const c=f(Pz.P),r=.55*cam.sc,m=(Pz.h+Pz.s)/2*R;
+    ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.arc(c.x,c.y,r,Pz.h*R,Pz.s*R,Pz.s<Pz.h);ctx.closePath();
+    ctx.globalAlpha=.4;ctx.fillStyle=col.ball;ctx.fill();ctx.globalAlpha=1;
+    ctx.fillStyle=col.ink;ctx.font=`bold ${15*k}px "Noto Sans TC",sans-serif`;
+    ctx.fillText(Math.round(Pz.s-Pz.h)+'°',c.x+Math.cos(m)*(r+18*k),c.y+Math.sin(m)*(r+18*k)+5*k);
+  }
+  const items=[],seg=(a,b,c,w)=>{const A=f(a),B=f(b);items.push({k:'s',A,B,c,w,d:(A.d+B.d)/2})};
+  for(const [a,b] of [['hipR','kneeR'],['kneeR','ankR'],['ankR','toeR'],['hipL','kneeL'],['kneeL','ankL'],['ankL','toeL'],['P','neck'],['shR','elbR'],['elbR','handR'],['shL','elbL'],['elbL','handL']])seg(Pz[a],Pz[b],col.ink,5);
+  seg(Pz.hipL,Pz.hipR,col.hip,9);seg(Pz.shL,Pz.shR,col.court,8);
+  seg(Pz.butt,Pz.throat,col.ink,3.5);
+  const ring=[];for(let i=0;i<24;i++){const a=i/24*2*Math.PI;ring.push(f(add(Pz.hc,add(mul(Pz.d,Math.cos(a)*.17),mul(Pz.w,Math.sin(a)*.13)))))}
+  items.push({k:'p',pts:ring,d:f(Pz.hc).d});
+  const H=f(Pz.head);items.push({k:'c',p:H,r:.11*cam.sc,d:H.d,fill:col.panel,stroke:col.ink});
+  const b=ball(t);if(b){const B=f(b);items.push({k:'c',p:B,r:.05*cam.sc,d:B.d,fill:col.ball,stroke:col.ink})}
+  items.sort((a,b)=>b.d-a.d);
+  for(const it of items){
+    if(it.k==='s'){ctx.strokeStyle=it.c;ctx.lineWidth=lw(it.w);ctx.beginPath();ctx.moveTo(it.A.x,it.A.y);ctx.lineTo(it.B.x,it.B.y);ctx.stroke()}
+    else if(it.k==='p'){ctx.beginPath();it.pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.globalAlpha=.25;ctx.fillStyle=col.court;ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle=col.ink;ctx.lineWidth=lw(3);ctx.stroke()}
+    else{ctx.beginPath();ctx.arc(it.p.x,it.p.y,it.r,0,2*Math.PI);ctx.fillStyle=it.fill;ctx.fill();ctx.strokeStyle=it.stroke;ctx.lineWidth=lw(2.5);ctx.stroke()}
+  }
+  if(top){
+    ctx.font=`bold ${13*k}px "Noto Sans TC",sans-serif`;
+    const L=(a,b,txt,c)=>{const p=f(add(a,mul(sub(b,a),1.9)));ctx.fillStyle=c;ctx.fillText(txt,p.x,p.y+5*k)};
+    L(Pz.P,Pz.hipL,'髖',col.hip);L(Pz.C,Pz.shL,'肩',col.court);
+  }
+}
+const cv3=document.getElementById('cv3'),cvTop=document.getElementById('cvTop'),scrub=document.getElementById('scrub'),btn=document.getElementById('playBtn'),speedSel=document.getElementById('speed'),phaseEl=document.getElementById('phaseName'),sepEl=document.getElementById('sep'),bar=document.getElementById('chainBar'),jumps=document.getElementById('jumps');
+const chips=CHAIN.map(([n],i)=>{if(i)bar.append('→');const s=document.createElement('span');s.textContent=n;bar.append(s);return s});
+KEYS.forEach(k=>{const b=document.createElement('button');b.type='button';b.textContent=k.name;b.onclick=()=>{t=k.t;setPlay(false)};jumps.append(b)});
+let t=0,phi=35*R,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,speed=.35,last=performance.now();
+function setPlay(p){playing=p;btn.textContent=p?'暫停':'播放';btn.setAttribute('aria-pressed',String(p))}
+setPlay(playing);
+btn.onclick=()=>setPlay(!playing);
+speedSel.onchange=()=>speed=+speedSel.value;
+scrub.oninput=()=>{t=+scrub.value;setPlay(false)};
+let drag=null;
+cv3.addEventListener('pointerdown',e=>{drag=e.clientX;cv3.setPointerCapture(e.pointerId);cv3.style.cursor='grabbing'});
+cv3.addEventListener('pointermove',e=>{if(drag===null)return;phi-=(e.clientX-drag)*.01;drag=e.clientX});
+const end=()=>{drag=null;cv3.style.cursor=''};cv3.addEventListener('pointerup',end);cv3.addEventListener('pointercancel',end);
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(playing){t+=dt*speed;if(t>T_END)t=0}
+  scrub.value=t;
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const col={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel')};
+  const Pz=pose(t);
+  let k=fit(cv3);render(cv3,cam3(cv3.width,cv3.height,phi,15*R),Pz,t,col,k);
+  k=fit(cvTop);render(cvTop,camTop(cvTop.width,cvTop.height),Pz,t,col,k,true);
+  let name=KEYS[0].name;for(const kf of KEYS)if(t>=kf.t-1e-6)name=kf.name;
+  phaseEl.textContent=name;sepEl.textContent=Math.round(Pz.s-Pz.h)+'°';
+  CHAIN.forEach(([,a,b],i)=>chips[i].classList.toggle('on',t>=a&&t<=b));
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+
+// section 02: 2D top-view animation of hip/shoulder lines through the four phases
+(function(){
+const K=[{t:0,h:0,s:0,p:-1},{t:1.2,h:45,s:90,p:0},{t:2.2,h:45,s:90,p:0},{t:2.9,h:15,s:75,p:1},{t:3.4,h:-10,s:5,p:2},{t:4.0,h:-35,s:-60,p:3},{t:5.2,h:-35,s:-60,p:3},{t:6.0,h:0,s:0,p:-1}];
+const END=6.0,NAMES=['① 轉體準備','② 下沉、髖先啟動','③ 擊球','④ 隨揮收拍'],R=Math.PI/180,cx=160,cy=160;
+const $=id=>document.getElementById(id),hip=$('tHip'),sh=$('tSh'),wedge=$('tWedge'),dot=$('tDot'),ang=$('tAng'),nm=$('tName'),btn=$('topBtn');
+const cards=[...document.querySelectorAll('.phases .phase')];
+const end=(a,L,sg)=>[cx+sg*L*Math.cos(a*R),cy+sg*L*Math.sin(a*R)];
+const setLine=(el,a,L)=>{const[x1,y1]=end(a,L,-1),[x2,y2]=end(a,L,1);el.setAttribute('x1',x1);el.setAttribute('y1',y1);el.setAttribute('x2',x2);el.setAttribute('y2',y2)};
+function draw(t){
+  let i=0;while(i<K.length-2&&t>K[i+1].t)i++;
+  const a=K[i],b=K[i+1],u=Math.min(1,Math.max(0,(t-a.t)/(b.t-a.t))),e=u*u*(3-2*u);
+  const h=a.h+(b.h-a.h)*e,s=a.s+(b.s-a.s)*e,p=b.p;
+  setLine(hip,h,58);setLine(sh,s,90);
+  const [dx,dy]=end(s,90,1);dot.setAttribute('cx',dx);dot.setAttribute('cy',dy);
+  const r=72,[wx1,wy1]=end(h,r,1),[wx2,wy2]=end(s,r,1);
+  wedge.setAttribute('d',`M${cx} ${cy}L${wx1} ${wy1}A${r} ${r} 0 0 ${s>h?1:0} ${wx2} ${wy2}Z`);
+  const m=(h+s)/2,[tx,ty]=end(m,r+26,1),sep=Math.round(s-h);
+  ang.setAttribute('x',tx);ang.setAttribute('y',ty+5);ang.textContent=Math.abs(sep)>=3?sep+'°':'';
+  nm.textContent=p<0?'準備姿勢':NAMES[p];
+  cards.forEach((c,j)=>c.classList.toggle('on',j===p));
+}
+let t=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,last=performance.now();
+const setPlay=v=>{playing=v;btn.textContent=v?'暫停':'播放'};
+setPlay(playing);
+btn.onclick=()=>setPlay(!playing);
+const stops=[1.2,2.9,3.4,4.0];
+cards.forEach((c,j)=>{c.tabIndex=0;c.setAttribute('role','button');
+  const go=()=>{t=stops[j];setPlay(false);draw(t)};
+  c.addEventListener('click',go);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})});
+function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(playing){t=(t+dt)%END}draw(t);requestAnimationFrame(tick)}
+draw(t);requestAnimationFrame(tick);
+})();
+
+// section 04: looping stick-figure demos, 120x100 unit space per canvas
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function racket(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+cx*10,w[1]+sy*10]);x.save();x.translate(w[0]+cx*17,w[1]+sy*17);x.rotate(r);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const band=(x,a,b,c)=>{x.strokeStyle=c.good;x.lineWidth=1.6;pl(x,a,b);x.fillStyle=c.muted;x.fillRect(a[0]-2.5,a[1]-2.5,5,5)};
+const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+const BACK={pv:[60,54],nk:[60,26],s:10,h:7,fA:[48,92],fB:[72,92],kb:[1,-1],eb:[1,-1],wA:[50,54],wB:[70,54]};
+const D={
+  swing:{view:'從背後看（右手持拍）',keys:[
+    {p:{...BACK,wA:[56,46],wB:[64,46],rk:-80},hold:.5,dur:.8,label:'準備姿勢'},
+    {p:{pv:[62,55],nk:[64,27],s:3,h:5,wA:[66,42],wB:[76,40],rk:-60},dur:.5,hold:.7,label:'① 轉體，停住'},
+    {p:{pv:[61,57],nk:[64,29],h:7,wB:[80,52],rk:20},dur:.4,hold:.7,label:'② 髖先轉、肩留後，停住'},
+    {p:{pv:[58,54],nk:[58,26],s:10,wA:[44,46],wB:[84,48],rk:0},dur:.35,hold:.7,label:'③ 擊球點，停住'},
+    {p:{pv:[57,53],nk:[55,25],s:4,h:5,wA:[44,36],wB:[46,30],rk:-120,fB:[71,90]},dur:.4,hold:.7,label:'④ 收拍，停住'}],
+    prop:(x,J,p,c)=>racket(x,J.wB,p.rk,c)},
+  medball:{view:'從背後看，牆在左側',keys:[
+    {p:{pv:[64,58],nk:[70,32],s:4,h:6,fA:[46,92],fB:[74,92],kb:[1,-1],eb:[1,-1],wA:[74,58],wB:[80,56],b:[77,60]},hold:.5,dur:1,label:'側身、重心壓後腳'},
+    {p:{pv:[54,54],nk:[48,27],s:9,h:7,wA:[30,36],wB:[34,40],b:[28,36],fB:[72,90]},dur:.45,hold:.05,label:'蹬地轉髖，把球拋向牆'},
+    {p:{wA:[38,46],wB:[42,46],b:[9,34]},dur:.3,hold:.3,label:'手臂只是「拿著」球'}],
+    prop:(x,J,p,c)=>{x.strokeStyle=c.muted;x.lineWidth=2;pl(x,[4,20],[4,93]);x.lineWidth=1.2;circ(x,p.b,5,c.muted,c.ink)}},
+  chop:{view:'從背後看，帶子固定在右下',keys:[
+    {p:{pv:[64,62],nk:[74,37],s:4,h:6,fA:[46,92],fB:[76,92],kb:[1,-1],eb:[1,-1],wA:[86,58],wB:[86,58]},hold:.4,dur:1,label:'低處起始，重心在右腳'},
+    {p:{pv:[56,52],nk:[50,25],s:5,h:7,wA:[34,6],wB:[34,6],fB:[74,90]},dur:.9,hold:.3,label:'蹬腿轉髖，斜拉到左上'}],
+    prop:(x,J,p,c)=>band(x,[110,90],p.wA,c)},
+  pallof:{view:'俯視（從頭頂往下看）',raw:1,keys:[
+    {p:{w:[60,47],eA:[45,45],eB:[75,45]},hold:.5,dur:.6,label:'雙手收在胸前'},
+    {p:{w:[60,33],eA:[52,44.5],eB:[68,44.5]},dur:.6,hold:1.2,label:'推直停 2 秒，身體不被拉轉'}],
+    draw:(x,p,c)=>{band(x,[8,40],p.w,c);x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,[44,56],p.eA,p.w);pl(x,[76,56],p.eB,p.w);
+      x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,[52,58],[68,58]);x.strokeStyle=c.court;pl(x,[44,56],[76,56]);x.lineWidth=2;circ(x,[60,56],7,c.panel,c.ink);
+      x.fillStyle=c.muted;x.font='5px "Noto Sans TC",sans-serif';x.textAlign='center';x.fillText('固定點',8,50);x.fillText('↑ 面向前方',60,92)}},
+  lunge:{view:'側面看，面向右',keys:[
+    {p:{pv:[60,52],nk:[61,24],s:1,h:1,fA:[58,92],fB:[62,92],kb:[-1,-1],eb:[1,1],wA:[70,40],wB:[72,40]},hold:.4,dur:.8,label:'站直，雙手拿水瓶'},
+    {p:{pv:[58,66],nk:[60,38],fA:[34,92],fB:[84,92],wA:[70,52],wB:[72,52]},dur:.8,hold:.2,label:'弓步下蹲'},
+    {p:{s:8,wA:[72,54],wB:[76,56]},dur:.6,hold:.5,label:'上半身轉向前腳'},
+    {p:{s:1,wA:[70,52],wB:[72,52]},dur:.6,hold:.1,label:'轉回正面，再站起'}],
+    prop:(x,J,p,c)=>{const m=mid(p.wA,p.wB);x.fillStyle=c.court;x.fillRect(m[0]-2.5,m[1]-6,5,10)}},
+  balance:{view:'從背後看',keys:[
+    {p:{pv:[60,52],nk:[60,24],s:10,h:7,fA:[53,92],fB:[67,92],kb:[1,-1],eb:[-1,1],wA:[50,52],wB:[70,52]},hold:.6,dur:.7,label:'雙腳站好'},
+    {p:{pv:[56,52],nk:[56,24],fB:[68,72],wA:[30,38],wB:[82,38]},dur:.7,hold:.4,label:'抬右腳，單腳站 30 秒'},
+    {p:{pv:[58,52],nk:[60,24],wA:[32,42],wB:[84,34]},dur:.6,label:'用腳掌和核心維持穩定'},
+    {p:{pv:[55,52],nk:[53,24],wA:[30,34],wB:[80,42]},dur:.6,label:'用腳掌和核心維持穩定'},
+    {p:{pv:[56,52],nk:[56,24],wA:[30,38],wB:[82,38]},dur:.6,hold:.3,label:'用腳掌和核心維持穩定'}]},
+  ninety:{view:'俯視（坐在地上）',raw:1,keys:[
+    {p:{kA:[32,62],fA:[36,82],kB:[80,38],fB:[63,28]},hold:.8,dur:1.2,label:'右腿在前、左腿在後，各彎 90°'},
+    {p:{kA:[40,38],fA:[57,28],kB:[88,62],fB:[84,82]},dur:1.2,hold:.8,label:'雙膝像雨刷倒向另一邊'}],
+    draw:(x,p,c)=>{x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,[52,58],p.kA,p.fA);pl(x,[68,58],p.kB,p.fB);pl(x,[46,52],[40,70]);pl(x,[74,52],[80,70]);
+      x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,[52,58],[68,58]);x.strokeStyle=c.court;pl(x,[46,52],[74,52]);x.lineWidth=2;circ(x,[60,50],7,c.panel,c.ink)}},
+  openbook:{view:'俯視（側躺在地上）',raw:1,keys:[
+    {p:{sT:[34,48],w:[37,21]},hold:.5,dur:1,label:'側躺，膝蓋併攏彎 90°'},
+    {p:{sT:[34,74],w:[34,98]},dur:1.4,hold:.8,label:'上手畫弧打開，膝蓋不分開'}],
+    draw:(x,p,c)=>{x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,[30,50],[64,50]);pl(x,[64,50],[64,30],[84,30]);pl(x,[34,50],[34,22]);pl(x,p.sT,p.w);
+      x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,[63,48],[65,52]);x.strokeStyle=c.court;pl(x,[34,50],p.sT);x.lineWidth=2;circ(x,[22,50],6,c.panel,c.ink)}},
+};
+for(const d of Object.values(D)){
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur;
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const S=sample(it.d,still?it.d.still:(now-t0)/1000);
+    if(it.d.raw)it.d.draw(x,S.p,c);
+    else{x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);if(it.d.prop)it.d.prop(x,J,S.p,c)}
+    x.fillStyle=c.muted;x.font='5px "Noto Sans TC",sans-serif';x.textAlign='right';x.fillText(it.d.view,116,8);
+    if(it.step.textContent!==S.label)it.step.textContent=S.label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+
+</body></html>

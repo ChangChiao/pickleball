@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>匹克球練功房</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: one column; each group is a strip of court-panel cards. Same palette as the stroke pages so the set reads as one notebook. */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7}
+.wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+header{display:grid;gap:10px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+h1{margin:0;font-size:clamp(30px,6vw,44px);font-weight:900;line-height:1.2;text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:60ch}
+section{display:grid;gap:14px}
+h2{margin:0;font-size:20px;font-weight:900;display:flex;align-items:baseline;gap:10px}
+h2 small{font-family:var(--display);font-size:15px;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+a.card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--court);transform:translateY(-2px)}
+a.card:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+a.card svg{width:96px;height:auto;background:var(--courtSoft);border-radius:8px;display:block}
+.card b{display:block;font-size:17px;line-height:1.4}
+.card span{display:block;font-size:14px;color:var(--muted);line-height:1.6}
+.card em{font-style:normal;font-family:var(--display);font-size:14px;letter-spacing:.06em;color:var(--court)}
+.note{margin:0;font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px;max-width:65ch}
+@media (prefers-reduced-motion:reduce){a.card{transition:none}a.card:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+<header>
+  <div class="eyebrow">Pickleball · Notebook</div>
+  <h1>匹克球練功房</h1>
+  <p class="lead">我做過的匹克球圖解都放在這裡：擊球怎麼發力、站位為什麼這樣站。點卡片打開。</p>
+</header>
+
+<section>
+  <h2>擊球技術 <small>STROKES</small></h2>
+  <div class="grid">
+    <a class="card" href="forehand.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><g stroke-linecap="round" fill="none"><line x1="26" y1="54" x2="66" y2="40" stroke="var(--hip)" stroke-width="6"/><line x1="22" y1="34" x2="70" y2="20" stroke="var(--court)" stroke-width="5"/><path d="M14 66 Q50 74 82 30" stroke="var(--ball)" stroke-width="3" stroke-dasharray="2 5"/></g><circle cx="84" cy="24" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>FOREHAND</em><b>正手抽球動力鏈</b><span>腳蹬地、髖先轉、肩後轉，含 3D 動畫和 8 個居家訓練動畫。</span></div>
+    </a>
+    <a class="card" href="backhand.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><g stroke-linecap="round" fill="none"><line x1="30" y1="40" x2="70" y2="54" stroke="var(--hip)" stroke-width="6"/><line x1="26" y1="20" x2="74" y2="34" stroke="var(--court)" stroke-width="5"/><path d="M82 66 Q46 74 14 30" stroke="var(--ball)" stroke-width="3" stroke-dasharray="2 5"/></g><circle cx="12" cy="24" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>BACKHAND</em><b>雙手反手動力鏈</b><span>雙手反手的發力順序與兩隻手的分工。</span></div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>反應與步法 <small>REACTION</small></h2>
+  <div class="grid">
+    <a class="card" href="reaction.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><g fill="none" stroke-linecap="round"><line x1="8" y1="40" x2="88" y2="40" stroke="var(--ink)" stroke-width="2.5"/><line x1="8" y1="26" x2="88" y2="26" stroke="var(--muted)" stroke-width="1.2"/><line x1="8" y1="54" x2="88" y2="54" stroke="var(--muted)" stroke-width="1.2"/><path d="M50 18 L64 58" stroke="var(--ball)" stroke-width="3" stroke-dasharray="2 5"/><line x1="38" y1="66" x2="58" y2="66" stroke="var(--court)" stroke-width="5"/></g><circle cx="64" cy="60" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>HANDS BATTLE</em><b>網前反應訓練</b><span>網前快攻只有約 0.25 秒，6 個反應與步法訓練動畫。</span></div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>站位與戰術 <small>POSITIONING</small></h2>
+  <div class="grid">
+    <a class="card" href="kitchen-line.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><g fill="none" stroke="var(--muted)" stroke-width="1.5"><rect x="10" y="8" width="76" height="64"/><line x1="10" y1="40" x2="86" y2="40" stroke="var(--ink)" stroke-width="2.5"/><line x1="10" y1="31" x2="86" y2="31"/><line x1="10" y1="49" x2="86" y2="49"/><line x1="48" y1="49" x2="48" y2="72"/></g><circle cx="30" cy="52" r="5" fill="var(--hip)"/><circle cx="66" cy="68" r="5" fill="var(--court)"/></svg>
+      <div><em>RETURN TEAM</em><b>接發球方的搭檔站廚房線</b><span>為什麼接發球方的搭檔一開始就要站在廚房線上。</span></div>
+    </a>
+  </div>
+</section>
+
+</main>
+</body>
+
+</html>
