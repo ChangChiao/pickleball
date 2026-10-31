@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>發球得分與落地得分</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages; the simulator is the one interactive piece */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+a{color:var(--court)}
+.back{font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:500;background:var(--courtSoft)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+ul.why,ol.chain{margin:0;padding:0;list-style:none;display:grid;gap:10px;max-width:65ch}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.call{font-family:var(--display);font-weight:700;font-size:20px;color:var(--court);white-space:nowrap}
+
+/* simulator */
+.sim{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:640px){.sim{grid-template-columns:1fr}.sim svg{max-width:240px;margin:0 auto}}
+.sim svg{width:100%;height:auto;display:block}
+.sim svg text{font-family:var(--body)}
+.side{display:grid;gap:12px;align-content:start}
+.modes{display:flex;gap:6px;flex-wrap:wrap}
+.modes button,.acts button,.side .reset{font:inherit;font-size:14px;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--court);border-color:var(--court);color:var(--panel)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts button{padding:10px 12px;font-weight:700}
+.acts .a{border-color:var(--court);color:var(--court)}
+.acts .b{border-color:var(--hip);color:var(--hip)}
+.acts button:disabled{opacity:.4;cursor:default}
+.modes button:focus-visible,.acts button:focus-visible,.side .reset:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.board{display:grid;gap:2px}
+.board small{color:var(--muted);font-size:12.5px}
+.board b{font-family:var(--display);font-size:44px;line-height:1;letter-spacing:.04em}
+.who{font-size:14.5px}
+.why{font-size:14.5px;color:var(--muted);border-left:3px solid var(--ball);padding-left:10px;min-height:3.4em}
+.log{margin:0;padding-left:1.4em;font-size:13.5px;color:var(--muted);max-height:9.5em;overflow:auto;display:grid;gap:2px}
+.side .reset{justify-self:start}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Scoring</div>
+  <h1>發球得分與落地得分</h1>
+  <p class="lead">匹克球有兩種計分方式。傳統的「發球得分」（side-out scoring）只有發球方能得分；「落地得分」（rally scoring）每一分都算，不管誰發球。休閒球局大多用發球得分，部分職業和比賽改用落地得分。下面先比較兩者，再用模擬器一分一分走一遍。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>兩種計分方式比較</h2>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>發球得分（傳統）</th><th>落地得分</th></tr></thead>
+    <tbody>
+      <tr><td>誰能得分</td><td>只有發球方贏球才得分</td><td>每一分都算，誰贏誰得分</td></tr>
+      <tr><td>接發球方贏球</td><td>不得分，只是拿走發球權（或換第二位發球者）</td><td>得一分，同時拿到發球權</td></tr>
+      <tr><td>比到幾分</td><td>通常 11 分，領先 2 分獲勝</td><td>常見 15 或 21 分，領先 2 分獲勝（依賽事規定）</td></tr>
+      <tr><td>雙打報分</td><td><span class="call">4-2-1</span><br>發球方分數－接發球方分數－第幾位發球者</td><td><span class="call">4-2</span><br>通常只報兩個數字（依賽事規定）</td></tr>
+      <tr><td>比賽時間</td><td>長短不一，來回換發可能拖很久</td><td>比較好預估，每一分都推進比數</td></tr>
+      <tr><td>心理感受</td><td>落後也能靠發球局慢慢追</td><td>每一分都重要，失誤直接送分</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">落地得分在不同賽事的細節不一樣（比到幾分、每隊幾位發球者、報分方式）。下面的落地得分模擬採用常見做法：每隊每次只有一位發球者、比到 21 分。參加比賽前請以主辦單位的規定為準。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>發球得分的規則（雙打）</h2>
+  <ol class="chain">
+    <li><span class="badge">1</span><div><b>報三個數字</b>：發球方分數、接發球方分數、第幾位發球者（1 或 2）。例如 <span class="call">5-3-2</span>。</div></li>
+    <li><span class="badge">2</span><div><b>開局是 0-0-2</b>：先發球的隊伍只有一位發球者，避免先發的一方佔太多便宜。這位發球者失分就直接換對方發。</div></li>
+    <li><span class="badge">3</span><div><b>發球方贏球</b>：得一分，發球者和搭檔左右換位，同一個人從另一邊繼續發。</div></li>
+    <li><span class="badge">4</span><div><b>發球方輸球</b>：第 1 位發球者輸了，換搭檔當第 2 位發球者（從他現在站的位置發）；第 2 位也輸了，就換對方發球（side out）。</div></li>
+    <li><span class="badge">5</span><div><b>換發後由右邊的人先發</b>：拿到發球權的隊伍，站在右邊（雙數區）的人是第 1 位發球者。</div></li>
+    <li><span class="badge">6</span><div><b>快速檢查站位</b>：一開始站右邊發球的人，在自己隊分數是雙數時會站在右邊，單數時在左邊。對不上就是站錯了。</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">03</span>計分模擬器</h2>
+  <p>選擇計分方式，然後每一分按下「誰贏了這一球」。右邊會顯示該報的分數、誰發球、從哪一邊發，以及為什麼這樣變。</p>
+  <div class="sim">
+    <svg viewBox="0 0 200 250" role="img" aria-label="俯視球場：四位球員的位置、目前的發球者和接發球者">
+      <rect x="40" y="20" width="120" height="210" fill="var(--courtSoft)" stroke="var(--muted)" stroke-width="1.2"/>
+      <rect x="40" y="91" width="120" height="68" fill="var(--panel)" opacity=".6"/>
+      <line x1="40" y1="91" x2="160" y2="91" stroke="var(--muted)"/><line x1="40" y1="159" x2="160" y2="159" stroke="var(--muted)"/>
+      <line x1="100" y1="20" x2="100" y2="91" stroke="var(--muted)"/><line x1="100" y1="159" x2="100" y2="230" stroke="var(--muted)"/>
+      <line x1="32" y1="125" x2="168" y2="125" stroke="var(--ink)" stroke-width="2.5"/>
+      <rect id="box" x="40" y="20" width="60" height="71" fill="var(--ball)" opacity=".25"/>
+      <line id="arrow" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#ah)"/>
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--ink)"/></marker></defs>
+      <text x="100" y="14" text-anchor="middle" font-size="10" style="fill:var(--hip)" font-weight="700">B 隊</text>
+      <text x="100" y="246" text-anchor="middle" font-size="10" style="fill:var(--court)" font-weight="700">A 隊</text>
+      <g id="players"></g>
+    </svg>
+    <div class="side">
+      <div class="modes" role="group" aria-label="計分方式">
+        <button type="button" id="mSide" aria-pressed="true">發球得分</button>
+        <button type="button" id="mRally" aria-pressed="false">落地得分</button>
+      </div>
+      <div class="board"><small>發球者報分</small><b id="call">0-0-2</b></div>
+      <div class="who" id="who"></div>
+      <div class="acts">
+        <button type="button" class="a" id="winA">A 隊贏這球</button>
+        <button type="button" class="b" id="winB">B 隊贏這球</button>
+      </div>
+      <p class="why" id="why"></p>
+      <ol class="log" id="log" aria-label="紀錄"></ol>
+      <button type="button" class="reset" id="reset">重新開始</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>常見問題</h2>
+  <ul class="why">
+    <li><b>忘記分數怎麼辦？</b>看發球者站的位置。發球得分時，一開始站右邊發球的人，自己隊雙數分站右邊、單數分站左邊。</li>
+    <li><b>接發球方要換位嗎？</b>不用。只有發球方得分時才換位，接發球方一直站原位。</li>
+    <li><b>單打怎麼報分？</b>單打只報兩個數字（自己分數－對方分數），自己分數雙數從右邊發、單數從左邊發。</li>
+    <li><b>落地得分為什麼越來越常見？</b>比賽時間好掌握，轉播和賽程安排都比較方便，每一分也更有張力。</li>
+  </ul>
+  <p class="note">規則以 USA Pickleball 官方規則書為準，落地得分目前在不同賽事有不同的版本，報名前請確認主辦單位採用哪一種。</p>
+</section>
+</main>
+
+<script>
+// Doubles scoring simulator. Team A is at the bottom (their right = screen right), team B at the top (their right = screen left).
+(function(){
+const $=id=>document.getElementById(id);
+const SPOT={A:{R:[130,205],L:[70,205]},B:{R:[70,45],L:[130,45]}};
+const BOX={A:{R:[100,159,60,71],L:[40,159,60,71]},B:{R:[40,20,60,71],L:[100,20,60,71]}};
+const other=t=>t==='A'?'B':'A',sideName=s=>s==='R'?'右邊':'左邊',flip=s=>s==='R'?'L':'R';
+let mode='side',S,log=[];
+function init(){
+  S={score:{A:0,B:0},serving:'A',num:2,pos:{A1:'R',A2:'L',B1:'R',B2:'L'},server:'A1',over:false};
+  log=[];say(mode==='side'?'開局 0-0-2：A 隊先發，只有一位發球者，由站在右邊的 A1 發。':'落地得分開局：A 隊站在右邊的 A1 先發。每一分都算。');render();
+}
+const team=p=>p[0],partner=p=>p[0]+(p[1]==='1'?'2':'1');
+const onSide=(t,s)=>[t+'1',t+'2'].find(p=>S.pos[p]===s);
+function say(t){$('why').textContent=t}
+function callText(){const t=S.serving,o=other(t);return mode==='side'?`${S.score[t]}-${S.score[o]}-${S.num}`:`${S.score[t]}-${S.score[o]}`}
+function win(w){
+  if(S.over)return;
+  const t=S.serving,before=callText();let msg;
+  if(mode==='side'){
+    if(w===t){S.score[t]++;const p=S.server,q=partner(p);S.pos[p]=flip(S.pos[p]);S.pos[q]=flip(S.pos[q]);msg=`${t} 隊是發球方，贏球得 1 分。${p} 和搭檔換位，${p} 從${sideName(S.pos[p])}繼續發。`}
+    else if(S.num===1){S.num=2;S.server=partner(S.server);msg=`發球方輸球，不得分。換第 2 位發球者 ${S.server}，從他現在站的${sideName(S.pos[S.server])}發。`}
+    else{S.serving=other(t);S.num=1;S.server=onSide(S.serving,'R');msg=`第 2 位發球者也輸了：換發（side out）。${S.serving} 隊站在右邊的 ${S.server} 成為第 1 位發球者。`}
+  }else{
+    S.score[w]++;
+    if(w===t){const p=S.server,q=partner(p);S.pos[p]=flip(S.pos[p]);S.pos[q]=flip(S.pos[q]);msg=`${t} 隊贏球得 1 分並繼續發。${p} 和搭檔換位，從${sideName(S.pos[p])}發。`}
+    else{S.serving=w;const s=S.score[w]%2===0?'R':'L';S.server=onSide(w,s);msg=`${w} 隊贏球得 1 分，也拿到發球權。${w} 隊分數是${S.score[w]%2===0?'雙數':'單數'}，由站在${sideName(s)}的 ${S.server} 發。`}
+  }
+  const target=mode==='side'?11:21,a=S.score.A,b=S.score.B;
+  if((a>=target||b>=target)&&Math.abs(a-b)>=2){S.over=true;msg+=` ${a>b?'A':'B'} 隊 ${Math.max(a,b)}:${Math.min(a,b)} 獲勝。`}
+  log.unshift(`${before} → ${w} 隊贏 → 報 ${callText()}`);say(msg);render();
+}
+function render(){
+  const g=$('players');g.innerHTML='';
+  for(const p of ['A1','A2','B1','B2']){
+    const [x,y]=SPOT[team(p)][S.pos[p]],isS=p===S.server,rx=p===receiver();
+    g.insertAdjacentHTML('beforeend',`<circle cx="${x}" cy="${y}" r="13" fill="${isS?'var(--ball)':'var(--panel)'}" stroke="${team(p)==='A'?'var(--court)':'var(--hip)'}" stroke-width="${rx?4:2}"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--ink)">${p}</text>`);
+  }
+  const t=S.serving,s=S.pos[S.server],r=receiver(),[x1,y1]=SPOT[t][s],[x2,y2]=SPOT[other(t)][S.pos[r]],bx=BOX[other(t)][S.pos[r]];
+  const a=$('arrow');a.setAttribute('x1',x1);a.setAttribute('y1',y1+(t==='A'?-14:14));a.setAttribute('x2',x2);a.setAttribute('y2',y2+(t==='A'?18:-18));
+  const box=$('box');box.setAttribute('x',bx[0]);box.setAttribute('y',bx[1]);box.setAttribute('width',bx[2]);box.setAttribute('height',bx[3]);
+  $('call').textContent=callText();
+  $('who').innerHTML=`發球：<b>${S.server}</b>（${t} 隊${mode==='side'?`第 ${S.num} 位發球者`:''}），從<b>${sideName(s)}</b>發到斜對角，<b>${r}</b> 接發球。`;
+  $('winA').disabled=$('winB').disabled=S.over;
+  $('log').innerHTML=log.map(l=>`<li>${l}</li>`).join('');
+}
+function receiver(){const t=other(S.serving);return onSide(t,S.pos[S.server])}
+function setMode(m){mode=m;$('mSide').setAttribute('aria-pressed',m==='side');$('mRally').setAttribute('aria-pressed',m==='rally');init()}
+$('winA').onclick=()=>win('A');$('winB').onclick=()=>win('B');$('reset').onclick=init;
+$('mSide').onclick=()=>setMode('side');$('mRally').onclick=()=>setMode('rally');
+init();
+})();
+</script>
+</body>
+</html>
