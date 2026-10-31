@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>單手反手丁克</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages: court blue panels, ball yellow as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+.back{color:var(--court);font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start;margin:0}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill.wide canvas{aspect-ratio:12/5}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+ol.chain,ul.why{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.err{display:grid}
+.err div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.err div:last-child{border-bottom:0}
+.err .x{color:var(--bad);font-weight:700}
+.err .o{color:var(--good)}
+@media (max-width:560px){.err div{grid-template-columns:1fr;gap:4px}}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.check h3 span{font-family:var(--display);color:var(--court);font-size:16px;letter-spacing:.04em}
+.check p{font-size:14.5px;color:var(--muted)}
+.check a,.note a,.err a{color:var(--court)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">One-handed Backhand Dink</div>
+  <h1>單手反手丁克：最常浮球的一拍，也是最需要練的一拍</h1>
+  <p class="lead">網前丁克有一半以上會打到反手側，而反手丁克是多數人最容易浮高、被對手攻擊的一拍。單手反手丁克伸得比較遠、轉換快，網前最常用。這頁只講單手反手丁克；丁克的整體觀念在 <a href="dink.html">丁克</a>。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>為什麼反手丁克容易浮</h2>
+  <div class="checks">
+    <div class="check"><h3><span>擊球點太晚</span>球到身體旁邊</h3><p>反手要在右腳前方接觸。球到了左髖旁邊才打，只能用手腕往上撥。</p></div>
+    <div class="check"><h3><span>用手腕撥</span>拍面角度亂</h3><p>反手時手腕最容易出力，一撥拍面就打開，球就飄起來。</p></div>
+    <div class="check"><h3><span>站太直</span>拍子在球上方</h3><p>膝蓋沒彎，拍子只能從上往下切，或往上撈，深度很難控制。</p></div>
+    <div class="check"><h3><span>手肘夾住</span>沒有擺動空間</h3><p>手肘貼在身體旁，手臂擺不出去，只剩手腕在動。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>握拍與準備</h2>
+  <ol class="chain">
+    <li><span class="badge">1</span><div><b>大陸式握拍</b>：正反手不用換握。反手比較不穩的人，可以把握拍往反手方向轉一點點，詳見 <a href="grip.html">握拍</a>。</div></li>
+    <li><span class="badge">2</span><div><b>拍子在身體前方、略偏反手</b>：拍頭不要掉到地上，大約在膝蓋到腰的高度、拍頭略朝上。</div></li>
+    <li><span class="badge">3</span><div><b>手肘在身體前方</b>：不要夾在肋骨旁，讓整條手臂有擺動的空間。</div></li>
+    <li><span class="badge">4</span><div><b>左手幫忙</b>：準備時左手可以輕扶拍喉，幫你轉肩、控制拍面角度，擊球時再放開。</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">03</span>動作</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="tech" role="img" aria-label="背面動畫：單手反手丁克，轉肩、右腳踩出去、在右腳前方低處接觸，從肩膀像鐘擺送出，收拍朝目標，黃色軌跡顯示拍頭路線"></canvas><div class="step"></div></figure>
+    <ol class="chain">
+      <li><span class="badge">1</span><div><b>轉肩</b>：看到球往反手來，肩膀先往左轉，右肩稍微朝向球網。</div></li>
+      <li><span class="badge">2</span><div><b>右腳往左前方踩一小步</b>：讓擊球點往前，也讓身體降得下去。時間不夠就只轉肩。</div></li>
+      <li><span class="badge">3</span><div><b>在右腳前方、低處接觸</b>：膝蓋彎，拍子在球的後下方，拍面略開。</div></li>
+      <li><span class="badge">4</span><div><b>從肩膀像鐘擺</b>：整條手臂一起擺，手腕固定。力道靠擺動長度，不靠手腕。</div></li>
+      <li><span class="badge">5</span><div><b>收拍朝目標</b>：拍面停在目標方向、腰到胸口高度，然後回到準備姿勢。</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>擊球點：右腳前方</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="point" role="img" aria-label="俯視動畫：好的反手擊球點在右腳前方；太晚時球在左髖旁邊"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>對的位置</b>：球在右腳前方、身體左前方，眼睛看得到拍面和球。</li>
+      <li><b>太晚的位置</b>：球到左髖旁邊，手臂擺不出去，只能用手腕撥。</li>
+      <li><b>用腳調整</b>：球太靠近身體就往右讓一點，太遠就跨步，不要伸手去夠。詳見 <a href="contact-point.html">最佳擊球點</a>。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>直線、斜線與旋轉</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="lines" role="img" aria-label="俯視動畫：從左邊用反手丁克，直線落在對手正前方，斜線落在斜對角廚房"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>斜線最安全</b>：反手斜線過網點在網子中間，距離長，是反手丁克的主要路線。</li>
+      <li><b>直線要更準</b>：網比較高、離邊線近，失誤率比較高，用來打亂對手節奏。</li>
+      <li><b>帶一點下旋</b>：拍面略開、由上往前輕輕刷過，球落地後比較不往前彈，是很多人反手丁克的預設，詳見 <a href="slice.html">切球</a>。</li>
+      <li><b>熟練後帶上旋</b>：由下往上刷，球往下掉得快，也可以順勢變成反手 Roll，詳見 <a href="kitchen-attack.html">廚房區進攻</a>。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span>反手截擊丁克</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="volley" role="img" aria-label="背面動畫：對手的深丁克會落在你左腳邊，在空中用反手截擊丁克回去，腳不踩線"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>什麼時候用</b>：對手的丁克會落在你廚房線外、左腳邊時，等它彈起來很難處理，在空中就截擊回去。</li>
+      <li><b>怎麼打</b>：膝蓋彎下去，拍面略開，動作比一般反手丁克更短，輕輕「接」回對方廚房。</li>
+      <li><b>腳不踩線</b>：截擊時兩腳都要在廚房線後，打完也不能往前衝進去。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">07</span>常見錯誤</h2>
+  <div class="err">
+    <div><div class="x">✕ 用手腕往上撥</div><div class="o">→ 手腕固定，從肩膀擺，整條手臂一起動。</div></div>
+    <div><div class="x">✕ 擊球點在左髖旁邊</div><div class="o">→ 早點轉肩、右腳踩出去，在右腳前方接觸。</div></div>
+    <div><div class="x">✕ 站直、只彎腰</div><div class="o">→ 膝蓋彎，讓拍子在球的後下方。</div></div>
+    <div><div class="x">✕ 手肘夾在身體旁</div><div class="o">→ 手肘放在身體前方，給手臂擺動空間。</div></div>
+    <div><div class="x">✕ 反手都打直線</div><div class="o">→ 以斜線為主，直線偶爾變化就好。</div></div>
+    <div><div class="x">✕ 反手不敢打，一直繞正手</div><div class="o">→ 繞正手會露出空檔。反手球就用反手丁克，練到穩定比繞開更有用。</div></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">08</span>訓練動作（動畫示意）</h2>
+  <div class="drills">
+    <article class="drill"><canvas data-d="rally" role="img" aria-label="俯視動畫：兩人都只用反手打斜線丁克"></canvas><div class="step"></div>
+      <h3>反手斜線丁克 <span class="dose">3×3 分鐘</span></h3>
+      <p>兩人站在左邊（右手持拍的反手側）斜對角，只能用反手打斜線丁克，數連續幾拍不浮球。熟練後加一條規則：每 5 拍要打一顆深到對方腳邊。</p><p class="goal">練到：反手丁克的穩定和深度</p></article>
+    <article class="drill"><canvas data-d="feed" role="img" aria-label="背面動畫：夥伴把球餵到你的左腳邊，你用反手丁克回到對方廚房"></canvas><div class="step"></div>
+      <h3>左腳邊餵球 <span class="dose">3×15 球</span></h3>
+      <p>夥伴從對面把丁克餵到你的左腳附近。你每一球都要轉肩、右腳踩出去、在右腳前方接觸，回到對方廚房。夥伴可以喊「浮了」提醒你。</p><p class="goal">練到：擊球點和步法，讓反手不再浮球</p></article>
+  </div>
+</section>
+</main>
+
+<script>
+// stick-figure + court scenes (same engine as the reset page)
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(r);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const ball=(x,p,c,r=2.6)=>{x.lineWidth=r>2?1:.6;circ(x,p,r,c.ball,c.ink)};
+const txt=(x,s,p,c,al='center',sz=5,col)=>{x.fillStyle=col||c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
+const q=(P,C,Q,u)=>[(1-u)*(1-u)*P[0]+2*u*(1-u)*C[0]+u*u*Q[0],(1-u)*(1-u)*P[1]+2*u*(1-u)*C[1]+u*u*Q[1]];
+const clamp=u=>Math.max(0,Math.min(1,u)),ease=u=>{u=clamp(u);return u*u*(3-2*u)};
+function dashed(x,P,C,Q,col,to=1){x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=col;x.lineWidth=.6;x.beginPath();x.moveTo(P[0],P[1]);for(let u=.05;u<=to+1e-6;u+=.05){const p=q(P,C,Q,u);x.lineTo(p[0],p[1])}x.stroke();x.restore()}
+
+// side-view court, 120x50 units: net x=60, kitchen lines 7ft from net, vertical scale doubled
+const NET=29.6,KL=42.2,KR=77.8;
+function courtSide(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(KL,8,KR-KL,36);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.6;pl(x,[KL,44],[KL,40]);pl(x,[KR,44],[KR,40]);
+  x.strokeStyle=c.ink;x.lineWidth=.8;pl(x,[2,44],[118,44]);x.lineWidth=1.3;pl(x,[60,44],[60,NET]);
+  txt(x,'你的廚房',[51,48.5],c,'center',3.4);txt(x,'對方廚房',[69,48.5],c,'center',3.4);txt(x,'網',[60,27.5],c,'center',3.4);
+}
+function person(x,c,px,low,face){
+  const hy=low?28:23,hip=low?37:34;x.strokeStyle=c.ink;x.lineWidth=1.1;
+  pl(x,[px,hy+2.4],[px,hip]);pl(x,[px-3,44],[px,hip],[px+3,44]);pl(x,[px,hy+5],[px+face*4,hy+9]);
+  x.lineWidth=.8;circ(x,[px,hy],2.3,c.panel,c.ink);
+  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.roundRect(-1.3,-2.2,2.6,4.4,.9);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+}
+const P0=[44,40],SHORT=[P0,[54,-6],[64,44]],LONG=[P0,[56,4],[76,44]],OUT=[P0,[60,0],[83,44]];
+// top view helpers: court x 30..90 (3 units/ft), net y=50, kitchens y 29..71
+function courtTop(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(30,29,60,42);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(30,2,60,96);pl(x,[30,29],[90,29]);pl(x,[30,71],[90,71]);pl(x,[60,2],[60,29]);pl(x,[60,71],[60,98]);
+  x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[26,50],[94,50]);txt(x,'網',[97,52],c,'left');
+}
+const band=(x,c,y0,y1)=>{x.globalAlpha=.35;x.fillStyle=c.ball;x.fillRect(30,y0,60,y1-y0);x.globalAlpha=1};
+function flight(x,c,A,B,u,lift=8){const p=[A[0]+(B[0]-A[0])*u,A[1]+(B[1]-A[1])*u],h=Math.sin(Math.PI*u);x.globalAlpha=.25;circ(x,p,1.6,c.ink);x.globalAlpha=1;ball(x,[p[0],p[1]-h*lift],c,1.8+h*.8)}
+const dot=(x,c,p,col)=>{x.lineWidth=.6;circ(x,p,1.6,col,c.ink)};
+
+const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const OH0={pv:[52,57],nk:[54,29],...SIDE,fA:[44,92],fB:[64,92],wA:[62,46],wB:[68,42],rk:-70,b:[104,-6],show:1};
+// whole court seen from above, 2 units per ft: x 40..80, y 6..94, net y=50, kitchen lines y=36/64
+function fullCourt(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(40,36,40,28);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(40,6,40,88);pl(x,[40,36],[80,36]);pl(x,[40,64],[80,64]);pl(x,[60,6],[60,36]);pl(x,[60,64],[60,94]);
+  x.strokeStyle=c.ink;x.lineWidth=1.6;pl(x,[36,50],[84,50]);txt(x,'網',[87,52],c,'left',4);
+}
+const man=(x,c,p,l,col)=>{x.lineWidth=1.2;circ(x,p,3,col||c.panel,c.ink);if(l)txt(x,l,[p[0]+5,p[1]+1.5],c,'left',3.8)};
+const lp=(a,b,u)=>[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u];
+function spinBall(x,p,c,r,ang){ball(x,p,c,r);x.strokeStyle=c.ink;x.lineWidth=.45;pl(x,[p[0]-Math.cos(ang)*r,p[1]-Math.sin(ang)*r],[p[0]+Math.cos(ang)*r,p[1]+Math.sin(ang)*r])}
+function trailOf(x,c,d,t){let prev=null;for(let i=0;i<=24;i++){const s=sample(d,t-i*.02),h=[s.p.wB[0]+Math.cos(s.p.rk*R)*12.5,s.p.wB[1]+Math.sin(s.p.rk*R)*12.5];if(prev){x.globalAlpha=(1-i/25)*.8;x.strokeStyle=c.ball;x.lineWidth=2.4;pl(x,prev,h)}prev=h}x.globalAlpha=1}
+const BR={pv:[60,57],nk:[60,29],s:10,h:7,fA:[46,92],fB:[74,92],kb:[1,-1],eb:[1,-1],wA:[54,50],wB:[62,46],rk:-95,b:[58,22],br:.8};
+function backScene(d,x,t,c,view){x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);
+  const S=sample(d,t),J=joints(S.p);fig(x,J,c);paddle(x,J.wB,S.p.rk,c);if(S.p.br>.3)ball(x,S.p.b,c,S.p.br);txt(x,view||'從背後看（右手持拍）',[116,8],c,'right');return S.label}
+const DREADY={pv:[60,60],nk:[60,32],s:10,h:7,fA:[44,92],fB:[76,92],kb:[1,-1],eb:[1,-1],wA:[54,52],wB:[58,54],rk:-120,b:[56,26],br:.8};
+function trailScene(d,x,t,c){let prev=null;for(let i=0;i<=24;i++){const s=sample(d,t-i*.025),h=[s.p.wB[0]+Math.cos(s.p.rk*R)*12.5,s.p.wB[1]+Math.sin(s.p.rk*R)*12.5];if(prev){x.globalAlpha=(1-i/25)*.8;x.strokeStyle=c.ball;x.lineWidth=2.4;pl(x,prev,h)}prev=h}x.globalAlpha=1}
+const D={
+  tk:{keys:[
+    {p:{...DREADY},hold:.5,dur:.5,label:'準備：拍子在身體前方、略偏反手'},
+    {p:{s:5,h:5,pv:[58,62],nk:[56,34],fB:[64,92],wA:[50,54],wB:[52,58],rk:-150,b:[42,54],br:1.6},dur:.4,hold:.1,label:'轉肩，右腳往左前方踩'},
+    {p:{pv:[56,64],nk:[54,36],wA:[64,58],wB:[50,60],rk:170,b:[38,64],br:2.6},dur:.35,hold:.15,label:'膝蓋彎，在右腳前方低處接觸'},
+    {p:{wB:[52,50],rk:-130,b:[46,30],br:1},dur:.4,hold:.5,label:'從肩膀像鐘擺送出，收拍朝目標'},
+    {p:{...DREADY},dur:.6,hold:.2,label:'回到準備姿勢'}]},
+  tech:{still:1.4,fn:(x,t,c)=>{trailScene(D.tk,x,t,c);return backScene(D.tk,x,t,c)}},
+  point:{still:1,fn:(x,t,c)=>{
+    // top view: player facing the net (up), shoulders turned left for a backhand; right foot steps forward-left
+    const late=(t%5)>=2.5;txt(x,'↑ 球網',[60,8],c);
+    const C=[62,66],fL=[52,78],fR=[56,58];
+    for(const f of [fL,fR]){x.save();x.translate(f[0],f[1]);x.beginPath();x.ellipse(0,0,2.4,4,0,0,7);x.globalAlpha=.4;x.fillStyle=c.muted;x.fill();x.globalAlpha=1;x.restore()}
+    txt(x,'右腳',[fR[0]+5,fR[1]+1],c,'left',3.6);txt(x,'左腳',[fL[0]-5,fL[1]+1],c,'right',3.6);
+    const a=-35*R,sh=[Math.cos(a)*12,Math.sin(a)*12],sR=[C[0]+sh[0],C[1]+sh[1]];
+    x.lineWidth=3.4;x.strokeStyle=c.court;pl(x,[C[0]-sh[0],C[1]-sh[1]],sR);
+    const ballP=late?[42,72]:[44,50],hand=late?[50,70]:[50,56];
+    x.globalAlpha=.3;x.fillStyle=c.ball;x.beginPath();x.ellipse(44,50,8,6,0,0,7);x.fill();x.globalAlpha=1;txt(x,'擊球區',[44,42],c,'center',4);
+    const el=ik(sR,hand,14,14,-1);x.strokeStyle=c.ink;x.lineWidth=2.4;pl(x,sR,el,hand);
+    const dir=Math.atan2(ballP[1]-hand[1],ballP[0]-hand[0]);x.save();x.translate(hand[0],hand[1]);x.rotate(dir);x.lineWidth=3;pl(x,[-1,0],[4,0]);x.lineWidth=1.4;x.beginPath();x.roundRect(4,-4,10,8,2.6);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+    x.lineWidth=1.6;circ(x,C,6,c.panel,c.ink);ball(x,ballP,c,2.4);if(late){x.strokeStyle=c.bad;circ(x,ballP,5,null,c.bad)}
+    txt(x,'俯視',[116,8],c,'right');return late?'✕ 太晚：球在左髖旁邊，只能用手腕撥':'○ 右腳前方、身體左前方：手臂擺得出去'}},
+  lines:{still:2.2,fn:(x,t,c)=>{
+    courtTop(x,c);const me=[44,76];x.lineWidth=1.4;circ(x,me,4,c.ball,c.ink);txt(x,'你（左邊、反手側）',[50,82],c,'left',4);
+    x.globalAlpha=.3;x.fillStyle=c.ball;x.fillRect(60,29,30,21);x.globalAlpha=1;
+    const T=[[[44,36],'直線：落在對手正前方，網比較高、要更準',c.court],[[74,36],'斜線：過網點在中間、距離長，最安全',c.good]];
+    const per=2.2;t%=T.length*per;const n=Math.floor(t/per),u=clamp((t-n*per)/1.2);
+    flight(x,c,[me[0]-2,me[1]-4],T[n][0],u,6);if(u>=1)dot(x,c,T[n][0],T[n][2]);
+    x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=c.muted;x.lineWidth=.6;pl(x,[42,72],[44,36]);pl(x,[42,72],[74,36]);x.restore();
+    return T[n][1]}},
+  vk:{keys:[
+    {p:{...DREADY},hold:.4,dur:.4,label:'準備'},
+    {p:{b:[46,66],br:1.6},dur:.35,label:'深丁克：會落在你左腳邊（廚房線外）'},
+    {p:{pv:[58,64],nk:[57,36],wA:[64,58],wB:[54,60],rk:165,b:[41,63],br:2.6},dur:.3,hold:.2,label:'不等它彈，膝蓋彎、在空中反手截擊'},
+    {p:{wB:[52,54],rk:-150,b:[48,34],br:1},dur:.35,hold:.4,label:'動作更短，輕輕接回對方廚房'},
+    {p:{...DREADY},dur:.5,hold:.2,label:'腳留在線後，回到準備'}]},
+  volley:{still:1.1,fn:(x,t,c)=>{x.strokeStyle=c.hip;x.lineWidth=2;pl(x,[6,93],[114,93]);txt(x,'廚房線（腳在線後）',[116,99],c,'right',4);return backScene(D.vk,x,t,c)}},
+  rally:{still:2,fn:(x,t,c)=>{
+    courtTop(x,c);const A=[44,76],B=[76,24];x.lineWidth=1.4;circ(x,A,4,c.ball,c.ink);circ(x,B,4,c.panel,c.ink);txt(x,'你',[38,79],c,'right');txt(x,'夥伴',[82,22],c,'left');
+    txt(x,'右手持拍的兩人都在反手側',[60,98],c,'center',3.6);
+    const L=[[72,36],[48,64],[70,34],[46,66],[74,38]],per=1.1;const n=Math.floor(t/per)%L.length,u=clamp((t%per)/.95);
+    const from=n%2?[B[0]-2,B[1]+4]:[A[0]+2,A[1]-4];flight(x,c,from,L[n],u,6);
+    return `第 ${Math.floor(t/per)+1} 拍：反手斜線丁克`}},
+  feed:{still:1.4,fn:(x,t,c)=>{x.strokeStyle=c.hip;x.lineWidth=2;pl(x,[6,93],[114,93]);return backScene(D.tk,x,t,c,'從背後看：夥伴餵到你的左腳邊')}},
+};
+for(const d of Object.values(D)){
+  if(!d.keys)continue;
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur;
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good'),bad:g('--bad')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const t=still?it.d.still:(now-t0)/1000;let label;
+    if(it.d.fn)label=it.d.fn(x,t,c);
+    else{const S=sample(it.d,t);label=S.label;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);it.d.prop(x,J,S.p,c);txt(x,it.d.view,[116,8],c,'right')}
+    if(it.step.textContent!==label)it.step.textContent=label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
