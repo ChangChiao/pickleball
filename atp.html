@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ATP 繞柱球</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages: court blue panels, ball yellow as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+.back{color:var(--court);font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start;margin:0}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill.wide canvas{aspect-ratio:12/5}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+ol.chain,ul.why{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.err{display:grid}
+.err div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.err div:last-child{border-bottom:0}
+.err .x{color:var(--bad);font-weight:700}
+.err .o{color:var(--good)}
+@media (max-width:560px){.err div{grid-template-columns:1fr;gap:4px}}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.check h3 span{font-family:var(--display);color:var(--court);font-size:16px;letter-spacing:.04em}
+.check p{font-size:14.5px;color:var(--muted)}
+.check a,.note a,.err a{color:var(--court)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">ATP · Around the Post</div>
+  <h1>ATP 繞柱球：不從網上過，從網柱外面繞過去</h1>
+  <p class="lead">ATP（Around the Post）是被對手的大角度斜線拉到場外時，直接把球從網柱外側打回對方場內。球不用越過網子上方，可以貼著地面飛，對手幾乎來不及反應。它不常出現，但機會來時要認得出來，也要知道對手打 ATP 時怎麼防。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>規則重點</h2>
+  <ul class="why">
+    <li><b>可以不過網子上方</b>：球從網柱外側繞過去就可以，高度可以比網低，甚至接近地面。</li>
+    <li><b>還是要落在對方場內</b>：繞過網柱後一樣要落在對方的界內，否則就是出界。</li>
+    <li><b>可以站在場外打</b>：為了打 ATP 跑出邊線外是合法的。</li>
+    <li><b>不能碰網子和網柱</b>：球拍、身體、衣物碰到網或網柱都算失誤。</li>
+    <li><b>一般是球落地後才有機會</b>：通常是對手的斜線丁克落地後往場外跑，你追出去在場外擊球。</li>
+  </ul>
+  <p class="note">細節（例如能不能踏到對方場地、截擊時的限制）以 USA Pickleball 官方規則書為準，比賽前建議再確認最新版。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>機會怎麼出現</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="chance" role="img" aria-label="俯視動畫：對手大角度斜線丁克落地後往場外跑，你追出邊線，從網柱外側把球打回對方場內"></canvas><div class="step"></div></figure>
+    <ol class="chain">
+      <li><span class="badge">1</span><div><b>對手打出大角度斜線</b>：球落在你廚房靠邊線、靠網的位置，彈起後繼續往場外跑。</div></li>
+      <li><span class="badge">2</span><div><b>球跑到網柱外面</b>：球已經在邊線外、而且接近網子的延長線，從網上方打回去角度很差。</div></li>
+      <li><span class="badge">3</span><div><b>追出去，讓球低一點再打</b>：不用急著在高點打，球低反而更好繞過網柱。</div></li>
+      <li><span class="badge">4</span><div><b>沿著網子方向打回對方場內</b>：目標是對方靠邊線的廚房或邊線附近，對手通常站在中間，來不及移過去。</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>從網子正面看：為什麼可以比網低</h2>
+  <figure class="drill wide"><canvas data-d="face" role="img" aria-label="正面看網子的動畫：一般擊球要從網子上方通過，ATP 從網柱外側通過，高度可以比網低"></canvas><div class="step"></div>
+    <figcaption><p>站在底線往網子看。黃點是球通過「網子那條線」的位置：一般擊球一定要在網子上方；ATP 在網柱外側通過，高度不受網子限制。</p></figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">04</span>動作要點</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="tech" role="img" aria-label="背面動畫：交叉步追出場外，降低重心，拍子在身體外側低處擊球，沿著網子方向打出，再側併步回位"></canvas><div class="step"></div></figure>
+    <ol class="chain">
+      <li><span class="badge">1</span><div><b>交叉步追出去</b>：球往場外跑時，用交叉步快速移動，最後一步踩穩。</div></li>
+      <li><span class="badge">2</span><div><b>讓球在身體前方、低處</b>：降低重心，拍子在身體外側。擊球點低一點沒關係。</div></li>
+      <li><span class="badge">3</span><div><b>拍面朝對方場內</b>：揮拍路線大約和網子平行或略往內，手腕固定，像推一顆平平的抽球。</div></li>
+      <li><span class="badge">4</span><div><b>不碰網柱</b>：拍子和身體跟網柱保持距離，打完不要往網柱方向衝。</div></li>
+      <li><span class="badge">5</span><div><b>沒把握就打回中間</b>：角度不夠或球太高時，從網上方打一顆安全的球回對方中間，先回位。</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>對手可能打 ATP 時怎麼防</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="defend" role="img" aria-label="俯視動畫：你打出大角度斜線，對手被拉出場外，靠那一側的搭檔往邊線靠守住繞柱路線，你補到中間"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>大角度斜線是雙面刃</b>：你把對手拉得越開，他越有機會打 ATP。</li>
+      <li><b>靠那一側的人守邊線</b>：對手被拉到場外時，你們這邊靠同一側的人往邊線靠，擋住繞柱的路線。</li>
+      <li><b>另一人補中間</b>：搭檔往邊線移，你就往中間移，不要兩人都看著球。</li>
+      <li><b>別把斜線打太大、太高</b>：彈高又出場外的角度球最容易被 ATP，角度球要低。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span>訓練動作（動畫示意）</h2>
+  <div class="drills">
+    <article class="drill"><canvas data-d="drill" role="img" aria-label="俯視動畫：夥伴餵大角度斜線，你追出場外打 ATP 到對方邊線的目標區"></canvas><div class="step"></div>
+      <h3>餵角度球打 ATP <span class="dose">左右各 2×8 球</span></h3>
+      <p>夥伴在斜對角廚房線用手拋或用拍子餵大角度斜線，讓球落地後往場外跑。你追出去打 ATP，目標是對方靠邊線的廚房（可用毛巾標示）。先慢速，確定每次都不碰網柱。</p><p class="goal">練到：判斷時機、場外擊球</p></article>
+    <article class="drill"><canvas data-d="cover" role="img" aria-label="俯視動畫：搭檔兩人輪流練習守邊線和補中間"></canvas><div class="step"></div>
+      <h3>斜線拉開＋守邊線 <span class="dose">3×2 分鐘</span></h3>
+      <p>四人雙打，只打斜線丁克。每當有人被拉到邊線外，對面靠那一側的人就要往邊線靠、搭檔補中間。打幾輪後交換位置。</p><p class="goal">練到：搭檔之間的補位默契</p></article>
+  </div>
+  <p class="note">ATP 的機會本來就少，練習時以「認得出來」和「安全打進」為主，不要比賽時硬找機會打。</p>
+</section>
+</main>
+
+<script>
+// stick-figure + court scenes (same engine as the reset page)
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,w,[w[0]+cx*10,w[1]+sy*10]);x.save();x.translate(w[0]+cx*17,w[1]+sy*17);x.rotate(r);x.beginPath();x.ellipse(0,0,7.5,5.5,0,0,7);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const ball=(x,p,c,r=2.6)=>{x.lineWidth=r>2?1:.6;circ(x,p,r,c.ball,c.ink)};
+const txt=(x,s,p,c,al='center',sz=5,col)=>{x.fillStyle=col||c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
+const q=(P,C,Q,u)=>[(1-u)*(1-u)*P[0]+2*u*(1-u)*C[0]+u*u*Q[0],(1-u)*(1-u)*P[1]+2*u*(1-u)*C[1]+u*u*Q[1]];
+const clamp=u=>Math.max(0,Math.min(1,u)),ease=u=>{u=clamp(u);return u*u*(3-2*u)};
+function dashed(x,P,C,Q,col,to=1){x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=col;x.lineWidth=.6;x.beginPath();x.moveTo(P[0],P[1]);for(let u=.05;u<=to+1e-6;u+=.05){const p=q(P,C,Q,u);x.lineTo(p[0],p[1])}x.stroke();x.restore()}
+
+// side-view court, 120x50 units: net x=60, kitchen lines 7ft from net, vertical scale doubled
+const NET=29.6,KL=42.2,KR=77.8;
+function courtSide(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(KL,8,KR-KL,36);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.6;pl(x,[KL,44],[KL,40]);pl(x,[KR,44],[KR,40]);
+  x.strokeStyle=c.ink;x.lineWidth=.8;pl(x,[2,44],[118,44]);x.lineWidth=1.3;pl(x,[60,44],[60,NET]);
+  txt(x,'你的廚房',[51,48.5],c,'center',3.4);txt(x,'對方廚房',[69,48.5],c,'center',3.4);txt(x,'網',[60,27.5],c,'center',3.4);
+}
+function person(x,c,px,low,face){
+  const hy=low?28:23,hip=low?37:34;x.strokeStyle=c.ink;x.lineWidth=1.1;
+  pl(x,[px,hy+2.4],[px,hip]);pl(x,[px-3,44],[px,hip],[px+3,44]);pl(x,[px,hy+5],[px+face*4,hy+9]);
+  x.lineWidth=.8;circ(x,[px,hy],2.3,c.panel,c.ink);
+  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.ellipse(0,0,1.2,2.4,0,0,7);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+}
+const P0=[44,40],SHORT=[P0,[54,-6],[64,44]],LONG=[P0,[56,4],[76,44]],OUT=[P0,[60,0],[83,44]];
+// top view helpers: court x 30..90 (3 units/ft), net y=50, kitchens y 29..71
+function courtTop(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(30,29,60,42);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(30,2,60,96);pl(x,[30,29],[90,29]);pl(x,[30,71],[90,71]);pl(x,[60,2],[60,29]);pl(x,[60,71],[60,98]);
+  x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[26,50],[94,50]);txt(x,'網',[97,52],c,'left');
+}
+const band=(x,c,y0,y1)=>{x.globalAlpha=.35;x.fillStyle=c.ball;x.fillRect(30,y0,60,y1-y0);x.globalAlpha=1};
+function flight(x,c,A,B,u,lift=8){const p=[A[0]+(B[0]-A[0])*u,A[1]+(B[1]-A[1])*u],h=Math.sin(Math.PI*u);x.globalAlpha=.25;circ(x,p,1.6,c.ink);x.globalAlpha=1;ball(x,[p[0],p[1]-h*lift],c,1.8+h*.8)}
+const dot=(x,c,p,col)=>{x.lineWidth=.6;circ(x,p,1.6,col,c.ink)};
+
+const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const OH0={pv:[52,57],nk:[54,29],...SIDE,fA:[44,92],fB:[64,92],wA:[62,46],wB:[68,42],rk:-70,b:[104,-6],show:1};
+// whole court seen from above, 2 units per ft: x 40..80, y 6..94, net y=50, kitchen lines y=36/64
+function fullCourt(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(40,36,40,28);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(40,6,40,88);pl(x,[40,36],[80,36]);pl(x,[40,64],[80,64]);pl(x,[60,6],[60,36]);pl(x,[60,64],[60,94]);
+  x.strokeStyle=c.ink;x.lineWidth=1.6;pl(x,[36,50],[84,50]);txt(x,'網',[87,52],c,'left',4);
+}
+const man=(x,c,p,l,col)=>{x.lineWidth=1.2;circ(x,p,3,col||c.panel,c.ink);if(l)txt(x,l,[p[0]+5,p[1]+1.5],c,'left',3.8)};
+const lp=(a,b,u)=>[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u];
+// court seen from above (2 units per ft): x 40..80, y 6..94, net y=50, posts 1 ft outside the sidelines
+function atpCourt(x,c){fullCourt(x,c);x.fillStyle=c.ink;x.fillRect(36,48.5,3,3);x.fillRect(81,48.5,3,3);txt(x,'網柱',[86,46],c,'left',3.8)}
+const D={
+  chance:{still:3.2,fn:(x,t,c)=>{
+    atpCourt(x,c);t%=6.4;const opp=[48,32],opp2=[70,32],me0=[70,68],me1=[95,62];
+    const A=[[48,35],[66,50],[78,57]],OUT=[[78,57],[88,58],[97,59]],ATP=[[97,59],[90,46],[74,42]];
+    let b,lab,me=me0;
+    if(t<1){const u=clamp(t);b=q(...A,u);lab='對手打出大角度斜線'}
+    else if(t<1.9){const u=clamp((t-1)/.9);b=q(...OUT,u);me=lp(me0,me1,ease((t-.9)/1));lab='球落地後往場外跑，追出去'}
+    else if(t<2.5){b=[97,59];me=me1;lab='讓球低一點，在網柱外側擊球'}
+    else if(t<3.3){const u=clamp((t-2.5)/.8);b=q(...ATP,u);me=me1;x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=c.good;x.lineWidth=.8;x.beginPath();for(let k=0;k<=20;k++){const p=q(...ATP,k/20*u);k?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1])}x.stroke();x.restore();lab='從網柱外側繞過去，落在對方邊線附近'}
+    else{b=ATP[2];me=me1;dot(x,c,ATP[2],c.good);lab='對手站在中間，來不及移過去'}
+    if(t>1)dot(x,c,[78,57],c.muted);
+    man(x,c,opp,'對手');man(x,c,opp2,'');man(x,c,me,'你',c.ball);ball(x,b,c,1.8);return lab}},
+  face:{still:4.2,fn:(x,t,c)=>{
+    // looking at the net from the baseline: x = along the net, y = height (ground y=44); center strap at x=20, post at x=96
+    const G=44,yN=xx=>G-17-(xx-20)/76*1;
+    x.strokeStyle=c.line;x.lineWidth=.6;pl(x,[2,G],[118,G]);
+    x.globalAlpha=.25;x.fillStyle=c.muted;x.beginPath();x.moveTo(2,G);x.lineTo(2,yN(2));x.lineTo(96,yN(96));x.lineTo(96,G);x.closePath();x.fill();x.globalAlpha=1;
+    x.strokeStyle=c.ink;x.lineWidth=1;pl(x,[2,yN(2)],[96,yN(96)]);x.fillStyle=c.ink;x.fillRect(96,yN(96)-1,2.4,G-yN(96)+1);
+    txt(x,'網子',[40,G-6],c,'center',3.6);txt(x,'網柱',[97,yN(96)-3],c,'center',3.6);txt(x,'邊線外 →',[112,G+4.5],c,'right',3.2);txt(x,'← 場內',[6,G+4.5],c,'left',3.2);
+    t%=6;const first=t<3,lt=first?t:t-3,cross=first?[44,14]:[106,38],start=first?[60,48]:[110,48];
+    const u=clamp(lt/1.4),p=lp(start,cross,u),r=2.6-u*1.2;
+    if(u>=1){x.lineWidth=.6;circ(x,cross,3,null,first?c.court:c.good)}
+    ball(x,p,c,r);
+    return first?'一般擊球：一定要從網子上方通過':'ATP：從網柱外側通過，可以比網子低'}},
+  tk:{keys:[
+    {p:{pv:[40,57],nk:[40,29],s:10,h:7,fA:[26,92],fB:[54,92],kb:[1,-1],eb:[1,-1],wA:[37,47],wB:[44,46],rk:-90,b:[118,60],br:2.6},hold:.4,dur:.8,label:'準備：球往你右邊的場外跑'},
+    {p:{s:5,h:4,pv:[44,57],nk:[46,29],fB:[60,92],wA:[46,46],wB:[52,44],rk:-70,b:[112,66]},dur:.25,label:'右腳打開、轉身'},
+    {p:{pv:[58,56],nk:[60,28],fA:[70,90],wA:[58,46],wB:[66,44],b:[106,70]},dur:.3,label:'交叉步追出去'},
+    {p:{pv:[70,60],nk:[74,34],fB:[86,92],wA:[64,52],wB:[82,60],rk:20,b:[99,67]},dur:.3,hold:.15,label:'降低重心，在身體外側低處擊球'},
+    {p:{wB:[90,50],rk:-40,b:[92,40],br:1.2},dur:.3,hold:.4,label:'沿著網子方向打出，不碰網柱'},
+    {p:{s:10,h:7,pv:[52,57],nk:[52,29],fA:[38,92],fB:[66,92],wA:[49,47],wB:[56,46],rk:-90,b:[118,60],br:0},dur:.7,hold:.2,label:'側併步回位'}]},
+  tech:{still:2,fn:(x,t,c)=>{const d=D.tk;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);
+    x.strokeStyle=c.muted;x.lineWidth=1;x.save();x.setLineDash([2,2]);pl(x,[94,93],[94,60]);x.restore();txt(x,'邊線外',[96,98],c,'left',4);
+    const S=sample(d,t),J=joints(S.p);fig(x,J,c);paddle(x,J.wB,S.p.rk,c);if(S.p.br>.5)ball(x,S.p.b,c,S.p.br);txt(x,'從背後看',[4,8],c,'left');return S.label}},
+  defend:{still:3,fn:(x,t,c)=>{
+    atpCourt(x,c);t%=6;const o0=[48,32],o1=[24,44],pa0=[48,68],pa1=[40,66],me0=[72,68],me1=[60,68];
+    const ANG=[[70,64],[52,52],[42,45]],OUTB=[[42,45],[32,44],[24,44]],THREAT=[[24,44],[22,58],[44,60]];
+    let b,lab,o=o0,pa=pa0,me=me0;
+    if(t<1){b=q(...ANG,clamp(t));lab='你打出大角度斜線'}
+    else if(t<2){const u=clamp(t-1);b=q(...OUTB,u);o=lp(o0,o1,ease(u*1.1));lab='對手被拉出場外：可能打 ATP'}
+    else{b=OUTB[2];o=o1;const v=ease((t-2)/1);pa=lp(pa0,pa1,v);me=lp(me0,me1,v);
+      x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=c.bad;x.lineWidth=.8;x.beginPath();for(let k=0;k<=20;k++){const p=q(...THREAT,k/20);k?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1])}x.stroke();x.restore();
+      lab=t<3.5?'靠那一側的搭檔往邊線靠，守住繞柱路線':'你補到中間'}
+    man(x,c,o,'對手');man(x,c,[72,32],'');man(x,c,pa,'搭檔');man(x,c,me,'你',c.ball);ball(x,b,c,1.8);return lab}},
+  drill:{still:2.6,fn:(x,t,c)=>{
+    atpCourt(x,c);x.globalAlpha=.35;x.fillStyle=c.ball;x.fillRect(70,38,10,12);x.globalAlpha=1;txt(x,'目標',[75,36],c,'center',3.8);
+    const per=3,res=[['g','打進目標 ✓'],['g','打進目標 ✓'],['p','太靠近網柱，打到網柱 ✕']];t%=res.length*per+1;const n=Math.min(res.length,Math.floor(t/per)),lt=t-n*per;
+    for(let k=0;k<Math.min(n,res.length);k++)dot(x,c,res[k][0]==='g'?[75-k*2,44-k]:[82,50],res[k][0]==='g'?c.good:c.bad);
+    man(x,c,[48,32],'夥伴');
+    if(n>=res.length){man(x,c,[70,68],'你',c.ball);return '3 球：2 顆進目標、1 顆打到網柱'}
+    const me=lt<1.2?lp([70,68],[95,62],ease((lt-.3)/.9)):lt<2.2?[95,62]:lp([95,62],[70,68],ease((lt-2.2)/.7));
+    const tgt=res[n][0]==='g'?[75-n*2,44-n]:[82,50];let b;
+    if(lt<1.3){const u=clamp(lt/1.3);b=u<.6?q([48,35],[66,50],[78,57],u/.6):q([78,57],[88,58],[97,59],(u-.6)/.4)}
+    else if(lt<2){const u=clamp((lt-1.3)/.6);b=q([97,59],[90,46],tgt,u)}
+    else{b=tgt;dot(x,c,tgt,res[n][0]==='g'?c.good:c.bad)}
+    man(x,c,me,'你',c.ball);ball(x,b,c,1.8);return lt<1.3?`第 ${n+1} 球：追出場外`:`第 ${n+1} 球：`+res[n][1]}},
+  cover:{still:2.4,fn:(x,t,c)=>{
+    atpCourt(x,c);t%=8;const left=t<4,lt=left?t:t-4;
+    const opp=left?lp([48,32],[24,44],ease((lt-.6)/.8)):lp([72,32],[96,44],ease((lt-.6)/.8));
+    const v=ease((lt-1.4)/.9);
+    const me=left?lp([72,68],[60,68],v):lp([72,68],[80,66],v);
+    const pa2=left?lp([48,68],[40,66],v):lp([48,68],[60,68],v);
+    man(x,c,opp,'對手');man(x,c,left?[72,32]:[48,32],'');man(x,c,pa2,'搭檔');man(x,c,me,'你',c.ball);
+    return lt<1.4?(left?'左側的對手被拉出場外':'右側的對手被拉出場外'):(left?'左側的搭檔守邊線，你補中間':'右側的你守邊線，搭檔補中間')}},
+};
+for(const d of Object.values(D)){
+  if(!d.keys)continue;
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur;
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good'),bad:g('--bad')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const t=still?it.d.still:(now-t0)/1000;let label;
+    if(it.d.fn)label=it.d.fn(x,t,c);
+    else{const S=sample(it.d,t);label=S.label;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);it.d.prop(x,J,S.p,c);txt(x,it.d.view,[116,8],c,'right')}
+    if(it.step.textContent!==label)it.step.textContent=label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
