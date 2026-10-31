@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>常見傷害與預防</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages: court blue panels, ball yellow as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+.back{color:var(--court);font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start;margin:0}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill.wide canvas{aspect-ratio:12/5}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+ol.chain,ul.why{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.err{display:grid}
+.err div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.err div:last-child{border-bottom:0}
+.err .x{color:var(--bad);font-weight:700}
+.err .o{color:var(--good)}
+@media (max-width:560px){.err div{grid-template-columns:1fr;gap:4px}}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.check h3 span{font-family:var(--display);color:var(--court);font-size:16px;letter-spacing:.04em}
+.check p{font-size:14.5px;color:var(--muted)}
+.check a,.note a,.err a{color:var(--court)}
+.inj{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.inj{grid-template-columns:1fr}}
+.inj article{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.inj dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;font-size:14.5px}
+.inj dt{font-weight:700;color:var(--court);white-space:nowrap}
+.inj dd{margin:0;color:var(--muted)}
+.alert{background:var(--panel);border:1px solid var(--bad);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.alert b{color:var(--bad)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Injury Prevention</div>
+  <h1>常見傷害與預防</h1>
+  <p class="lead">匹克球看起來輕鬆，但急停、側移、往後追高球和大量重複揮拍，會讓手肘、小腿、腳踝和膝蓋累積負擔。這頁整理常見的傷害、為什麼會發生、怎麼預防，以及有症狀時先做什麼。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>先說清楚</h2>
+  <div class="alert">
+    <p><b>這頁不是醫療建議。</b>內容是一般運動常識，用來幫你提早注意風險。疼痛持續超過幾天、越來越痛，或影響日常生活，請找醫師或物理治療師評估。</p>
+    <p><b>出現這些情況請立刻停止並就醫：</b>受傷時聽到「啪」一聲、明顯腫脹或變形、無法站立或走路、手腳麻木無力、撞到頭後頭暈想吐。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>往後跌倒</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="fall" role="img" aria-label="側面動畫：正面倒退追高球，重心落到腳跟、上半身後仰，最後往後跌倒用手撐地"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>怎麼發生</b>：被挑高球時正面倒退跑，眼睛看著頭上的球，重心落到腳跟，一絆就往後倒。手腕骨折、頭部撞擊都常見。</li>
+      <li><b>預防</b>：先轉身側身，用交叉步往後跑，見 <a href="footwork.html">匹克球腳步</a> 的「後退追高球」。來不及就讓球落地，或交給搭檔，見 <a href="high-ball.html">球起高時</a>。</li>
+      <li><b>真的要跌倒時</b>：盡量側身、收下巴、讓屁股和背部大面積著地，不要直直伸手去撐。</li>
+      <li><b>之後</b>：手腕、頭部撞擊後有疼痛、腫脹或頭暈，就醫檢查，不要繼續打。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>網球肘與前臂</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="forearm" role="img" aria-label="側面動畫：手臂往前伸直、掌心朝下，另一手把手背往下壓，伸展前臂外側"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>怎麼發生</b>：手肘外側的肌腱反覆受力。常見原因是握拍太緊、只用手臂打球、反手用手腕甩、拍子太重或握把粗細不合。</li>
+      <li><b>預防</b>：握拍放鬆、用身體轉動發力（見 <a href="forehand.html">正手動力鏈</a>），握把粗細要合手（見 <a href="gear.html">球拍與裝備</a>），打完做前臂伸展。</li>
+      <li><b>有症狀時</b>：手肘外側在握東西、轉門把時痛，就減少打球量和強度。拖久了比較難好，建議盡早找物理治療師。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>小腿拉傷與阿基里斯腱</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="calf" role="img" aria-label="側面動畫：雙手推牆弓步，後腳伸直腳跟踩地伸展小腿，再把後膝微彎伸展比較深層的部位"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>怎麼發生</b>：突然往前衝、急停或跳起時，小腿或阿基里斯腱瞬間受力太大。沒熱身、天冷、年紀較大時風險更高。</li>
+      <li><b>預防</b>：打球前做動態熱身（見 <a href="warmup.html">熱身</a>），打完伸展小腿。平常可以做提踵訓練加強小腿。</li>
+      <li><b>有症狀時</b>：小腿突然像被踢一下、腳跟後方劇痛或無法踮腳，立刻停止並就醫。輕微的緊繃痠痛先休息，不要硬打。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>其他常見部位</h2>
+  <div class="inj">
+<article><h3>肩膀</h3><dl><dt>原因</dt><dd>高壓扣殺、大力抽球揮太多，或只用手臂發力。</dd><dt>預防</dt><dd>打球前做手臂繞環，扣殺用 7–8 分力；平常加強肩膀後側和肩胛的肌力。</dd><dt>有症狀時</dt><dd>舉手過頭會痛、晚上壓到會痛，就先停止扣殺和大力抽球，持續就就醫。</dd></dl></article><article><h3>膝蓋</h3><dl><dt>原因</dt><dd>弓步跨太大、急停時膝蓋內夾、長時間蹲低丁克。</dd><dt>預防</dt><dd>用兩三個小步代替一個大步，蹲低時膝蓋對準腳尖方向；加強大腿和臀部肌力。</dd><dt>有症狀時</dt><dd>上下樓梯痛、腫脹或卡卡的，減少打球量並就醫評估。</dd></dl></article><article><h3>手腕</h3><dl><dt>原因</dt><dd>用手腕甩球、撈球，或跌倒時伸手撐地。</dd><dt>預防</dt><dd>手腕固定，從肩膀和前臂帶動；不要正面倒退追高球。</dd><dt>有症狀時</dt><dd>腫脹、轉動受限或按壓某一點特別痛，就醫檢查。</dd></dl></article><article><h3>腳踝扭傷</h3><dl><dt>原因</dt><dd>側移時踩到球或別人的腳、穿跑鞋側移、場地濕滑。</dd><dt>預防</dt><dd>穿側向支撐好的球場鞋（見 <a href="gear.html">球拍與裝備</a>），場上不要留球，滾到腳下的球先清掉。</dd><dt>有症狀時</dt><dd>先停止打球、休息、冰敷、抬高，盡快就醫評估；無法走路或明顯腫脹要立刻就醫。</dd></dl></article>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">06</span>預防的共通原則</h2>
+  <ol class="chain">
+    <li><span class="badge">1</span><div><b>每次都熱身</b>：5–8 分鐘動態熱身再上場，見 <a href="warmup.html">熱身</a>。</div></li>
+    <li><span class="badge">2</span><div><b>用對的鞋子</b>：球場鞋，不穿跑鞋。</div></li>
+    <li><span class="badge">3</span><div><b>用身體打球，不只用手</b>：轉身發力、握拍放鬆，手肘和肩膀的負擔會小很多。</div></li>
+    <li><span class="badge">4</span><div><b>慢慢加量</b>：從每週一兩次開始，突然連打好幾天最容易受傷。</div></li>
+    <li><span class="badge">5</span><div><b>痛就停</b>：痠和痛不一樣。尖銳的痛、越打越痛，就停下來。</div></li>
+  </ol>
+  <p class="note">這頁的伸展和預防方法是一般建議。每個人的身體狀況不同，有舊傷或慢性疼痛時，請先和醫師或物理治療師討論適合的練習量。</p>
+</section>
+</main>
+
+<script>
+// stick-figure + court scenes (same engine as the reset page)
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(r);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const ball=(x,p,c,r=2.6)=>{x.lineWidth=r>2?1:.6;circ(x,p,r,c.ball,c.ink)};
+const txt=(x,s,p,c,al='center',sz=5,col)=>{x.fillStyle=col||c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
+const q=(P,C,Q,u)=>[(1-u)*(1-u)*P[0]+2*u*(1-u)*C[0]+u*u*Q[0],(1-u)*(1-u)*P[1]+2*u*(1-u)*C[1]+u*u*Q[1]];
+const clamp=u=>Math.max(0,Math.min(1,u)),ease=u=>{u=clamp(u);return u*u*(3-2*u)};
+function dashed(x,P,C,Q,col,to=1){x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=col;x.lineWidth=.6;x.beginPath();x.moveTo(P[0],P[1]);for(let u=.05;u<=to+1e-6;u+=.05){const p=q(P,C,Q,u);x.lineTo(p[0],p[1])}x.stroke();x.restore()}
+
+// side-view court, 120x50 units: net x=60, kitchen lines 7ft from net, vertical scale doubled
+const NET=29.6,KL=42.2,KR=77.8;
+function courtSide(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(KL,8,KR-KL,36);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.6;pl(x,[KL,44],[KL,40]);pl(x,[KR,44],[KR,40]);
+  x.strokeStyle=c.ink;x.lineWidth=.8;pl(x,[2,44],[118,44]);x.lineWidth=1.3;pl(x,[60,44],[60,NET]);
+  txt(x,'你的廚房',[51,48.5],c,'center',3.4);txt(x,'對方廚房',[69,48.5],c,'center',3.4);txt(x,'網',[60,27.5],c,'center',3.4);
+}
+function person(x,c,px,low,face){
+  const hy=low?28:23,hip=low?37:34;x.strokeStyle=c.ink;x.lineWidth=1.1;
+  pl(x,[px,hy+2.4],[px,hip]);pl(x,[px-3,44],[px,hip],[px+3,44]);pl(x,[px,hy+5],[px+face*4,hy+9]);
+  x.lineWidth=.8;circ(x,[px,hy],2.3,c.panel,c.ink);
+  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.roundRect(-1.3,-2.2,2.6,4.4,.9);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+}
+const P0=[44,40],SHORT=[P0,[54,-6],[64,44]],LONG=[P0,[56,4],[76,44]],OUT=[P0,[60,0],[83,44]];
+// top view helpers: court x 30..90 (3 units/ft), net y=50, kitchens y 29..71
+function courtTop(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(30,29,60,42);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(30,2,60,96);pl(x,[30,29],[90,29]);pl(x,[30,71],[90,71]);pl(x,[60,2],[60,29]);pl(x,[60,71],[60,98]);
+  x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[26,50],[94,50]);txt(x,'網',[97,52],c,'left');
+}
+const band=(x,c,y0,y1)=>{x.globalAlpha=.35;x.fillStyle=c.ball;x.fillRect(30,y0,60,y1-y0);x.globalAlpha=1};
+function flight(x,c,A,B,u,lift=8){const p=[A[0]+(B[0]-A[0])*u,A[1]+(B[1]-A[1])*u],h=Math.sin(Math.PI*u);x.globalAlpha=.25;circ(x,p,1.6,c.ink);x.globalAlpha=1;ball(x,[p[0],p[1]-h*lift],c,1.8+h*.8)}
+const dot=(x,c,p,col)=>{x.lineWidth=.6;circ(x,p,1.6,col,c.ink)};
+
+const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const SIDE2={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const D={
+  fall:{still:2.4,fn:(x,t,c)=>{const d=D.fk;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);
+    const S=sample(d,t),J=joints(S.p);fig(x,J,c);paddle(x,J.wB,S.p.rk,c);ball(x,[90,6],c,2.4);txt(x,'側面看',[116,96],c,'right');return S.label}},
+  fk:{keys:[
+    {p:{pv:[64,57],nk:[66,29],...SIDE2,fA:[56,92],fB:[74,92],wA:[74,46],wB:[78,42],rk:-70},hold:.5,dur:.9,label:'被挑高球'},
+    {p:{pv:[54,56],nk:[50,29],fA:[44,92],fB:[62,90],wA:[60,44],wB:[66,36],rk:-80},dur:.6,label:'正面倒退，眼睛盯著頭上的球'},
+    {p:{pv:[44,60],nk:[34,36],fA:[38,92],fB:[56,86],wA:[44,40],wB:[56,30],rk:-100},dur:.5,hold:.2,label:'重心落到腳跟，上半身往後仰'},
+    {p:{pv:[34,84],nk:[20,66],fA:[58,92],fB:[62,90],wA:[16,88],wB:[40,60],rk:-120},dur:.35,hold:1.2,label:'✕ 往後跌倒，常伸手撐地或撞到頭'}]},
+  forearm:{still:3.2,fn:(x,t,c)=>{const d=D.ak;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);
+    const S=sample(d,t),J=joints(S.p),a=S.p.fg*70*R,tip=[J.wB[0]+Math.cos(a)*6,J.wB[1]+Math.sin(a)*6];
+    fig(x,J,c);if(S.p.fg>.5){x.strokeStyle=c.hip;x.lineWidth=3;x.globalAlpha=.8;pl(x,J.eB,J.wB);x.globalAlpha=1}
+    x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.wB,tip);txt(x,'側面看',[116,8],c,'right');if(S.p.fg>.5)txt(x,'前臂外側被拉開',[70,16],c,'center',4.4);return S.label}},
+  ak:{keys:[
+    {p:{pv:[56,54],nk:[57,26],...SIDE2,fA:[52,92],fB:[62,92],wA:[52,52],wB:[60,52],fg:0},hold:.4,dur:.6,label:'站直，手放鬆'},
+    {p:{wB:[84,28]},dur:.6,hold:.2,label:'持拍手往前伸直，掌心朝下'},
+    {p:{wA:[82,34],fg:1},dur:.6,hold:1.6,label:'另一手把手背往下壓，停 20–30 秒，不要痛'},
+    {p:{wA:[52,52],wB:[60,52],fg:0},dur:.7,hold:.3,label:'放鬆，換手也做'}]},
+  calf:{still:2.4,fn:(x,t,c)=>{const d=D.ck;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);
+    x.strokeStyle=c.muted;x.lineWidth=2.5;pl(x,[96,10],[96,93]);txt(x,'牆',[102,14],c);
+    const S=sample(d,t),J=joints(S.p);fig(x,J,c);if(S.p.hl>.5){x.strokeStyle=c.hip;x.lineWidth=3;x.globalAlpha=.8;pl(x,J.kA,J.fA);x.globalAlpha=1}
+    txt(x,'側面看',[4,8],c,'left');return S.label}},
+  ck:{keys:[
+    {p:{pv:[66,54],nk:[68,26],...SIDE2,fA:[64,92],fB:[70,92],wA:[78,44],wB:[80,42],hl:0},hold:.4,dur:.7,label:'面向牆站好'},
+    {p:{pv:[62,58],nk:[72,32],fA:[40,92],fB:[80,92],wA:[94,36],wB:[94,40],hl:1},dur:.8,hold:1.6,label:'雙手推牆，後腳伸直、腳跟踩地：伸展小腿'},
+    {p:{pv:[60,64],nk:[71,38],fA:[46,92],wA:[94,42],wB:[94,46]},dur:.6,hold:1.6,label:'後膝微彎：伸展比較深層的小腿和阿基里斯腱'},
+    {p:{pv:[66,54],nk:[68,26],fA:[64,92],fB:[70,92],wA:[78,44],wB:[80,42],hl:0},dur:.7,hold:.3,label:'回來，換腳也做'}]},
+};
+for(const d of Object.values(D)){
+  if(!d.keys)continue;
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur;
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good'),bad:g('--bad')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const t=still?it.d.still:(now-t0)/1000;let label;
+    if(it.d.fn)label=it.d.fn(x,t,c);
+    else{const S=sample(it.d,t);label=S.label;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);it.d.prop(x,J,S.p,c);txt(x,it.d.view,[116,8],c,'right')}
+    if(it.step.textContent!==label)it.step.textContent=label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

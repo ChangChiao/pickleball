@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>依級距練習計畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages; the level ladder uses one hue getting darker per level */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --onBall:#15232e;
+  --l1:#cfe0ec; --l2:#a7c6dc; --l3:#79a6c8; --l4:#4d82ad; --l5:#2a5d84;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a;
+  --l1:#22394b; --l2:#2c4c66; --l3:#3b6588; --l4:#5585ad; --l5:#77aedb; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a;
+  --l1:#22394b; --l2:#2c4c66; --l3:#3b6588; --l4:#5585ad; --l5:#77aedb; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+a{color:var(--court)}
+.back{font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+/* ladder */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;align-items:end}
+.ladder a{display:grid;gap:4px;text-decoration:none;color:var(--ink)}
+.ladder .bar{border-radius:6px 6px 0 0;display:grid;place-items:end center;padding-bottom:6px;font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink)}
+.ladder a:nth-child(1) .bar{height:44px;background:var(--l1)}
+.ladder a:nth-child(2) .bar{height:66px;background:var(--l2)}
+.ladder a:nth-child(3) .bar{height:88px;background:var(--l3)}
+.ladder a:nth-child(4) .bar{height:110px;background:var(--l4);color:var(--panel)}
+.ladder a:nth-child(5) .bar{height:132px;background:var(--l5);color:var(--panel)}
+.ladder small{font-size:12.5px;color:var(--muted);text-align:center;line-height:1.5}
+.ladder a:hover .bar{outline:2px solid var(--ball)}
+.ladder a:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.ladder a.me .bar{box-shadow:inset 0 -6px 0 var(--ball)}
+
+/* level cards */
+.levels{display:grid;gap:14px}
+.lv{background:var(--panel);border:1px solid var(--line);border-radius:10px;display:grid;grid-template-columns:96px minmax(0,1fr);overflow:hidden;scroll-margin-top:16px}
+.lv .num{display:grid;place-items:center;align-content:center;gap:2px;font-family:var(--display);font-weight:700;font-size:34px;line-height:1}
+.lv .num small{font-family:var(--body);font-size:12px;font-weight:500}
+.lv:nth-child(1) .num{background:var(--l1)}
+.lv:nth-child(2) .num{background:var(--l2)}
+.lv:nth-child(3) .num{background:var(--l3)}
+.lv:nth-child(4) .num{background:var(--l4);color:var(--panel)}
+.lv:nth-child(5) .num{background:var(--l5);color:var(--panel)}
+.lv .body{padding:14px 16px;display:grid;gap:10px}
+.lv h3{font-size:18px}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cols h4{margin:0 0 4px;font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.cols ul{margin:0;padding-left:1.1em;font-size:14.5px;display:grid;gap:4px}
+@media (max-width:700px){.cols{grid-template-columns:1fr}.lv{grid-template-columns:1fr}.lv .num{grid-auto-flow:column;justify-content:start;gap:10px;padding:8px 16px;font-size:28px}}
+
+/* self check */
+.quiz{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:14px}
+.quiz fieldset{border:0;margin:0;padding:0;display:grid;gap:6px}
+.quiz legend{font-weight:700;margin-bottom:4px;font-size:15px}
+.quiz label{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;font-size:14.5px;cursor:pointer}
+.quiz input{width:18px;height:18px;margin-top:4px;accent-color:var(--court)}
+.result{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
+.result b{font-family:var(--display);font-size:34px;line-height:1;color:var(--court)}
+.result span{color:var(--muted);font-size:14.5px;max-width:52ch}
+.result button{font:inherit;font-size:14px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;margin-left:auto}
+.result button:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+/* practice plan */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:15px;padding:6px 14px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--court);border-color:var(--court);color:var(--panel)}
+.tabs button:focus-visible,.sess input:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.focus{color:var(--muted);font-size:15px}
+.weeks{display:grid;gap:14px}
+.week{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:10px}
+.week h3{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.week h3 small{font-weight:500;font-size:13px;color:var(--muted)}
+.sessions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.sessions{grid-template-columns:1fr}}
+.sess{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:6px;align-content:start}
+.sess.done{background:var(--courtSoft)}
+.sess label{display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer}
+.sess input{width:18px;height:18px;accent-color:var(--court)}
+.sess ul{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:14px}
+.sess li{display:grid;grid-template-columns:48px 34px minmax(0,1fr);gap:6px;align-items:baseline}
+.sess li i{font-style:normal;font-size:12px;font-weight:700;border-radius:4px;padding:0 4px;text-align:center}
+.sess li span.m{font-family:var(--display);font-size:15px;color:var(--muted);text-align:right}
+.k-w{background:var(--l1)}.k-t{background:var(--ball);color:var(--onBall)}.k-g{background:var(--l3)}.k-c{background:var(--line)}
+.split{display:flex;height:34px;border-radius:6px;overflow:hidden;font-size:12.5px;font-weight:700}
+.split div{display:grid;place-items:center;color:var(--ink);min-width:0;white-space:nowrap;overflow:hidden}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Practice Plan</div>
+  <h1>依級距練習計畫：四週往上一級</h1>
+  <p class="lead">把這本筆記的各頁串成每週課表。選你現在的級距，每週練 2 次（有時間再加一次自由對打），每次 60–90 分鐘。每一項都連到對應的頁面，練完就把那一次勾起來。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>一次練習怎麼分配時間</h2>
+  <div class="split" role="img" aria-label="一次 80 分鐘的練習：熱身 10 分鐘、技術 35 分鐘、情境練習 20 分鐘、對打 10 分鐘、收操 5 分鐘">
+    <div class="k-w" style="flex:10">熱身 10</div><div class="k-t" style="flex:35">技術 35</div><div class="k-g" style="flex:20">情境 20</div><div class="k-g" style="flex:10;opacity:.75">對打 10</div><div class="k-c" style="flex:5">收</div>
+  </div>
+  <p class="note">技術練習先慢後快、先餵球後對打。情境練習是把剛練的動作放進比賽情境（例如只打前三拍）。分鐘數是參考，時間少就縮短對打，不要省熱身。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>選你的級距</h2>
+  <p>不確定自己幾級，可以先做 <a href="levels.html">匹克球分級</a> 的自我檢查，這頁會自動選好對應的課表。勾選紀錄只存在你這台裝置的瀏覽器裡。</p>
+  <div class="tabs" role="tablist" aria-label="級距" id="tabs"></div>
+  <p class="focus" id="focus"></p>
+  <div class="weeks" id="weeks" role="tabpanel"></div>
+  <button type="button" id="clear" style="font:inherit;font-size:14px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;justify-self:start">清除這個級距的勾選</button>
+</section>
+
+<section>
+  <h2><span class="n">03</span>四週後怎麼判斷進步</h2>
+  <ul style="margin:0;padding-left:1.2em;display:grid;gap:6px;max-width:65ch">
+    <li>重做一次 <a href="levels.html">分級自我檢查</a>，看有沒有多勾幾項。</li>
+    <li>比較第 1 週和第 4 週的錄影：上網速度、第三拍落點、失誤類型。</li>
+    <li>某一項一直做不到，就把那一週再練一次，不用急著換下一份課表。</li>
+  </ul>
+  <p class="note">課表是通用參考。有舊傷、年紀較大或體能還在建立時，先把每週次數和強度降下來，並參考 <a href="injuries.html">常見傷害與預防</a>。</p>
+</section>
+</main>
+<script>
+// Plan data: [kind, minutes, text, page, page title]. kind: w 熱身 / t 技術 / g 情境・對打 / c 收操
+(function(){
+const W=['w',10,'動態熱身','warmup.html','熱身'],C=['c',5,'伸展','warmup.html','熱身'];
+const K={w:'熱身',t:'技術',g:'對打',c:'收操'};
+const PLANS=[
+ {id:'p25',tab:'2.5 → 3.0',focus:'重點：發球和回發球穩定、上網、丁克基礎、反手不閃躲。',weeks:[
+  ['發球與回發球',[
+    ['發球、回發球',[W,['t',10,'檢查握拍','grip.html','握拍'],['t',20,'深區毛巾發球','serve.html','發球'],['t',15,'回深球、回完上網','return.html','回發球'],['g',20,'只打前兩拍＋上網',null],C]],
+    ['正反手底線',[W,['t',25,'正手對抽，髖先肩後','forehand.html','正手'],['t',20,'雙手反手對抽','backhand.html','反手'],['g',20,'走、停、打上網','footwork.html','腳步'],C]]]],
+  ['丁克與廚房線',[
+    ['丁克',[W,['t',25,'直線、斜線長丁克','long-dink.html','長丁克'],['t',15,'擋截擊','volley.html','截擊'],['g',25,'丁克比賽（只能打進廚房）',null],C]],
+    ['網前',[W,['t',10,'廚房線進出步法','footwork.html','腳步'],['t',20,'正反手交替截擊','volley.html','截擊'],['t',15,'分腿墊步、反應','reaction.html','反應'],['g',20,'雙打對打',null],C]]]],
+  ['第三拍入門',[
+    ['放小球',[W,['t',30,'由近到遠的放小球','third-shot-drop.html','第三拍放小球'],['t',15,'重置球','reset.html','重置'],['g',20,'前三拍情境',null],C]],
+    ['搭檔配合',[W,['t',20,'反手穩定度','backhand.html','反手'],['t',20,'中間球誰接、一起移動','doubles-teamwork.html','雙打配合'],['g',30,'雙打對打',null],C]]]],
+  ['整合',[
+    ['三拍串起來',[W,['g',30,'發球、回發球、第三拍、上網','third-shot-drop.html','第三拍'],['t',20,'過渡區重置','reset.html','重置'],['g',30,'雙打對打',null],C]],
+    ['比賽日',[W,['g',60,'打比賽，記錄自己最常見的三種失誤','levels.html','分級'],C]]]]]},
+ {id:'p30',tab:'3.0 → 3.5',focus:'重點：第三拍和重置的成功率、丁克變化、看高度選截擊、開始有進攻選擇。',weeks:[
+  ['第三拍與過渡區',[
+    ['第三拍',[W,['t',25,'底線放小球落點','third-shot-drop.html','第三拍放小球'],['t',15,'上旋抽球','topspin.html','上旋'],['g',25,'放小球＋上網',null],C]],
+    ['重置',[W,['t',25,'一路重置上網','reset.html','重置'],['t',15,'切球回發球','slice.html','切球'],['g',25,'只從過渡區開始的對打',null],C]]]],
+  ['丁克變化',[
+    ['長短交替',[W,['t',20,'斜線長丁克','long-dink.html','長丁克'],['t',15,'短丁克、斜角','short-dink.html','短丁克'],['g',25,'丁克比賽（長短交替）',null],C]],
+    ['截擊選擇',[W,['t',20,'看高度決定截擊','volley.html','截擊'],['t',15,'網前快攻反應','reaction.html','反應'],['g',25,'截擊對截擊',null],C]]]],
+  ['開始進攻',[
+    ['Roll 與 Flick',[W,['t',25,'球比網高才進攻','kitchen-attack.html','廚房區進攻'],['t',15,'擋扣殺、擋 Flick','reaction.html','反應'],['g',25,'丁克轉進攻遊戲',null],C]],
+    ['高球',[W,['t',20,'高壓扣殺、往哪打','high-ball.html','高球'],['t',15,'後退追高球、換位','footwork.html','腳步'],['g',25,'深淺高球連續扣殺',null],C]]]],
+  ['整合',[
+    ['搭檔',[W,['t',25,'補位、一起移動、溝通','doubles-teamwork.html','雙打配合'],['g',40,'雙打對打，每局只專注一件事',null],C]],
+    ['比賽日',[W,['g',60,'打比賽，錄影檢討第三拍和重置','levels.html','分級'],C]]]]]},
+ {id:'p35',tab:'3.5 → 4.0',focus:'重點：攻防轉換、抽球和放小球的組合、穩定度、戰術和站位。',weeks:[
+  ['抽放組合',[
+    ['第三拍、第五拍',[W,['t',25,'抽球後第五拍放小球','third-shot-drop.html','第三拍'],['t',15,'上旋抽球打上網對手腳邊','topspin.html','上旋'],['g',30,'發球方練抽放、接發球方練擋',null],C]],
+    ['壓力下重置',[W,['t',25,'夥伴加速、你重置','reset.html','重置'],['t',15,'切球、低球處理','slice.html','切球'],['g',30,'過渡區對打',null],C]]]],
+  ['網前攻防',[
+    ['進攻',[W,['t',25,'Roll、Flick 打持拍側','kitchen-attack.html','廚房區進攻'],['t',20,'反擊快球','reaction.html','反應'],['g',25,'丁克轉進攻遊戲（計分）',null],C]],
+    ['截擊與高球',[W,['t',20,'推擊、下壓截擊','volley.html','截擊'],['t',20,'扣殺目標、自己浮高時防守','high-ball.html','高球'],['g',25,'網前對打',null],C]]]],
+  ['發球端與邊線',[
+    ['發球、回發球',[W,['t',20,'發深球打反手','serve.html','發球'],['t',20,'深回發球、回完上網','return.html','回發球'],['g',25,'只打前四拍',null],C]],
+    ['邊線打法',[W,['t',20,'認出 ATP 的機會','atp.html','ATP'],['t',15,'斜線拉開＋守邊線','atp.html','ATP'],['g',30,'雙打對打',null],C]]]],
+  ['戰術整合',[
+    ['站位',[W,['t',25,'換邊站位（Stacking）','stacking.html','換邊站位'],['t',15,'搭檔溝通口令','doubles-teamwork.html','雙打配合'],['g',35,'用換邊站位打比賽',null],C]],
+    ['比賽日',[W,['g',60,'打比賽，統計非受迫性失誤','levels.html','分級'],C]]]]]},
+];
+const KEY='pb-plan-done',$=id=>document.getElementById(id);
+let done={};try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){done={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+// Pick the starting tab from the levels.html self-check (same rule as that page: 2 of 3 ticks per level, in order).
+function guess(){
+  try{const v=JSON.parse(localStorage.getItem('pb-level-check')||'[]');if(!Array.isArray(v))return 0;
+    let lv=0;for(let g=0;g<4;g++){if(v.slice(g*3,g*3+3).filter(Boolean).length>=2)lv=g+1;else break}
+    return lv>=3?2:lv>=2?1:0}catch(e){return 0}
+}
+let cur=guess();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function render(){
+  const P=PLANS[cur];
+  $('tabs').innerHTML=PLANS.map((p,i)=>`<button type="button" role="tab" id="tab-${p.id}" aria-selected="${i===cur}" data-i="${i}">${p.tab}</button>`).join('');
+  $('focus').textContent=P.focus;
+  $('weeks').innerHTML=P.weeks.map(([title,sess],w)=>{
+    const n=sess.filter((_,s)=>done[`${P.id}-${w}-${s}`]).length;
+    return `<article class="week"><h3>第 ${w+1} 週：${esc(title)}<small>完成 ${n}/${sess.length}</small></h3><div class="sessions">${sess.map(([name,items],s)=>{
+      const id=`${P.id}-${w}-${s}`,mins=items.reduce((a,it)=>a+it[1],0);
+      return `<div class="sess${done[id]?' done':''}"><label><input type="checkbox" data-id="${id}"${done[id]?' checked':''}>第 ${s+1} 次：${esc(name)}（約 ${mins} 分鐘）</label><ul>${items.map(([k,m,t,href,pt])=>`<li><i class="k-${k}">${K[k]}</i><span class="m">${m}</span><span>${href?`<a href="${href}">${esc(t)}</a>`:esc(t)}</span></li>`).join('')}</ul></div>`}).join('')}</div></article>`}).join('');
+}
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(b){cur=+b.dataset.i;render()}});
+$('weeks').addEventListener('change',e=>{const id=e.target.dataset&&e.target.dataset.id;if(!id)return;if(e.target.checked)done[id]=1;else delete done[id];save();render()});
+$('clear').onclick=()=>{const p=PLANS[cur].id+'-';for(const k of Object.keys(done))if(k.startsWith(p))delete done[k];save();render()};
+render();
+})();
+</script>
+</body>
+</html>

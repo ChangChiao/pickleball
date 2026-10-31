@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>挑高球</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages: court blue panels, ball yellow as highlight */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+.back{color:var(--court);font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:6px;align-content:start;margin:0}
+.drill canvas{display:block;width:100%;aspect-ratio:6/5;background:var(--courtSoft);border-radius:8px}
+.drill.wide canvas{aspect-ratio:12/5}
+.drill .step{font-size:13.5px;font-weight:700;color:var(--court);min-height:1.6em}
+.drill h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.drill p{font-size:14.5px;color:var(--muted)}
+.drill p.goal{color:var(--ink);font-size:14px}
+.drills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.drills{grid-template-columns:1fr}}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:620px){.two{grid-template-columns:1fr}}
+ol.chain,ul.why{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.dose{font-family:var(--display);font-size:16px;white-space:nowrap;color:var(--court)}
+.err{display:grid}
+.err div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.err div:last-child{border-bottom:0}
+.err .x{color:var(--bad);font-weight:700}
+.err .o{color:var(--good)}
+@media (max-width:560px){.err div{grid-template-columns:1fr;gap:4px}}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.check h3 span{font-family:var(--display);color:var(--court);font-size:16px;letter-spacing:.04em}
+.check p{font-size:14.5px;color:var(--muted)}
+.check a,.note a,.err a{color:var(--court)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Lob</div>
+  <h1>挑高球：讓對手轉身往後跑</h1>
+  <p class="lead">挑高球是把球從對手頭上送到他身後的深處。打得好，對手要轉身往後追，你們就能拿下網前；打得不好，就是送對手一顆扣殺。所以挑高球重在「挑對時機」，不是挑得多。被挑高球時怎麼應對，在 <a href="high-ball.html">球起高時怎麼應對</a>。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>進攻挑高球和防守挑高球</h2>
+  <figure class="drill wide"><canvas data-d="types" role="img" aria-label="側面球場動畫：進攻挑高球從網前出手，剛好越過對手拍子落在深處；防守挑高球從底線出手，又高又深爭取時間"></canvas><div class="step"></div>
+    <figcaption><p>側面看球場。進攻挑高球在網前出手，弧線只比對手伸拍高一點，球很快就落到他身後；防守挑高球在被逼到後場時用，弧線又高又深，目的是爭取回位的時間。</p></figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">02</span>什麼時候挑</h2>
+  <div class="checks">
+    <div class="check"><h3><span>適合</span>對手貼網、重心往前</h3><p>對手站得很前面、身體前傾等著截擊或扣殺丁克時，往後跑最慢。</p></div>
+    <div class="check"><h3><span>適合</span>挑到反手側後方</h3><p>對手要用反手側的高壓或轉身追球，回球通常比較弱。</p></div>
+    <div class="check"><h3><span>適合</span>被逼到後場需要時間</h3><p>你被拉開或擋不住快攻時，又高又深的防守挑高球可以讓你回到位置。</p></div>
+    <div class="check"><h3><span>不適合</span>對手站得深、很高、高壓很強</h3><p>對手離網遠、或本來就擅長高壓時，挑高球等於送分。</p></div>
+  </div>
+  <p class="note">風和陽光會影響挑高球：逆風時球會變短，順風容易出界；對手面向太陽時，挑高球特別難處理，但也要注意安全，不要只靠這招得分。</p>
+</section>
+
+<section>
+  <h2><span class="n">03</span>動作要點</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="tech" role="img" aria-label="挑高球側面動畫：和丁克一樣的準備，拍面打開，由低往高往上送，收拍高過頭，黃色軌跡顯示拍頭路線"></canvas><div class="step"></div></figure>
+    <ol class="chain">
+      <li><span class="badge">1</span><div><b>準備動作和丁克一樣</b>：對手猜不到才有效。看起來要丁克，最後才往上送。</div></li>
+      <li><span class="badge">2</span><div><b>拍面打開、拍子在球下方</b>：膝蓋彎，拍面朝上，讓球往上走。</div></li>
+      <li><span class="badge">3</span><div><b>由低往高，往上送比往前推多</b>：從肩膀帶動，手腕固定，送球距離比丁克長很多。</div></li>
+      <li><span class="badge">4</span><div><b>收拍高過頭</b>：拍面停在朝天的方向。收拍停在胸前，球就會不夠高。</div></li>
+      <li><span class="badge">5</span><div><b>上旋挑高球</b>：拍面略關、由下往上刷，球過了最高點會比較快往下掉，不容易出界，但難度較高。原理在 <a href="topspin.html">上旋球</a>。</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04</span>挑到哪裡</h2>
+  <div class="two">
+    <figure class="drill"><canvas data-d="target" role="img" aria-label="俯視動畫：挑高球的目標是對手反手側的後方和斜線深角"></canvas><div class="step"></div></figure>
+    <ul class="why">
+      <li><b>對手反手側的後方</b>：右手持拍的對手，從他左肩上方越過。他要用反手高壓或轉身追。</li>
+      <li><b>斜線深角</b>：斜線距離最長，比較不容易出界。</li>
+      <li><b>落在底線附近</b>：挑太短，對手不用退就能扣殺；寧可深一點。</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>挑完怎麼移動</h2>
+  <figure class="drill wide"><canvas data-d="after" role="img" aria-label="側面球場動畫：挑高球成功，對手轉身往後追，你在廚房線準備；挑太短，對手直接扣殺，你準備防守"></canvas><div class="step"></div>
+    <figcaption><p>挑得好：對手轉身往後追，你們站在廚房線準備截擊他的回球。挑太短：對手不用退就能扣殺，馬上降低重心、拍子回胸前準備擋，防守方法在 <a href="high-ball.html">球起高時怎麼應對</a>。</p></figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">06</span>常見錯誤</h2>
+  <div class="err">
+    <div><div class="x">✕ 挑太短</div><div class="o">→ 寧可深一點。挑短的球就是對手的扣殺球。</div></div>
+    <div><div class="x">✕ 準備動作被看穿</div><div class="o">→ 準備和丁克一樣，最後一刻才往上送。</div></div>
+    <div><div class="x">✕ 挑給站得深或高壓很強的對手</div><div class="o">→ 先看對手站位。對手離網遠就不要挑。</div></div>
+    <div><div class="x">✕ 挑完站著看球</div><div class="o">→ 挑完立刻準備：成功就守網前，失敗就準備擋扣殺。</div></div>
+    <div><div class="x">✕ 太常挑</div><div class="o">→ 偶爾用才有效。對手一旦站後面等，你的丁克就更好打。</div></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">07</span>訓練動作（動畫示意）</h2>
+  <div class="drills">
+    <article class="drill"><canvas data-d="deep" role="img" aria-label="俯視動畫：從廚房線挑高球到對方底線前的深區"></canvas><div class="step"></div>
+      <h3>深區挑高球 <span class="dose">3×10 球</span></h3>
+      <p>夥伴在對面廚房線站好、拍子舉高。你從自己廚房線挑高球，要越過夥伴的拍子、落在對方底線前的深區。記錄：深區幾顆、被夥伴碰到幾顆、出界幾顆。</p><p class="goal">練到：高度和深度一起控制</p></article>
+    <article class="drill"><canvas data-d="disguise" role="img" aria-label="側面球場動畫：丁克來回，同樣的準備姿勢突然挑高"></canvas><div class="step"></div>
+      <h3>丁克中偽裝挑高 <span class="dose">3×2 分鐘</span></h3>
+      <p>和夥伴丁克對打，你自己決定在某一拍挑高，夥伴要盡快判斷並轉身追。打完互相說：看不看得出來要挑。</p><p class="goal">練到：同樣的準備動作、出其不意</p></article>
+  </div>
+</section>
+</main>
+
+<script>
+// stick-figure + court scenes (same engine as the reset page)
+(function(){
+const R=Math.PI/180;
+const lerp=(A,B,u)=>typeof A==='number'?A+(B-A)*u:Array.isArray(A)?A.map((x,i)=>lerp(x,B[i],u)):Object.fromEntries(Object.keys(A).map(k=>[k,lerp(A[k],B[k],u)]));
+function ik(A,B,l1,l2,sg){const dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,dd=Math.min(d,l1+l2-.01),a=(l1*l1-l2*l2+dd*dd)/(2*dd),h=Math.sqrt(Math.max(0,l1*l1-a*a));return [A[0]+ux*a-uy*h*sg,A[1]+uy*a+ux*h*sg]}
+function joints(p){
+  const tx=p.nk[0]-p.pv[0],ty=p.nk[1]-p.pv[1],tl=Math.hypot(tx,ty),ux=tx/tl,uy=ty/tl,px=-uy,py=ux,off=(o,k)=>[o[0]+px*k,o[1]+py*k];
+  const sA=off(p.nk,-p.s),sB=off(p.nk,p.s),hA=off(p.pv,-p.h),hB=off(p.pv,p.h);
+  return {sA,sB,hA,hB,nk:p.nk,pv:p.pv,hd:[p.nk[0]+ux*9,p.nk[1]+uy*9],fA:p.fA,fB:p.fB,wA:p.wA,wB:p.wB,
+    kA:ik(hA,p.fA,21,21,p.kb[0]),kB:ik(hB,p.fB,21,21,p.kb[1]),eA:ik(sA,p.wA,14,14,p.eb[0]),eB:ik(sB,p.wB,14,14,p.eb[1])};
+}
+const pl=(x,...q)=>{x.beginPath();q.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke()};
+const circ=(x,p,r,fill,stroke)=>{x.beginPath();x.arc(p[0],p[1],r,0,7);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}};
+function fig(x,J,c){
+  x.strokeStyle=c.ink;x.lineWidth=2.6;pl(x,J.hA,J.kA,J.fA);pl(x,J.hB,J.kB,J.fB);pl(x,J.pv,J.nk);pl(x,J.sA,J.eA,J.wA);pl(x,J.sB,J.eB,J.wB);
+  x.lineWidth=3.6;x.strokeStyle=c.hip;pl(x,J.hA,J.hB);x.strokeStyle=c.court;pl(x,J.sA,J.sB);
+  x.lineWidth=2;circ(x,J.hd,6,c.panel,c.ink);
+}
+function paddle(x,w,a,c){const r=a*R,cx=Math.cos(r),sy=Math.sin(r);x.strokeStyle=c.ink;x.save();x.translate(w[0],w[1]);x.rotate(r);x.lineWidth=3.2;pl(x,[-1,0],[6,0]);x.lineWidth=1.6;x.beginPath();x.roundRect(6,-5.2,13,10.4,3.5);x.globalAlpha=.3;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore()}
+const ball=(x,p,c,r=2.6)=>{x.lineWidth=r>2?1:.6;circ(x,p,r,c.ball,c.ink)};
+const txt=(x,s,p,c,al='center',sz=5,col)=>{x.fillStyle=col||c.muted;x.font=`${sz}px "Noto Sans TC",sans-serif`;x.textAlign=al;x.fillText(s,p[0],p[1])};
+const q=(P,C,Q,u)=>[(1-u)*(1-u)*P[0]+2*u*(1-u)*C[0]+u*u*Q[0],(1-u)*(1-u)*P[1]+2*u*(1-u)*C[1]+u*u*Q[1]];
+const clamp=u=>Math.max(0,Math.min(1,u)),ease=u=>{u=clamp(u);return u*u*(3-2*u)};
+function dashed(x,P,C,Q,col,to=1){x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=col;x.lineWidth=.6;x.beginPath();x.moveTo(P[0],P[1]);for(let u=.05;u<=to+1e-6;u+=.05){const p=q(P,C,Q,u);x.lineTo(p[0],p[1])}x.stroke();x.restore()}
+
+// side-view court, 120x50 units: net x=60, kitchen lines 7ft from net, vertical scale doubled
+const NET=29.6,KL=42.2,KR=77.8;
+function courtSide(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(KL,8,KR-KL,36);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.6;pl(x,[KL,44],[KL,40]);pl(x,[KR,44],[KR,40]);
+  x.strokeStyle=c.ink;x.lineWidth=.8;pl(x,[2,44],[118,44]);x.lineWidth=1.3;pl(x,[60,44],[60,NET]);
+  txt(x,'你的廚房',[51,48.5],c,'center',3.4);txt(x,'對方廚房',[69,48.5],c,'center',3.4);txt(x,'網',[60,27.5],c,'center',3.4);
+}
+function person(x,c,px,low,face){
+  const hy=low?28:23,hip=low?37:34;x.strokeStyle=c.ink;x.lineWidth=1.1;
+  pl(x,[px,hy+2.4],[px,hip]);pl(x,[px-3,44],[px,hip],[px+3,44]);pl(x,[px,hy+5],[px+face*4,hy+9]);
+  x.lineWidth=.8;circ(x,[px,hy],2.3,c.panel,c.ink);
+  x.save();x.translate(px+face*5.5,hy+8);x.beginPath();x.roundRect(-1.3,-2.2,2.6,4.4,.9);x.globalAlpha=.4;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.stroke();x.restore();
+}
+const P0=[44,40],SHORT=[P0,[54,-6],[64,44]],LONG=[P0,[56,4],[76,44]],OUT=[P0,[60,0],[83,44]];
+// top view helpers: court x 30..90 (3 units/ft), net y=50, kitchens y 29..71
+function courtTop(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(30,29,60,42);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(30,2,60,96);pl(x,[30,29],[90,29]);pl(x,[30,71],[90,71]);pl(x,[60,2],[60,29]);pl(x,[60,71],[60,98]);
+  x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[26,50],[94,50]);txt(x,'網',[97,52],c,'left');
+}
+const band=(x,c,y0,y1)=>{x.globalAlpha=.35;x.fillStyle=c.ball;x.fillRect(30,y0,60,y1-y0);x.globalAlpha=1};
+function flight(x,c,A,B,u,lift=8){const p=[A[0]+(B[0]-A[0])*u,A[1]+(B[1]-A[1])*u],h=Math.sin(Math.PI*u);x.globalAlpha=.25;circ(x,p,1.6,c.ink);x.globalAlpha=1;ball(x,[p[0],p[1]-h*lift],c,1.8+h*.8)}
+const dot=(x,c,p,col)=>{x.lineWidth=.6;circ(x,p,1.6,col,c.ink)};
+
+const SIDE={s:1,h:1,kb:[-1,-1],eb:[1,1]};
+const OH0={pv:[52,57],nk:[54,29],...SIDE,fA:[44,92],fB:[64,92],wA:[62,46],wB:[68,42],rk:-70,b:[104,-6],show:1};
+// whole court seen from above, 2 units per ft: x 40..80, y 6..94, net y=50, kitchen lines y=36/64
+function fullCourt(x,c){
+  x.globalAlpha=.55;x.fillStyle=c.panel;x.fillRect(40,36,40,28);x.globalAlpha=1;
+  x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(40,6,40,88);pl(x,[40,36],[80,36]);pl(x,[40,64],[80,64]);pl(x,[60,6],[60,36]);pl(x,[60,64],[60,94]);
+  x.strokeStyle=c.ink;x.lineWidth=1.6;pl(x,[36,50],[84,50]);txt(x,'網',[87,52],c,'left',4);
+}
+const man=(x,c,p,l,col)=>{x.lineWidth=1.2;circ(x,p,3,col||c.panel,c.ink);if(l)txt(x,l,[p[0]+5,p[1]+1.5],c,'left',3.8)};
+const lp=(a,b,u)=>[a[0]+(b[0]-a[0])*u,a[1]+(b[1]-a[1])*u];
+function spinBall(x,p,c,r,ang){ball(x,p,c,r);x.strokeStyle=c.ink;x.lineWidth=.45;pl(x,[p[0]-Math.cos(ang)*r,p[1]-Math.sin(ang)*r],[p[0]+Math.cos(ang)*r,p[1]+Math.sin(ang)*r])}
+function trailOf(x,c,d,t){let prev=null;for(let i=0;i<=24;i++){const s=sample(d,t-i*.02),h=[s.p.wB[0]+Math.cos(s.p.rk*R)*12.5,s.p.wB[1]+Math.sin(s.p.rk*R)*12.5];if(prev){x.globalAlpha=(1-i/25)*.8;x.strokeStyle=c.ball;x.lineWidth=2.4;pl(x,prev,h)}prev=h}x.globalAlpha=1}
+const OFF=[[44,38],[70,-28],[110,44]],DEF=[[10,40],[56,-40],[108,44]],DK=[[44,40],[60,6],[70,44]],DK2=[[76,40],[60,6],[50,44]];
+const D={
+  types:{still:1.5,fn:(x,t,c)=>{
+    courtSide(x,c);t%=7.4;const first=t<3.7,lt=first?t:t-3.7;let b,lab,me=first?40:8,opp=first?80:80;
+    if(first){const u=clamp(lt/1.6);dashed(x,...OFF,c.good,u);b=q(...OFF,u);if(lt>1)opp=80+18*ease((lt-1)/1.4);lab=lt<1.6?'進攻挑高球：從網前出手，剛好越過對手的拍子':'對手轉身往後追'}
+    else{const u=clamp(lt/2);dashed(x,...DEF,c.court,u);b=q(...DEF,u);if(lt>.6)me=8+24*ease((lt-.6)/1.6);lab=lt<1?'防守挑高球：被逼到後場時，又高又深':'球在空中的時間，讓你回到位置'}
+    person(x,c,me,0,1);person(x,c,opp,0,-1);ball(x,b,c,1.6);return lab}},
+  tk:{keys:[
+    {p:{pv:[52,62],nk:[57,36],...SIDE,fA:[40,92],fB:[66,92],wA:[62,54],wB:[66,58],rk:-20,b:[118,50],show:1},hold:.4,dur:.6,label:'和丁克一樣的準備（對手看不出來）'},
+    {p:{pv:[52,64],nk:[57,38],wB:[66,64],rk:25,b:[77.5,68.5]},dur:.45,hold:.1,label:'拍面打開，拍子在球的下方'},
+    {p:{wB:[72,48],rk:-50,b:[96,30]},dur:.35,label:'由低往高往上送，不往前推'},
+    {p:{pv:[54,61],nk:[59,34],wB:[70,30],rk:-100,b:[118,6]},dur:.35,hold:.5,label:'收拍高過頭，拍面朝天空'},
+    {p:{show:0},dur:.01,hold:.1,label:'收拍高過頭，拍面朝天空'}]},
+  tech:{still:1.3,fn:(x,t,c)=>{const d=D.tk;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);trailOf(x,c,d,t);
+    const S=sample(d,t),J=joints(S.p);fig(x,J,c);paddle(x,J.wB,S.p.rk,c);if(S.p.show>.99&&S.p.b[0]<119)ball(x,S.p.b,c);txt(x,'側面看',[116,8],c,'right');return S.label}},
+  target:{still:2,fn:(x,t,c)=>{
+    fullCourt(x,c);man(x,c,[48,33],'對手');man(x,c,[72,33],'對手');man(x,c,[58,67],'你',c.ball);
+    x.globalAlpha=.3;x.fillStyle=c.ball;x.fillRect(40,6,40,9);x.globalAlpha=1;txt(x,'深區',[38,12],c,'right',4);
+    const T=[[[76,10],'右邊對手的反手側後方'],[[44,10],'斜線深角']];
+    const per=2;t%=T.length*per+1.4;const n=Math.min(T.length,Math.floor(t/per));
+    for(let k=0;k<n;k++)dot(x,c,T[k][0],c.good);
+    if(n<T.length){const u=clamp((t-n*per)/1.3);flight(x,c,[58,63],T[n][0],u,26);if(u>=1)dot(x,c,T[n][0],c.good);return `目標 ${n+1}：${T[n][1]}`}
+    return '挑深、挑到反手側或斜線深角'}},
+  after:{still:1.6,fn:(x,t,c)=>{
+    courtSide(x,c);t%=7.6;const first=t<3.8,lt=first?t:t-3.8;let b,lab,opp=80,low=0;
+    if(first){const u=clamp(lt/1.6);dashed(x,...OFF,c.good,u);b=q(...OFF,u);opp=80+20*ease((lt-.9)/1.5);lab=lt<2.2?'挑得好：對手轉身往後追':'你站在廚房線，準備截擊他的回球'}
+    else{const SH=[[44,38],[62,-8],[78,14]];
+      if(lt<1.2){const u=clamp(lt/1.1);dashed(x,...SH,c.bad,u);b=q(...SH,u);lab='✕ 挑太短'}
+      else if(lt<1.6){const v=clamp((lt-1.2)/.35);b=lp([78,14],[42,44],v);low=1;lab='對手不用退，直接扣殺'}
+      else{b=[44,42];low=1;lab='降低重心、拍子回胸前準備擋'}}
+    person(x,c,40,low,1);person(x,c,opp,0,-1);ball(x,b,c,1.6);return lab}},
+  deep:{still:3,fn:(x,t,c)=>{
+    fullCourt(x,c);x.globalAlpha=.3;x.fillStyle=c.ball;x.fillRect(40,6,40,9);x.globalAlpha=1;txt(x,'深區',[38,12],c,'right',4);
+    man(x,c,[60,33],'夥伴');man(x,c,[58,67],'你',c.ball);
+    const L=[[52,10],[66,9],[60,30],[48,12],[58,2]],k=['g','g','p','g','o'],msg={g:'：深區 ✓',p:'：太低，被夥伴碰到',o:'：出底線'},per=1.6;t%=L.length*per+1.4;const n=Math.min(L.length,Math.floor(t/per));
+    for(let i=0;i<n;i++)dot(x,c,L[i],k[i]==='g'?c.good:c.bad);
+    if(n<L.length){const u=clamp((t-n*per)/1.2);flight(x,c,[58,63],L[n],u,k[n]==='p'?8:26);if(u>=1)dot(x,c,L[n],k[n]==='g'?c.good:c.bad);return `第 ${n+1} 球`+(u>=1?msg[k[n]]:'')}
+    return '5 球：3 顆深區、1 顆被碰到、1 顆出界'}},
+  disguise:{still:3,fn:(x,t,c)=>{
+    courtSide(x,c);t%=7;let b,lab,opp=80;
+    if(t<1.2){b=q(...DK,clamp(t/1.1));lab='丁克'}
+    else if(t<2.4){b=q(...DK2,clamp((t-1.2)/1.1));lab='夥伴回丁克'}
+    else if(t<2.9){b=[50,44];lab='同樣的準備姿勢……'}
+    else if(t<4.6){const u=clamp((t-2.9)/1.6);dashed(x,...OFF,c.good,u);b=q(...OFF,u);opp=80+18*ease((t-3.5)/1.2);lab='突然挑高'}
+    else{b=OFF[2];opp=98;lab='夥伴判斷得多快？打完互相講'}
+    person(x,c,40,1,1);person(x,c,opp,t<2.9,-1);ball(x,b,c,1.6);return lab}},
+};
+for(const d of Object.values(D)){
+  if(!d.keys)continue;
+  let prev={};d.keys.forEach(k=>{k.p=prev={...prev,...k.p}});
+  let tot=0;d.seg=[];
+  d.keys.forEach((k,i)=>{if(i){d.seg.push([i-1,i,tot,k.dur]);tot+=k.dur}d.seg.push([i,i,tot,k.hold||0]);tot+=k.hold||0});
+  d.seg.push([d.keys.length-1,0,tot,d.keys[0].dur]);d.T=tot+d.keys[0].dur;
+  d.still=(d.keys[0].hold||0)+d.keys[1].dur;
+}
+function sample(d,t){t%=d.T;const s=d.seg.find(s=>t<s[2]+s[3])||d.seg[d.seg.length-1];let u=s[3]?(t-s[2])/s[3]:1;u=u*u*(3-2*u);return {p:lerp(d.keys[s[0]].p,d.keys[s[1]].p,u),label:d.keys[s[1]].label}}
+const items=[...document.querySelectorAll('.drill canvas')].map(cv=>({cv,d:D[cv.dataset.d],step:cv.parentElement.querySelector('.step')}));
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches,t0=performance.now();
+function tick(now){
+  const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+  const c={ink:g('--ink'),hip:g('--hip'),court:g('--court'),ball:g('--ball'),line:g('--line'),muted:g('--muted'),panel:g('--panel'),good:g('--good'),bad:g('--bad')};
+  for(const it of items){
+    const r=it.cv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight||!r.width)continue;
+    const k=window.devicePixelRatio||1,W=Math.round(r.width*k),H=Math.round(r.height*k);
+    if(it.cv.width!==W||it.cv.height!==H){it.cv.width=W;it.cv.height=H}
+    const x=it.cv.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);x.setTransform(W/120,0,0,W/120,0,0);x.lineCap='round';x.lineJoin='round';
+    const t=still?it.d.still:(now-t0)/1000;let label;
+    if(it.d.fn)label=it.d.fn(x,t,c);
+    else{const S=sample(it.d,t);label=S.label;x.strokeStyle=c.line;x.lineWidth=.8;pl(x,[2,93],[118,93]);const J=joints(S.p);fig(x,J,c);it.d.prop(x,J,S.p,c);txt(x,it.d.view,[116,8],c,'right')}
+    if(it.step.textContent!==label)it.step.textContent=label;
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

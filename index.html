@@ -11,16 +11,16 @@
 /* Layout: one column; each group is a strip of court-panel cards. Same palette as the stroke pages so the set reads as one notebook. */
 :root{
   --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
-  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f;
   --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
   --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
-  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; color-scheme:dark}}
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
-  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; color-scheme:dark}
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7}
 .wrap{max-width:860px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
 header{display:grid;gap:10px}
@@ -67,12 +67,24 @@ a.card svg{width:96px;height:auto;background:var(--courtSoft);border-radius:8px;
       <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="10" y="14" width="76" height="52" rx="8" fill="var(--courtSoft)"/><text x="48" y="50" text-anchor="middle" font-size="28" font-weight="700" fill="var(--court)" font-family="Barlow Condensed,sans-serif">4-2-1</text><circle cx="78" cy="20" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
       <div><em>SCORING</em><b>發球得分與落地得分</b><span>兩種計分方式比較、雙打報分規則，附可以一分一分按的計分模擬器。</span></div>
     </a>
+    <a class="card" href="rules.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="18" y="8" width="60" height="64" rx="6" fill="var(--courtSoft)"/><line x1="28" y1="24" x2="68" y2="24" stroke="var(--court)" stroke-width="3" stroke-linecap="round"/><line x1="28" y1="38" x2="68" y2="38" stroke="var(--muted)" stroke-width="3" stroke-linecap="round"/><line x1="28" y1="52" x2="58" y2="52" stroke="var(--muted)" stroke-width="3" stroke-linecap="round"/><circle cx="70" cy="62" r="7" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>RULES</em><b>規則總整理</b><span>發球、雙彈跳、廚房與衝勢、壓線判定、常見失誤和其他狀況，含 4 個動畫。</span></div>
+    </a>
+    <a class="card" href="practice-plan.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="10" y="10" width="76" height="60" rx="8" fill="var(--courtSoft)"/><g stroke="var(--line)" stroke-width="1.5"><line x1="10" y1="26" x2="86" y2="26"/><line x1="29" y1="10" x2="29" y2="70"/><line x1="48" y1="10" x2="48" y2="70"/><line x1="67" y1="10" x2="67" y2="70"/></g><path d="M15 44 l5 5 l8 -10" fill="none" stroke="var(--good)" stroke-width="3" stroke-linecap="round"/><path d="M34 44 l5 5 l8 -10" fill="none" stroke="var(--good)" stroke-width="3" stroke-linecap="round"/><circle cx="58" cy="46" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>PRACTICE PLAN</em><b>依級距練習計畫</b><span>2.5 到 4.0 各一份四週課表，每項連到對應頁面，可以勾選進度。</span></div>
+    </a>
   </div>
 </section>
 
 <section>
   <h2>擊球技術 <small>STROKES</small></h2>
   <div class="grid">
+    <a class="card" href="grip.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><polygon points="34,22 46,17 58,22 63,34 58,46 46,51 34,46 29,34" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><line x1="46" y1="6" x2="46" y2="62" stroke="var(--court)" stroke-width="4"/><circle cx="60" cy="22" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/><text x="70" y="70" font-size="13" font-weight="700" fill="var(--court)" font-family="Barlow Condensed,sans-serif">GRIP</text></svg>
+      <div><em>GRIP</em><b>匹克球握拍</b><span>大陸式握拍怎麼找、握多緊、什麼時候換握、雙手反手握法，含 6 個動畫。</span></div>
+    </a>
     <a class="card" href="forehand.html">
       <svg viewBox="0 0 96 80" aria-hidden="true"><g stroke-linecap="round" fill="none"><line x1="26" y1="54" x2="66" y2="40" stroke="var(--hip)" stroke-width="6"/><line x1="22" y1="34" x2="70" y2="20" stroke="var(--court)" stroke-width="5"/><path d="M14 66 Q50 74 82 30" stroke="var(--ball)" stroke-width="3" stroke-dasharray="2 5"/></g><circle cx="84" cy="24" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
       <div><em>FOREHAND</em><b>正手抽球動力鏈</b><span>腳蹬地、髖先轉、肩後轉，含 3D 動畫和 8 個居家訓練動畫。</span></div>
@@ -107,9 +119,17 @@ a.card svg{width:96px;height:auto;background:var(--courtSoft);border-radius:8px;
       <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="14" y="8" width="56" height="64" fill="none" stroke="var(--muted)" stroke-width="1.2"/><line x1="8" y1="40" x2="76" y2="40" stroke="var(--ink)" stroke-width="2"/><rect x="74" y="37" width="5" height="6" fill="var(--ink)"/><path d="M88 52 Q86 34 64 30" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/><circle cx="64" cy="30" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="88" cy="56" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/></svg>
       <div><em>ATP</em><b>ATP 繞柱球</b><span>被拉到場外時從網柱外側打回去：規則、時機、動作和防守，含 6 個動畫。</span></div>
     </a>
+    <a class="card" href="erne.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="8" y="10" width="62" height="64" fill="none" stroke="var(--muted)" stroke-width="1.2"/><rect x="8" y="10" width="62" height="22" fill="var(--courtSoft)"/><line x1="4" y1="10" x2="80" y2="10" stroke="var(--ink)" stroke-width="2.5"/><rect x="78" y="6" width="5" height="8" fill="var(--ink)"/><path d="M58 50 Q60 30 80 26" fill="none" stroke="var(--hip)" stroke-width="2" stroke-dasharray="2 3"/><circle cx="80" cy="26" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>ERNE</em><b>Erne 截擊</b><span>繞到廚房外側、在網柱旁截擊：兩種做法、規則限制、時機和防守，含 6 個動畫。</span></div>
+    </a>
     <a class="card" href="kitchen-attack.html">
       <svg viewBox="0 0 96 80" aria-hidden="true"><line x1="6" y1="66" x2="90" y2="66" stroke="var(--ink)" stroke-width="1.5"/><line x1="48" y1="66" x2="48" y2="44" stroke="var(--ink)" stroke-width="2.5"/><line x1="10" y1="44" x2="86" y2="44" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3"/><path d="M18 60 Q44 18 80 64" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/><path d="M22 40 L84 36" stroke="var(--hip)" stroke-width="2.5" stroke-linecap="round"/><circle cx="84" cy="36" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/><line x1="80" y1="38" x2="88" y2="34" stroke="var(--ink)" stroke-width="1"/></svg>
       <div><em>ROLL &amp; FLICK</em><b>廚房區進攻</b><span>從丁克轉進攻：什麼球可以攻、Roll 和 Flick 怎麼打、打向哪裡、怎麼防，含 7 個動畫。</span></div>
+    </a>
+    <a class="card" href="lob.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><line x1="4" y1="70" x2="92" y2="70" stroke="var(--ink)" stroke-width="1.5"/><line x1="48" y1="70" x2="48" y2="52" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 64 Q48 -16 84 68" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/><circle cx="66" cy="54" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="84" cy="66" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>LOB</em><b>挑高球</b><span>進攻和防守挑高球、什麼時候挑、挑到哪裡、挑完怎麼移動，含 6 個動畫。</span></div>
     </a>
   </div>
 </section>
@@ -135,9 +155,17 @@ a.card svg{width:96px;height:auto;background:var(--courtSoft);border-radius:8px;
       <svg viewBox="0 0 96 80" aria-hidden="true"><g fill="none" stroke="var(--muted)" stroke-width="1.2"><rect x="28" y="4" width="40" height="72"/><line x1="28" y1="28" x2="68" y2="28"/><line x1="28" y1="52" x2="68" y2="52"/><line x1="48" y1="4" x2="48" y2="28"/><line x1="48" y1="52" x2="48" y2="76"/></g><rect x="28" y="4" width="20" height="24" fill="var(--good)" opacity=".18"/><line x1="24" y1="40" x2="72" y2="40" stroke="var(--ink)" stroke-width="2"/><path d="M58 76 L38 9" stroke="var(--ball)" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round"/><circle cx="38" cy="9" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
       <div><em>SERVE</em><b>匹克球發球技巧</b><span>規則、低手與落地兩種發法、發深球與第三拍，含 5 個動畫。</span></div>
     </a>
+    <a class="card" href="return.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><line x1="4" y1="66" x2="92" y2="66" stroke="var(--ink)" stroke-width="1.5"/><line x1="48" y1="66" x2="48" y2="48" stroke="var(--ink)" stroke-width="2.5"/><path d="M10 60 Q46 -6 84 64" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/><path d="M12 72 L36 72" stroke="var(--court)" stroke-width="2"/><circle cx="84" cy="62" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>RETURN</em><b>回發球</b><span>回深、回到哪裡、用弧度換上網時間、回完怎麼走到廚房線，含 7 個動畫。</span></div>
+    </a>
     <a class="card" href="kitchen-line.html">
       <svg viewBox="0 0 96 80" aria-hidden="true"><g fill="none" stroke="var(--muted)" stroke-width="1.5"><rect x="10" y="8" width="76" height="64"/><line x1="10" y1="40" x2="86" y2="40" stroke="var(--ink)" stroke-width="2.5"/><line x1="10" y1="31" x2="86" y2="31"/><line x1="10" y1="49" x2="86" y2="49"/><line x1="48" y1="49" x2="48" y2="72"/></g><circle cx="30" cy="52" r="5" fill="var(--hip)"/><circle cx="66" cy="68" r="5" fill="var(--court)"/></svg>
       <div><em>RETURN TEAM</em><b>接發球方的搭檔站廚房線</b><span>為什麼接發球方的搭檔一開始就要站在廚房線上。</span></div>
+    </a>
+    <a class="card" href="third-shot-drive.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><line x1="4" y1="66" x2="92" y2="66" stroke="var(--ink)" stroke-width="1.5"/><line x1="48" y1="66" x2="48" y2="46" stroke="var(--ink)" stroke-width="2.5"/><path d="M8 54 Q40 30 84 62" fill="none" stroke="var(--hip)" stroke-width="2.5" stroke-dasharray="3 3" stroke-linecap="round"/><circle cx="84" cy="60" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/><text x="8" y="16" font-size="14" font-weight="700" fill="var(--court)" font-family="Barlow Condensed,sans-serif">3RD</text></svg>
+      <div><em>THIRD SHOT DRIVE</em><b>第三拍抽球與第五拍</b><span>什麼時候抽、抽向哪裡、上旋抽球、第五拍怎麼接和搭檔配合，含 7 個動畫。</span></div>
     </a>
   </div>
 </section>
@@ -160,6 +188,38 @@ a.card svg{width:96px;height:auto;background:var(--courtSoft);border-radius:8px;
     <a class="card" href="short-dink.html">
       <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="48" y="44" width="30" height="22" fill="var(--courtSoft)"/><rect x="48" y="58" width="7" height="8" fill="var(--ball)" opacity=".5"/><line x1="6" y1="66" x2="90" y2="66" stroke="var(--ink)" stroke-width="1.5"/><path d="M20 60 Q40 22 53 64" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/><line x1="48" y1="66" x2="48" y2="44" stroke="var(--ink)" stroke-width="2.5"/><circle cx="53" cy="62" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
       <div><em>SHORT DINK</em><b>短丁克技巧</b><span>剛過網就落地，把對手拉進廚房、製造下一拍機會，含 6 個動畫。</span></div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>雙打與單打 <small>DOUBLES &amp; SINGLES</small></h2>
+  <div class="grid">
+    <a class="card" href="doubles-teamwork.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="14" y="10" width="68" height="62" fill="none" stroke="var(--muted)" stroke-width="1.2"/><line x1="10" y1="34" x2="86" y2="34" stroke="var(--ink)" stroke-width="2"/><path d="M34 52 Q48 58 62 52" fill="none" stroke="var(--hip)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="34" cy="52" r="6" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="62" cy="52" r="6" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="48" cy="42" r="4" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.2"/></svg>
+      <div><em>TEAMWORK</em><b>雙打搭檔配合</b><span>一起移動、中間球誰接、口令、一前一後的問題和補位，含 7 個動畫。</span></div>
+    </a>
+    <a class="card" href="stacking.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="22" y="8" width="52" height="66" fill="none" stroke="var(--muted)" stroke-width="1.2"/><line x1="18" y1="41" x2="78" y2="41" stroke="var(--ink)" stroke-width="2"/><line x1="48" y1="56" x2="48" y2="74" stroke="var(--muted)" stroke-width="1.2"/><path d="M60 66 Q48 58 36 66" fill="none" stroke="var(--hip)" stroke-width="2" stroke-dasharray="2 3"/><path d="M36 70 Q48 78 60 70" fill="none" stroke="var(--court)" stroke-width="2" stroke-dasharray="2 3"/><circle cx="36" cy="68" r="5" fill="var(--panel)" stroke="var(--court)" stroke-width="2"/><circle cx="60" cy="68" r="5" fill="var(--panel)" stroke="var(--hip)" stroke-width="2"/></svg>
+      <div><em>STACKING</em><b>換邊站位</b><span>讓兩人都站擅長的那一邊：發球方、接發球方怎麼換、計分時誰站哪裡，含 6 個動畫。</span></div>
+    </a>
+    <a class="card" href="singles.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="28" y="4" width="40" height="72" fill="none" stroke="var(--muted)" stroke-width="1.2"/><line x1="24" y1="40" x2="72" y2="40" stroke="var(--ink)" stroke-width="2"/><circle cx="48" cy="28" r="5" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="54" cy="72" r="5" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/><path d="M54 66 L64 10" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/></svg>
+      <div><em>SINGLES</em><b>匹克球單打</b><span>站位、回發球上網、穿越與挑高、場地覆蓋、單打計分，含 7 個動畫。</span></div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>裝備與身體 <small>GEAR &amp; BODY</small></h2>
+  <div class="grid">
+    <a class="card" href="gear.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="22" y="8" width="30" height="40" rx="9" fill="var(--court)" fill-opacity=".3" stroke="var(--ink)" stroke-width="2"/><line x1="37" y1="50" x2="37" y2="68" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/><path d="M56 62 q6 -12 22 -10 q8 2 8 10 z" fill="var(--courtSoft)" stroke="var(--ink)" stroke-width="2"/><circle cx="70" cy="26" r="7" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>GEAR</em><b>球拍與裝備</b><span>拍重、拍型、握把粗細、室內外球、球鞋和護目鏡怎麼挑，不推薦特定品牌。</span></div>
+    </a>
+    <a class="card" href="injuries.html">
+      <svg viewBox="0 0 96 80" aria-hidden="true"><rect x="38" y="12" width="20" height="56" rx="4" fill="var(--bad)" opacity=".8"/><rect x="20" y="30" width="56" height="20" rx="4" fill="var(--bad)" opacity=".8"/><circle cx="78" cy="16" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5"/></svg>
+      <div><em>INJURIES</em><b>常見傷害與預防</b><span>網球肘、小腿、腳踝、往後跌倒等常見傷害的原因與預防，含 3 個動畫。</span></div>
     </a>
   </div>
 </section>

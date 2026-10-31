@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>球拍與裝備</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Same notebook palette as the other pages; the simulator is the one interactive piece */
+:root{
+  --bg:#f2f5f7; --panel:#ffffff; --ink:#15232e; --muted:#5a6b78; --line:#d5dee5;
+  --court:#2a5d84; --courtSoft:#e3edf5; --hip:#d0602a; --ball:#c6d92b; --good:#2f7d4f; --bad:#b8402f; --onBall:#15232e;
+  --display:"Barlow Condensed","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a22; --panel:#16242f; --ink:#e3ecf2; --muted:#9db0bf; --line:#2a3b48;
+  --court:#77aedb; --courtSoft:#1c3243; --hip:#f08a4b; --ball:#d4e65a; --good:#6cc391; --bad:#e2735f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.75}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:900}
+h2{font-size:24px;font-weight:900;display:flex;gap:12px;align-items:baseline}
+h2 .n{font-family:var(--display);color:var(--court);font-size:30px}
+h3{font-size:17px;font-weight:700}
+p{margin:0;max-width:65ch}
+section,header{display:grid;gap:16px}
+a{color:var(--court)}
+.back{font-size:14px;text-decoration:none}
+.back:hover{text-decoration:underline}
+.lead{color:var(--muted);font-size:17px}
+.eyebrow{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--court);font-size:15px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--ball);padding-left:12px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:500;background:var(--courtSoft)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+ul.why,ol.chain{margin:0;padding:0;list-style:none;display:grid;gap:10px;max-width:65ch}
+ul.why li{padding-left:14px;border-left:3px solid var(--line)}
+ol.chain li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--court);color:var(--panel);font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:16px;margin-top:2px}
+.call{font-family:var(--display);font-weight:700;font-size:20px;color:var(--court);white-space:nowrap}
+
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;margin:0}
+.fig svg{width:100%;height:auto;display:block}
+.fig svg text{font-family:var(--body);fill:var(--ink)}
+.fig figcaption{font-size:14px;color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px}
+.check p{font-size:14.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <a class="back" href="index.html">← 匹克球練功房</a>
+  <div class="eyebrow">Gear</div>
+  <h1>球拍與裝備：先選適合的，再選厲害的</h1>
+  <p class="lead">新手最常問「要買哪一支拍子」。其實比起型號，更重要的是重量、拍型、握把粗細合不合你，以及鞋子能不能保護腳踝。這頁只講怎麼挑，不推薦特定品牌或產品。</p>
+</header>
+
+<section>
+  <h2><span class="n">01</span>球拍重量</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 600 150" role="img" aria-label="球拍重量的取捨：越輕越好操控、手臂負擔越小；越重越穩、力量越大但越容易累">
+      <defs><linearGradient id="wg" x1="0" x2="1"><stop offset="0" stop-color="var(--courtSoft)"/><stop offset="1" stop-color="var(--court)"/></linearGradient></defs>
+      <rect x="40" y="58" width="520" height="22" rx="11" fill="url(#wg)"/>
+      <g font-size="15" font-weight="700" text-anchor="middle"><text x="70" y="44">輕</text><text x="300" y="44">中</text><text x="530" y="44">重</text></g>
+      <g font-size="13" style="fill:var(--muted)">
+        <text x="40" y="106">網前反應快、好操控</text><text x="40" y="126">手臂負擔比較小</text><text x="40" y="146">打深、抽球比較吃力</text>
+        <text x="300" y="106" text-anchor="middle">大多數人從這裡開始</text><text x="300" y="126" text-anchor="middle">力量和操控的折衷</text>
+        <text x="560" y="106" text-anchor="end">球比較穩、力量大</text><text x="560" y="126" text-anchor="end">揮久了手臂容易累</text><text x="560" y="146" text-anchor="end">網前反應慢一點</text>
+      </g>
+      <circle cx="300" cy="69" r="9" fill="var(--ball)" stroke="var(--ink)" stroke-width="2"/>
+    </svg>
+    <figcaption>重量沒有絕對好壞。不確定時選中等重量；手肘或肩膀曾經受傷的人，避免太重的拍子，也可以先試偏輕的。</figcaption>
+  </figure>
+  <p class="note">各家對「輕、中、重」的分界不太一樣，看規格時以同一家的分類比較就好。最準的方法是實際借來打一場。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>拍面材質與厚度</h2>
+  <div class="checks">
+    <div class="check"><h3>厚的拍芯</h3><p>擊球比較軟、球停留在拍面的感覺比較久，丁克和重置容易控制，彈性比較小。</p></div>
+    <div class="check"><h3>薄的拍芯</h3><p>彈性比較大、出球比較快，抽球有力，但軟球比較難收力。</p></div>
+    <div class="check"><h3>表面材質</h3><p>常見的有玻璃纖維和碳纖維等。一般來說玻璃纖維比較彈、碳纖維手感比較紮實、控制好，但實際感受因拍而異。</p></div>
+    <div class="check"><h3>表面粗糙度</h3><p>比較粗糙的拍面比較容易打出旋轉。比賽用拍的表面有規範，要在官方核可名單上。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>拍型</h2>
+  <figure class="fig">
+    <svg viewBox="0 0 600 230" role="img" aria-label="標準拍型比較寬、甜蜜區大；長拍型比較窄長、伸展範圍和力量比較大但甜蜜區小">
+      <g fill="var(--court)" fill-opacity=".25" stroke="var(--ink)" stroke-width="3">
+        <rect x="110" y="20" width="110" height="130" rx="26"/>
+        <rect x="390" y="10" width="86" height="150" rx="24"/>
+      </g>
+      <g stroke="var(--ink)" stroke-width="14" stroke-linecap="round"><line x1="165" y1="156" x2="165" y2="200"/><line x1="433" y1="166" x2="433" y2="200"/></g>
+      <ellipse cx="165" cy="78" rx="38" ry="40" fill="var(--ball)" fill-opacity=".7"/>
+      <ellipse cx="433" cy="70" rx="26" ry="32" fill="var(--ball)" fill-opacity=".7"/>
+      <g font-size="15" font-weight="700" text-anchor="middle"><text x="165" y="225">標準拍型</text><text x="433" y="225">長拍型</text></g>
+      <g font-size="12" style="fill:var(--muted)"><text x="240" y="70">甜蜜區比較大</text><text x="240" y="88">容錯高、好控制</text><text x="300" y="150">← 黃色是甜蜜區（示意）→</text><text x="496" y="70">伸展範圍比較長</text><text x="496" y="88">力量、旋轉比較好</text><text x="496" y="106">甜蜜區比較小</text></g>
+    </svg>
+    <figcaption>新手和以控制為主的打法，標準拍型比較好上手；常打底線抽球、想要力量和伸展範圍的人，可以試長拍型。也有介於兩者之間的拍型。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="n">04</span>握把粗細</h2>
+  <ol class="chain">
+    <li><span class="badge">1</span><div><b>用正常握法握住拍子</b>：手掌和手指放鬆地包住握把。</div></li>
+    <li><span class="badge">2</span><div><b>看指尖和手掌之間的空隙</b>：另一隻手的食指剛好能放進去，粗細就差不多。</div></li>
+    <li><span class="badge">3</span><div><b>空隙太大</b>：握把太粗，手腕轉不靈活，正反手換面慢。</div></li>
+    <li><span class="badge">4</span><div><b>指尖碰到手掌</b>：握把太細，容易握太緊，前臂和手肘比較累。</div></li>
+  </ol>
+  <p class="note">兩個尺寸之間猶豫時，選細一點的，再用纏把布慢慢加粗；太粗的握把很難改細。握拍方法看 <a href="grip.html">握拍</a>。</p>
+</section>
+
+<section>
+  <h2><span class="n">05</span>室內球和室外球</h2>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>室內球</th><th>室外球</th></tr></thead>
+    <tbody>
+      <tr><td>孔洞</td><td>孔比較少、比較大</td><td>孔比較多、比較小</td></tr>
+      <tr><td>軟硬</td><td>比較軟、比較輕</td><td>比較硬、比較重</td></tr>
+      <tr><td>球速和彈跳</td><td>比較慢、彈跳比較低，比較好控制</td><td>比較快，受風影響比較小</td></tr>
+      <tr><td>注意</td><td>拿到室外風一吹就飄</td><td>天冷時比較容易裂開，裂了就換</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">場館通常會指定用球。練習時盡量用和比賽一樣的球，手感才不會每次都要重新適應。</p>
+</section>
+
+<section>
+  <h2><span class="n">06</span>球鞋</h2>
+  <ul class="why">
+    <li><b>穿球場鞋，不要穿跑鞋</b>：跑鞋是為往前跑設計的，後跟厚、鞋底軟，側移急停時腳踝容易翻。羽球鞋、網球鞋、室內球場鞋都比較適合。</li>
+    <li><b>看側向支撐</b>：鞋身兩側要撐得住，鞋底比較平、比較寬。</li>
+    <li><b>室內場地用不留痕的鞋底</b>：很多場館規定，也比較不會打滑。</li>
+    <li><b>鞋底磨平就換</b>：抓地力變差時，急停最容易受傷。</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">07</span>護目鏡和其他</h2>
+  <div class="checks">
+    <div class="check"><h3>運動護目鏡</h3><p>網前快攻時球可能直接打到眼睛。選有抗衝擊規格的運動護目鏡，一般太陽眼鏡不夠。</p></div>
+    <div class="check"><h3>纏把布（Overgrip）</h3><p>吸汗、防滑，也能微調握把粗細。變滑、變薄就換。</p></div>
+    <div class="check"><h3>邊框保護貼</h3><p>撈低球時拍框常會刮地，貼一圈保護拍框。</p></div>
+    <div class="check"><h3>水、毛巾、防曬</h3><p>室外打球很容易脫水。帽子、防曬和足夠的水比換新拍子重要。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">08</span>新手怎麼開始</h2>
+  <ol class="chain">
+    <li><span class="badge">1</span><div><b>先借拍或用場館的拍子打幾次</b>：知道自己喜歡輕一點還是重一點。</div></li>
+    <li><span class="badge">2</span><div><b>第一支選中等重量、標準拍型</b>：容錯最高，等打法成形再換。</div></li>
+    <li><span class="badge">3</span><div><b>先買對的鞋子和護目鏡</b>：這兩樣直接影響受傷風險，比拍子更值得先投資。</div></li>
+    <li><span class="badge">4</span><div><b>換拍前先問自己缺什麼</b>：缺控制、缺力量，還是只是想換新的。技術問題通常換拍解決不了。</div></li>
+  </ol>
+  <p class="note">比賽用拍需在 USA Pickleball 等主辦單位的核可名單上，規格細節以官方規定為準。</p>
+</section>
+</main>
+</body>
+</html>
