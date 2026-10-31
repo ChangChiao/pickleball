@@ -101,8 +101,21 @@ ol.steps{margin:0;padding-left:1.4em;display:grid;gap:6px;max-width:65ch}
   <p class="note">擋快球時用「推」不用「揮」：拍子往前送一小段就好。揮大了會來不及回到胸前接下一球。</p>
 </section>
 
+<section id="track">
+  <h2><span class="n">03</span>球拍跟著球</h2>
+  <p>「拍子在胸前」是起點，不是固定不動。網前丁克時，球在對手那邊左右移動，你的拍子也要跟著往那一側偏，對手出手的瞬間，拍子已經在球會來的地方附近，只需要擋或短推。</p>
+  <figure class="drill" style="max-width:440px;margin:0"><canvas data-d="track" role="img" aria-label="俯視動畫：球在對手那邊左右移動，你的拍子跟著偏向同一側；對照固定在中間的拍子，球回來時要移動很遠"></canvas><div class="step"></div></figure>
+  <ol class="steps">
+    <li><b>左右跟著球</b>：球在對手左邊，拍子就偏你的左邊（反手側）；球到右邊，拍子跟過去。</li>
+    <li><b>高低也跟著</b>：丁克低的時候，拍子跟著膝蓋一起降低；對手可能加速時，拍子回到胸口高度。</li>
+    <li><b>對手出手時就位</b>：目標是對手碰到球時，你的拍子離球會來的位置不到一個拍面寬。</li>
+    <li><b>腳也要跟</b>：拍子移太遠就換腳步跟上，不要只伸手。詳見 <a href="footwork.html">匹克球腳步</a>。</li>
+  </ol>
+  <p class="note">常見錯誤：拍子一直停在正中間，球到邊邊時要大幅移動、來不及；或拍子跟了、腳沒跟，最後還是伸手去夠。</p>
+</section>
+
 <section>
-  <h2><span class="n">03</span>訓練動作（動畫示意）</h2>
+  <h2><span class="n">04</span>訓練動作（動畫示意）</h2>
   <p>每張動畫都是簡化示意，<b style="color:var(--hip)">橘線是髖</b>、<b style="color:var(--court)">藍線是肩</b>，黃色是球。標籤告訴你需要什麼：<span class="tag on">居家</span>不用球場，<span class="tag">夥伴</span>需要另一個人。</p>
   <div class="drills">
     <article class="drill"><canvas data-d="split" role="img" aria-label="分腿墊步動畫：往前移動，對手擊球瞬間小跳，雙腳打開落地後出發"></canvas><div class="step"></div>
@@ -127,7 +140,7 @@ ol.steps{margin:0;padding-left:1.4em;display:grid;gap:6px;max-width:65ch}
 </section>
 
 <section>
-  <h2><span class="n">04</span>怎麼安排</h2>
+  <h2><span class="n">05</span>怎麼安排</h2>
   <ol class="steps">
     <li>放在熱身之後、主練習之前，每次 10–15 分鐘。人累了反應就慢，練了也沒效果。</li>
     <li>一週 2–3 次。可以接在「正手抽球動力鏈」的日常訓練後面一起做。</li>
@@ -194,6 +207,23 @@ const D={
     {p:{pv:[38,57],nk:[38,29],fA:[24,92],fB:[52,92],wA:[35,47],wB:[42,46],cue:0},dur:.45,hold:.25,label:'側併步移過去，拍子保持在前'},
     {p:{...READY,cue:0},dur:.5,hold:.4,label:'回到中間'}],
     prop:(x,J,p,c)=>{paddle(x,J.wB,p.rk,c);if(Math.abs(p.cue)>.5){const s=Math.sign(p.cue);x.fillStyle=c.ball;x.fillRect(48,4,24,12);x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[60-7*s,10],[60+7*s,10]);pl(x,[60+3*s,6.5],[60+7*s,10],[60+3*s,13.5])}}},
+  track:{view:'俯視',raw:1,keys:[
+    {p:{b:[60,66],pd:[60,66],gap:0},hold:.5,dur:.6,label:'起點：拍子在胸前'},
+    {p:{b:[36,30],pd:[48,67]},dur:.9,hold:.4,label:'球到對手左邊：拍子跟著偏向你的左邊'},
+    {p:{b:[44,64],gap:1},dur:.45,hold:.7,label:'球回來時拍子已經在附近，只要短擋'},
+    {p:{b:[84,30],pd:[72,67],gap:0},dur:.9,hold:.4,label:'球到另一邊：拍子跟過去'},
+    {p:{b:[77,64],gap:1},dur:.45,hold:.7,label:'固定在中間的拍子（紅色）要移很遠才碰得到'},
+    {p:{b:[60,66],pd:[60,66],gap:0},dur:.7,hold:.2,label:'回到中間'}],
+    draw:(x,p,c)=>{
+      x.strokeStyle=c.muted;x.lineWidth=.8;x.strokeRect(14,4,92,92);pl(x,[14,37],[106,37]);pl(x,[14,63],[106,63]);
+      x.strokeStyle=c.ink;x.lineWidth=2;pl(x,[10,50],[110,50]);txt(x,'網',[112,52],c,'left');
+      x.lineWidth=1.6;circ(x,[60,24],5,c.panel,c.ink);txt(x,'對手',[68,22],c,'left');
+      const ghost=[60,66];x.globalAlpha=.35;x.strokeStyle=c.hip;x.lineWidth=1.2;x.beginPath();x.roundRect(ghost[0]-4.5,ghost[1]-3.5,9,7,2.2);x.stroke();x.globalAlpha=1;
+      if(p.gap>.5){x.save();x.setLineDash([1.6,1.6]);x.strokeStyle=c.hip;x.lineWidth=.8;pl(x,ghost,p.b);x.restore()}
+      x.lineWidth=3.4;x.strokeStyle=c.court;pl(x,[50,80],[70,80]);x.strokeStyle=c.ink;x.lineWidth=2.4;pl(x,[70,80],[p.pd[0]+3,p.pd[1]+3]);
+      x.lineWidth=1.4;x.beginPath();x.roundRect(p.pd[0]-4.5,p.pd[1]-3.5,9,7,2.2);x.globalAlpha=.35;x.fillStyle=c.court;x.fill();x.globalAlpha=1;x.strokeStyle=c.ink;x.stroke();
+      x.lineWidth=1.6;circ(x,[60,80],5,c.panel,c.ink);txt(x,'你',[68,86],c,'left');
+      ball(x,p.b,c,2.2)}},
   hands:{view:'俯視',raw:1,keys:[
     {p:{b:[62,31],me:[60,66],op:[62,31]},hold:.4,dur:.25,label:'雙方在廚房線，拍子放胸前'},
     {p:{b:[74,63],me:[73,64]},dur:.28,hold:.08,label:'對手加速打你右側：正手擋'},
